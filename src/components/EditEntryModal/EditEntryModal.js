@@ -3,6 +3,7 @@ import { Form, Button, Modal, Dropdown, TextArea, Icon, Input } from 'semantic-u
 import {
     DateInput,
 } from 'semantic-ui-calendar-react';
+import dateFormat from 'dateformat';
 
 
 import CompanySelector from "../CompanySelector/CompanySelector";
@@ -13,14 +14,14 @@ import "./EditEntryModal.scss";
 function EditEntryModal(props) {
     const [isStarred, setIsStarred] = useState(false)
 
-    const [applicationUrl, setApplicationUrl] = useState('')
-
     const [company, setCompany] = useState('')
     const [jobTitle, setJobTitle] = useState('')
 
-    const [applyDate, setApplyDate] = useState('')
+    const [applyDate, setApplyDate] = useState(dateFormat(new Date(), "dd-mm-yyyy"))
     const [deadlineDate, setDeadlineDate] = useState('')
     const [status, setStatus] = useState(STATUS.APPLIED)
+
+    const [url, setUrl] = useState('')
 
     const [notes, setNotes] = useState('')
 
@@ -32,14 +33,15 @@ function EditEntryModal(props) {
         // Initialize values everytime modal reopens
         if (props.open) {
             setIsStarred(props.initialValues.isStarred || false)
-            setApplicationUrl(props.initialValues.applicationUrl || '')
             setCompany(props.initialValues.company || '')
             setJobTitle(props.initialValues.jobTitle || '')
-            setApplyDate(props.initialValues.applyDate || '')
+            setApplyDate(props.initialValues.applyDate || dateFormat(new Date(), "dd-mm-yyyy"))
             setDeadlineDate(props.initialValues.deadlineDate || '')
             setStatus(props.initialValues.status || STATUS.APPLIED)
+            setUrl(props.initialValues.url || '')
             setNotes(props.initialValues.notes || '')
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.open]);
 
     return (
@@ -63,14 +65,6 @@ function EditEntryModal(props) {
             </Modal.Header>
             <Modal.Content>
                 <Form>
-                    <Form.Group widths='equal'>
-                        <Form.Field>
-                            <label>Application Url</label>
-                            <Input value={applicationUrl} onChange={e => setApplicationUrl(e.target.value)} />
-                        </Form.Field>
-                    </Form.Group>
-
-
                     <Form.Group widths='equal'>
                         <Form.Field>
                             <label>Company</label>
@@ -119,14 +113,23 @@ function EditEntryModal(props) {
                         </Form.Field>
                     </Form.Group>
 
-                    <Form.Field>
-                        <label>Notes</label>
-                        <TextArea
-                            placeholder='Recruiter name, number of interviews, etc...'
-                            value={notes}
-                            onChange={e => setNotes(e.target.value)}
-                        />
-                    </Form.Field>
+                    <Form.Group widths='equal'>
+                        <Form.Field>
+                            <label>URL</label>
+                            <Input value={url} onChange={e => setUrl(e.target.value)} />
+                        </Form.Field>
+                    </Form.Group>
+
+                    <Form.Group widths='equal'>
+                        <Form.Field>
+                            <label>Notes</label>
+                            <TextArea
+                                placeholder='Recruiter name, number of interviews, etc...'
+                                value={notes}
+                                onChange={e => setNotes(e.target.value)}
+                            />
+                        </Form.Field>
+                    </Form.Group>
                 </Form>
             </Modal.Content>
             <Modal.Actions>
@@ -135,7 +138,7 @@ function EditEntryModal(props) {
                     </Button>
                 <Button
                     content="Save"
-                    onClick={() => props.onSave({ isStarred, applicationUrl, company, jobTitle, applyDate, deadlineDate, status, notes })}
+                    onClick={() => props.onSave({ isStarred, company, jobTitle, applyDate, deadlineDate, status, url, notes })}
                     positive
                 />
             </Modal.Actions>
