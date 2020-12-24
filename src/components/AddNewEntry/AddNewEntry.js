@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { Form, Button, Modal, Dropdown, TextArea } from 'semantic-ui-react'
+import { Form, Button, Modal, Dropdown, TextArea, Icon, Input } from 'semantic-ui-react'
+import {
+    DateInput,
+} from 'semantic-ui-calendar-react';
+
 
 import CompanySelector from "../CompanySelector/CompanySelector";
 import { STATUS } from '../../constants'
@@ -8,6 +12,11 @@ import "./AddNewEntry.scss";
 
 function AddNewEntry() {
     const [open, setOpen] = useState(false)
+
+    const [isStarred, setIsStarred] = useState(false)
+
+    const [applyDate, setApplyDate] = useState('')
+    const [deadlineDate, setDeadlineDate] = useState('')
 
     const statusOptions = Object.values(STATUS).map(status => (
         { text: status, value: status }
@@ -22,19 +31,65 @@ function AddNewEntry() {
             trigger={<Button circular>Add New Entry</Button>}
             size='small'
         >
-            <Modal.Header>Add New Entry</Modal.Header>
+            <Modal.Header>
+                <div className='header'>
+                    <span>New Entry</span>
+                    <Icon
+                        className='starButton'
+                        onClick={() => setIsStarred(!isStarred)}
+                        name={isStarred ? 'star' : 'star outline'}
+                        color={isStarred ? 'yellow' : 'black'}
+                    />
+                </div>
+            </Modal.Header>
             <Modal.Content>
                 <Form>
-                    <Form.Group>
-                        <Form.Field width={12}>
+                    <Form.Group widths='equal'>
+                        <Form.Field>
+                            <label>Application Url</label>
+                            <Input />
+                        </Form.Field>
+                    </Form.Group>
+
+
+                    <Form.Group widths='equal'>
+                        <Form.Field>
                             <label>Company</label>
-                            <CompanySelector fluid />
+                            <CompanySelector />
                         </Form.Field>
 
-                        <Form.Field width={4}>
+                        <Form.Field>
+                            <label>Position</label>
+                            <Input />
+                        </Form.Field>
+                    </Form.Group>
+
+                    <Form.Group widths='equal'>
+                        <Form.Field>
+                            <label>Application Date</label>
+                            <DateInput
+                                name="applyDate"
+                                iconPosition="right"
+                                closable
+                                value={applyDate}
+                                onChange={(e, { name, value }) => setApplyDate(value)}
+                            />
+                        </Form.Field>
+
+                        <Form.Field>
+                            <label>Next Interview / Deadline</label>
+                            <DateInput
+                                name="deadlineDate"
+                                iconPosition="right"
+                                closable
+                                value={deadlineDate}
+                                onChange={(e, { name, value }) => setDeadlineDate(value)}
+                            />
+                        </Form.Field>
+
+                        <Form.Field>
                             <label>Status</label>
                             <Dropdown
-                                placeholder='Status'
                                 fluid
                                 search
                                 selection
@@ -47,8 +102,6 @@ function AddNewEntry() {
                         <label>Notes</label>
                         <TextArea placeholder='Recruiter name, number of interviews, etc...' />
                     </Form.Field>
-
-                    <Form.Checkbox label='I agree to the Terms and Conditions' />
                 </Form>
             </Modal.Content>
             <Modal.Actions>

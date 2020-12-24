@@ -1,3 +1,11 @@
 .AddNewEntry {
+    .header {
+        display: flex;
+        justify-content: space-between;
 
+        .starButton {
+            font-size: 20px;
+            cursor: pointer;
+        }
+    }
 }
