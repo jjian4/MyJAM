@@ -1,5 +1,13 @@
 .CompanySelector {
-    padding: 10px;
+    .searchBar {
+        .selectedCompanyLogo {
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+    }
+
     .dropdownEntry {
         height: 30px;
         display: flex;
