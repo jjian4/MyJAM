@@ -17,10 +17,9 @@ const dropdownEntry = ({ name, domain, logo }) => (
     </div>
 )
 
-function CompanySelector() {
+function CompanySelector(props) {
     const [loading, setLoading] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
-    const [value, setValue] = useState('');
     const [selectedCompanyLogo, setSelectedCompanyLogo] = useState(null);
 
 
@@ -28,9 +27,12 @@ function CompanySelector() {
     const handleSearchChange = useCallback((e, data) => {
         clearTimeout(timeoutRef.current)
         setLoading(true)
-        setValue(data.value)
         setSelectedCompanyLogo(null)
 
+        // Parent updates value
+        props.onNewValue(data.value);
+
+        // Used to get dropdown results, not relevant to parent
         timeoutRef.current = setTimeout(async () => {
             if (data.value.length === 0) {
                 setLoading(false)
@@ -60,14 +62,14 @@ function CompanySelector() {
             <Search
                 className='searchBar'
                 onResultSelect={(e, data) => {
-                    setValue(data.result.name);
+                    props.onNewValue(data.result.name);
                     setSelectedCompanyLogo(data.result.logo)
                 }}
                 onSearchChange={handleSearchChange}
                 resultRenderer={dropdownEntry}
                 noResultsMessage={loading ? 'Loading...' : 'No results found.'}
                 results={searchResults}
-                value={value}
+                value={props.value}
                 fluid
                 input={{
                     icon: selectedCompanyLogo ? (

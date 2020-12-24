@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Form, Button, Modal, Dropdown, TextArea, Icon, Input } from 'semantic-ui-react'
 import {
     DateInput,
@@ -7,33 +7,52 @@ import {
 
 import CompanySelector from "../CompanySelector/CompanySelector";
 import { STATUS } from '../../constants'
-import "./AddNewEntry.scss";
+import "./EditEntryModal.scss";
 
 
-function AddNewEntry() {
-    const [open, setOpen] = useState(false)
-
+function EditEntryModal(props) {
     const [isStarred, setIsStarred] = useState(false)
+
+    const [applicationUrl, setApplicationUrl] = useState('')
+
+    const [company, setCompany] = useState('')
+    const [jobTitle, setJobTitle] = useState('')
 
     const [applyDate, setApplyDate] = useState('')
     const [deadlineDate, setDeadlineDate] = useState('')
+    const [status, setStatus] = useState(STATUS.APPLIED)
+
+    const [notes, setNotes] = useState('')
 
     const statusOptions = Object.values(STATUS).map(status => (
         { text: status, value: status }
     ))
 
+    useEffect(() => {
+        // Initialize values everytime modal reopens
+        if (props.open) {
+            setIsStarred(props.initialValues.isStarred || false)
+            setApplicationUrl(props.initialValues.applicationUrl || '')
+            setCompany(props.initialValues.company || '')
+            setJobTitle(props.initialValues.jobTitle || '')
+            setApplyDate(props.initialValues.applyDate || '')
+            setDeadlineDate(props.initialValues.deadlineDate || '')
+            setStatus(props.initialValues.status || STATUS.APPLIED)
+            setNotes(props.initialValues.notes || '')
+        }
+    }, [props.open]);
+
     return (
         <Modal
-            className="AddNewEntry"
-            onClose={() => setOpen(false)}
-            onOpen={() => setOpen(true)}
-            open={open}
-            trigger={<Button circular>Add New Entry</Button>}
+            className="EditEntryModal"
+            onClose={props.onClose}
+            open={props.open}
             size='small'
+            closeOnEscape={false}
         >
             <Modal.Header>
                 <div className='header'>
-                    <span>New Entry</span>
+                    <span>{props.heading}</span>
                     <Icon
                         className='starButton'
                         onClick={() => setIsStarred(!isStarred)}
@@ -47,7 +66,7 @@ function AddNewEntry() {
                     <Form.Group widths='equal'>
                         <Form.Field>
                             <label>Application Url</label>
-                            <Input />
+                            <Input value={applicationUrl} onChange={e => setApplicationUrl(e.target.value)} />
                         </Form.Field>
                     </Form.Group>
 
@@ -55,12 +74,12 @@ function AddNewEntry() {
                     <Form.Group widths='equal'>
                         <Form.Field>
                             <label>Company</label>
-                            <CompanySelector />
+                            <CompanySelector value={company} onNewValue={setCompany} />
                         </Form.Field>
 
                         <Form.Field>
-                            <label>Position</label>
-                            <Input />
+                            <label>Job Title</label>
+                            <Input value={jobTitle} onChange={e => setJobTitle(e.target.value)} />
                         </Form.Field>
                     </Form.Group>
 
@@ -94,23 +113,29 @@ function AddNewEntry() {
                                 search
                                 selection
                                 options={statusOptions}
+                                value={status}
+                                onChange={(e, { name, value }) => setStatus(value)}
                             />
                         </Form.Field>
                     </Form.Group>
 
                     <Form.Field>
                         <label>Notes</label>
-                        <TextArea placeholder='Recruiter name, number of interviews, etc...' />
+                        <TextArea
+                            placeholder='Recruiter name, number of interviews, etc...'
+                            value={notes}
+                            onChange={e => setNotes(e.target.value)}
+                        />
                     </Form.Field>
                 </Form>
             </Modal.Content>
             <Modal.Actions>
-                <Button onClick={() => setOpen(false)}>
+                <Button onClick={props.onClose}>
                     Cancel
                     </Button>
                 <Button
                     content="Save"
-                    onClick={() => setOpen(false)}
+                    onClick={() => props.onSave({ isStarred, applicationUrl, company, jobTitle, applyDate, deadlineDate, status, notes })}
                     positive
                 />
             </Modal.Actions>
@@ -118,4 +143,4 @@ function AddNewEntry() {
     );
 }
 
-export default AddNewEntry;
+export default EditEntryModal;
