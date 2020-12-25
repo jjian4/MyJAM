@@ -1,12 +1,24 @@
+@import "./utilities/variables";
+
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
   
 .App {
-    color: darkgreen;
+  padding-top: $menu-height;
+}
+
+
+
+.menuBar {
+  height: $menu-height;
+  .menuBarLogo {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  .menuBarName {
+    font-weight: bold;
+    font-size: 18px;
+  }
 }

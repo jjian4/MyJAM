@@ -1,0 +1,30 @@
+@import "../../utilities/variables";
+
+.Portfolio {
+    .portfolioMenuBar {
+        position: sticky;
+        top: $menu-height;
+        left: 0;
+        right: 0;
+        border-bottom: 1px dashed gray;
+      
+        .portfolioMenuBarContent {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      
+          .portfolioMenuItem {
+            padding: 8px 16px;
+          }
+      
+          .portfolioSelector {
+            font-weight: bold;
+            font-size: 20px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);    
+          }
+      
+        }
+    }
+}
