@@ -48,6 +48,7 @@ function CompanySelector(props) {
             setLoading(false)
             setSearchResults(results)
         }, 300)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {

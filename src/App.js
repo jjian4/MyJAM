@@ -1,6 +1,7 @@
 import { Menu, Container, Dropdown, Image } from 'semantic-ui-react'
 
 import Portfolio from "./pages/Portfolio/Portfolio";
+import DashboardColumn from "./components/DashboardColumn/DashboardColumn";
 import "./App.scss";
 
 
@@ -31,6 +32,8 @@ function App() {
       </Menu>
 
       <Portfolio />
+
+      <DashboardColumn />
     </div>
   );
 }

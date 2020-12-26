@@ -1,10 +1,96 @@
 .DashboardColumn {
     border: 1px solid gold;
-    width: 300px;
+    width: 400px;
     padding: 10px 5px;
     text-align: center;
 
     .entries {
-        
+        padding-bottom: 1em;
+        .entryCard {
+            cursor: move; /* In case grab cursor is unsupported */
+            cursor: grab;      
+            
+            :active {
+                cursor: grabbing;
+            }
+
+            text-align: left;
+
+            .cardTop {
+                display: flex;
+                align-items: center;
+                .logo {
+                    max-width: 40px;
+                    max-height: 40px;
+                    margin-right: 10px;
+                }
+                .company {
+                    font-weight: bold;
+                }
+                .jobTitle {
+                    color: gray;
+                    font-size: 12px;
+                }
+
+                .cardOptions {
+                    position: absolute;
+                    top: 5px;
+                    right: 5px;
+
+                    svg {
+                        display: none; // Only display icons when card is hovered
+                        cursor: pointer;
+                        color: gray;
+                        font-size: 20px;
+                        padding: 3px;
+                    }
+                    .starIcon {
+                        display: inline-block;
+                        color: red;
+                    }    
+                }
+            }
+
+            .cardBottom {
+                .cardDates {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 12px;    
+                    .dateIcon {
+                        margin-right: 3px;
+                    }
+                    .date {
+                        color: gray;
+                    }    
+                }
+
+                .cardButtons {
+                    display: none; // Changes to flex when card is hovered
+
+                    .cardButton {
+                        font-size: 10px;
+                    }    
+                }
+            }
+
+            &:hover {
+                .cardTop {
+                    .cardOptions {
+                        svg {
+                            display: inline-block;
+                        }    
+                    }    
+                }
+                .cardBottom {
+                    .cardDates {
+                        display: none;
+                    }
+                    .cardButtons {
+                        display: block;
+                    }
+                }
+            }
+        }
     }
 }

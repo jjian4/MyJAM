@@ -11,8 +11,8 @@ function Portfolio(props) {
                 <Container>
                     <div className='portfolioMenuBarContent'>
                         <div className='portfolioMenuItem'>
-                            <Button.Group size='tiny'>
-                                <Button icon>
+                            <Button.Group basic>
+                                <Button icon active>
                                     <Icon name='columns' />
                                 </Button>
                                 <Button icon>
@@ -32,12 +32,12 @@ function Portfolio(props) {
                         </Dropdown>
 
                         <div className='portfolioMenuItem'>
-                            <Button.Group size='tiny'>
+                            <Button.Group basic>
                                 <Button icon>
-                                    <Icon name='minus' />
+                                    <Icon name='search minus' />
                                 </Button>
-                                <Button icon>
-                                    <Icon name='plus' />
+                                <Button icon disabled>
+                                    <Icon name='search plus' />
                                 </Button>
                             </Button.Group>
                         </div>
