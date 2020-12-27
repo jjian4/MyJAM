@@ -8,6 +8,12 @@ body {
   padding-top: $menu-height;
 }
 
+a {
+  color: inherit;
+  &:hover {
+    color: inherit;
+  }
+}
 
 
 .menuBar {

@@ -7,6 +7,12 @@
     .entries {
         padding-bottom: 1em;
         .entryCard {
+            display: inline-block;
+            border: 1px solid gray;
+            border-radius: 5px;
+            width: 300px;
+            margin: 6px;
+            
             cursor: move; /* In case grab cursor is unsupported */
             cursor: grab;      
             
@@ -18,7 +24,9 @@
 
             .cardTop {
                 display: flex;
+                position: relative;
                 align-items: center;
+                padding: 12px;
                 .logo {
                     max-width: 40px;
                     max-height: 40px;
@@ -52,24 +60,39 @@
             }
 
             .cardBottom {
+                border-top: 1px solid lightgray;
                 .cardDates {
+                    height: 30px;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    font-size: 12px;    
+                    font-size: 10px;
+                    padding: 6px 10px;
+                    color: gray;
                     .dateIcon {
-                        margin-right: 3px;
+                        margin-right: 4px;
                     }
                     .date {
-                        color: gray;
                     }    
                 }
 
                 .cardButtons {
+                    height: 30px;
                     display: none; // Changes to flex when card is hovered
+                    justify-content: space-evenly;
 
                     .cardButton {
-                        font-size: 10px;
+                        cursor: pointer;
+                        font-size: 12px;
+                        user-select: none;
+                        border-radius: 5px;
+                        flex: 1;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        &:hover {
+                            background-color: whitesmoke;
+                        }
                     }    
                 }
             }
@@ -87,7 +110,7 @@
                         display: none;
                     }
                     .cardButtons {
-                        display: block;
+                        display: flex;
                     }
                 }
             }

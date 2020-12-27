@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Image } from 'semantic-ui-react'
+import { Button, Image } from 'semantic-ui-react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faCalendarTimes, faEdit, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
@@ -24,78 +24,67 @@ function DashboardColumn(props) {
         <div className="DashboardColumn">
             <div className='entries'>
                 {fakeProps.entries.map((entry, index) => (
-                    <Card className='entryCard'>
-                        <Card.Content>
-                            <div className='cardTop'>
-                                <Image className='logo' src={entry.logo} />
-                                <div>
-                                    <div className='company'>{entry.company}</div>
-                                    <div className='jobTitle'>{entry.jobTitle}</div>
-                                </div>
-                                <div className='cardOptions'>
-                                    <FontAwesomeIcon
-                                        className='editIconButton'
-                                        icon={faEdit}
-                                        onClick={() => console.log('TODO')}
-                                    />
-
-                                    <FontAwesomeIcon
-                                        className={entry.isStarred ? 'starIcon' : 'starOutlineIcon'}
-                                        onClick={() => console.log('TODO')}
-                                        icon={entry.isStarred ? faStar : faStarOutline}
-                                    />
-                                </div>
+                    <div className='entryCard' key={index}>
+                        <div className='cardTop'>
+                            <Image className='logo' src={entry.logo} />
+                            <div>
+                                <div className='company'>{entry.company}</div>
+                                <div className='jobTitle'>{entry.jobTitle}</div>
                             </div>
+                            <div className='cardOptions'>
+                                <FontAwesomeIcon
+                                    className='editIconButton'
+                                    icon={faEdit}
+                                    onClick={() => console.log('TODO')}
+                                />
 
-                        </Card.Content>
-                        <Card.Content extra>
-                            <div className='cardBottom'>
-                                <div className='cardDates'>
+                                <FontAwesomeIcon
+                                    className={entry.isStarred ? 'starIcon' : 'starOutlineIcon'}
+                                    onClick={() => console.log('TODO')}
+                                    icon={entry.isStarred ? faStar : faStarOutline}
+                                />
+                            </div>
+                        </div>
+
+                        <div className='cardBottom'>
+                            <div className='cardDates'>
+                                <div>
+                                    <FontAwesomeIcon
+                                        className={'dateIcon'}
+                                        icon={faCalendar}
+                                    />
+                                    <span className='date'>edited X min ago</span>
+                                </div>
+                                {entry.deadlineDate && (
                                     <div>
                                         <FontAwesomeIcon
                                             className={'dateIcon'}
-                                            icon={faCalendar}
+                                            icon={faCalendarTimes}
                                         />
-                                        <span className='date'>edited X min ago</span>
+                                        <span className='date'>{`Next: ${entry.deadlineDate}`}</span>
                                     </div>
-                                    {entry.deadlineDate && (
-                                        <div>
-                                            <FontAwesomeIcon
-                                                className={'dateIcon'}
-                                                icon={faCalendarTimes}
-                                            />
-                                            <span className='date'>{`Next: ${entry.deadlineDate}`}</span>
-                                        </div>
-                                    )}
-                                </div>
+                                )}
+                            </div>
 
-                                <div className='cardButtons'>
-                                    <Button.Group fluid>
-                                        {entry.url && (
-                                            <Button
-                                                className='cardButton'
-                                                as='a'
-                                                target='_blank'
-                                                href={entry.url}
-                                            >
-                                                Visit
-                                            </Button>
+                            <div className='cardButtons'>
+                                {entry.url && (
+                                    <a
+                                        className='cardButton'
+                                        href={entry.url}
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        Visit
+                                    </a>
 
-                                        )}
-
-                                        <Button
-                                            className='cardButton'
-                                            onClick={() => console.log('TODO')}
-                                        >
-                                            Edit
-                                    </Button>
-
-                                    </Button.Group>
-
+                                )}
+                                <div className='cardButton' onClick={() => console.log('TODO')}>
+                                    Edit
                                 </div>
                             </div>
-                        </Card.Content>
-                    </Card>
+                        </div>
+                    </div>
+
 
                 ))}
             </div>
