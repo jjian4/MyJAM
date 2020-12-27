@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
-import { Form, Button, Modal, Dropdown, TextArea, Icon, Input } from 'semantic-ui-react'
+import { Form, Button, Modal, Dropdown, TextArea, Input } from 'semantic-ui-react'
 import {
     DateInput,
 } from 'semantic-ui-calendar-react';
 import dateFormat from 'dateformat';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 
 
 import CompanySelector from "../CompanySelector/CompanySelector";
@@ -55,12 +58,12 @@ function EditEntryModal(props) {
             <Modal.Header>
                 <div className='header'>
                     <span>{props.heading}</span>
-                    <Icon
-                        className='starButton'
+                    <FontAwesomeIcon
+                        className={isStarred ? 'starButton' : 'starOutlineButton'}
+                        icon={isStarred ? faStar : faStarOutline}
                         onClick={() => setIsStarred(!isStarred)}
-                        name={isStarred ? 'star' : 'star outline'}
-                        color={isStarred ? 'yellow' : 'black'}
                     />
+
                 </div>
             </Modal.Header>
             <Modal.Content>

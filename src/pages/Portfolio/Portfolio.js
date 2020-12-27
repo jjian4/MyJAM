@@ -1,6 +1,9 @@
+import { faColumns, faList, faSearchMinus, faSearchPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Button, Container, Dropdown, Icon } from 'semantic-ui-react'
 
+import DashboardColumn from "../../components/DashboardColumn/DashboardColumn";
 import "./Portfolio.scss";
 
 function Portfolio(props) {
@@ -13,13 +16,13 @@ function Portfolio(props) {
                         <div className='portfolioMenuItem'>
                             <Button.Group basic>
                                 <Button icon active>
-                                    <Icon name='columns' />
+                                    <FontAwesomeIcon icon={faColumns} />
                                 </Button>
                                 <Button icon>
-                                    <Icon name='columns' rotated='counterclockwise' />
+                                    <FontAwesomeIcon icon={faColumns} rotation={270} />
                                 </Button>
                                 <Button icon>
-                                    <Icon name='list' />
+                                    <FontAwesomeIcon icon={faList} />
                                 </Button>
                             </Button.Group>
                         </div>
@@ -34,10 +37,10 @@ function Portfolio(props) {
                         <div className='portfolioMenuItem'>
                             <Button.Group basic>
                                 <Button icon>
-                                    <Icon name='search minus' />
+                                    <FontAwesomeIcon icon={faSearchMinus} />
                                 </Button>
                                 <Button icon disabled>
-                                    <Icon name='search plus' />
+                                    <FontAwesomeIcon icon={faSearchPlus} />
                                 </Button>
                             </Button.Group>
                         </div>
@@ -46,6 +49,7 @@ function Portfolio(props) {
                 </Container>
             </div>
 
+            <DashboardColumn />
 
         </div>
     );

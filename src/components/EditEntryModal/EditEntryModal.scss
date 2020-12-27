@@ -4,8 +4,15 @@
         justify-content: space-between;
 
         .starButton {
-            font-size: 20px;
+            font-size: 22px;
             cursor: pointer;
+            color: red;
+        }
+
+        .starOutlineButton {
+            font-size: 22px;
+            cursor: pointer;
+            color: gray;
         }
     }
 }
