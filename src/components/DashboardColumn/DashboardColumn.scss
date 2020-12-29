@@ -8,48 +8,70 @@
     min-width: 280px;
     max-width: 350px;
     height: calc(100vh - #{$menu-height} - #{$portfolio-menu-height});
-    overflow-y: auto;
     text-align: center;
 
-    .heading {
-        position: sticky;
-        top: 0;
+    .content {
+        height: 100%;
+        overflow-y: auto;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        text-align: left;
-        padding: 14px 10px 12px 10px;
-        font-size: 16px;
-        background-color: whitesmoke;
-        z-index: 2;
+        flex-direction: column;
+
+        .heading {
+            position: sticky;
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+            padding: 14px 10px 12px 10px;
+            font-size: 16px;
+            background-color: whitesmoke;
+            z-index: 2;
+            
+            .status {
+                font-weight: bold;
+                padding-right: 6px;
+            }
         
-        .status {
-            font-weight: bold;
-            padding-right: 6px;
+            .numEntries {
+                color: gray;
+            }    
+    
+            .options {
+                cursor: pointer;
+                color: gray;
+                user-select: none;
+            }
         }
     
-        .numEntries {
-            color: gray;
-        }    
-
-        .options {
-            cursor: pointer;
-            color: gray;
+        .entries {
+            padding: 0 10px;
         }
     }
 
-    .entries {
-        padding: 0 10px;
-    }
 
     .newEntryButton {
-        visibility: hidden;
-        margin: 10px 0 20px 0;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        right: 50%;
+        transform: translate(-50%);
+        cursor: pointer;
+        font-size: 24px;
+        height: 50px;
+        width: 50px;
+        color: darkgray;
+        background-color: white;
+        border-radius: 50%;
+        border: 1px solid lightgray;
     }
 
     &:hover {
         .newEntryButton {
-            visibility: visible;
+            display: flex;
         }
     }
 }

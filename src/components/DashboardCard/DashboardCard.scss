@@ -33,18 +33,18 @@
 
         .cardOptions {
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 6px;
+            right: 6px;
 
             svg {
                 display: none; // Only display icons when card is hovered
                 cursor: pointer;
                 color: gray;
-                font-size: 20px;
-                padding: 3px;
+                font-size: 14px;
+                margin: 0 4px;
             }
             .starIcon {
-                display: inline-block;
+                display: inline-block; // Star icon is always visible, even when not hovering
                 color: gold;
             }    
         }

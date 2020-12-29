@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faCalendarTimes, faEdit, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faCalendarTimes, faEdit, faLink, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 
 import "./DashboardCard.scss";
@@ -20,20 +20,30 @@ function DashboardCard(props) {
     return (
         <div className='DashboardCard'>
             <div className='cardTop'>
-                <img className='logo' src={props.entry.logo} />
+                <img className='logo' src={props.entry.logo} alt='logo' />
                 <div>
                     <div className='company'>{props.entry.company}</div>
                     <div className='jobTitle'>{props.entry.jobTitle}</div>
                 </div>
                 <div className='cardOptions'>
+                    {props.entry.url && (
+                        <a href={props.entry.url} target='_blank' rel='noreferrer'>
+                            <FontAwesomeIcon
+                                title='URL'
+                                icon={faLink}
+                            />
+                        </a>
+                    )}
+
                     <FontAwesomeIcon
-                        className='editIconButton'
+                        title='Edit'
                         icon={faEdit}
-                        onClick={() => console.log('TODO')}
+                        onClick={() => props.onOpenEditEntry(props.entry)}
                     />
 
                     <FontAwesomeIcon
                         className={props.entry.isStarred ? 'starIcon' : 'starOutlineIcon'}
+                        title='Favorite'
                         onClick={() => console.log('TODO')}
                         icon={props.entry.isStarred ? faStar : faStarOutline}
                     />
@@ -76,7 +86,7 @@ function DashboardCard(props) {
                         </a>
 
                     )}
-                    <div className='cardButton' onClick={() => console.log('TODO')}>
+                    <div className='cardButton' onClick={() => props.onOpenEditEntry(props.entry)}>
                         Edit
                     </div>
                 </div>

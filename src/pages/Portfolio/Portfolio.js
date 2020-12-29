@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button, Dropdown } from 'semantic-ui-react'
 
 import DashboardColumn from "../../components/DashboardColumn/DashboardColumn";
+import EditEntryModal from '../../components/EditEntryModal/EditEntryModal'
 import { STATUS } from "../../constants";
 import "./Portfolio.scss";
 
@@ -34,9 +35,37 @@ const fakeEntries4 = [
 
 
 function Portfolio(props) {
+    const [isNewModalOpen, setIsNewModalOpen] = useState(false);
+    const [newModalInitialValues, setNewModalInitialValues] = useState({})
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editModalInitialValues, setEditModalInitialValues] = useState({})
+
+    const openNewEntry = initialValues => {
+        setNewModalInitialValues(initialValues);
+        setIsNewModalOpen(true);
+    }
+
+    const saveNewEntry = values => {
+        console.log(values);
+        console.log('TODO')
+
+        // TODO: add to database, add generated id to values, insert entry into column
+    }
+
+    const openEditEntry = initialValues => {
+        setEditModalInitialValues(initialValues);
+        setIsEditModalOpen(true);
+    }
+
+    const saveEditEntry = values => {
+        console.log(values);
+        console.log('TODO')
+
+        // TODO: get values.entryId and update id in database
+    }
+
     return (
         <div className="Portfolio">
-
             <div className='portfolioMenuBar'>
                 <div className='content'>
                     <div className='menuleft'>
@@ -79,16 +108,34 @@ function Portfolio(props) {
             </div>
 
             <div className='dashboardColumns'>
-                <DashboardColumn entries={fakeEntries} status={STATUS.APPLIED} />
+                <DashboardColumn status={STATUS.APPLIED} entries={fakeEntries} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
 
-                <DashboardColumn entries={fakeEntries2} status={STATUS.REJECTED} />
+                <DashboardColumn entries={fakeEntries2} status={STATUS.REJECTED} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
 
-                <DashboardColumn entries={fakeEntries3} status={STATUS.PHONE_SCREEN} />
+                <DashboardColumn entries={fakeEntries3} status={STATUS.PHONE_SCREEN} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
 
-                <DashboardColumn entries={fakeEntries2} status={STATUS.INTERVIEW} />
+                <DashboardColumn entries={fakeEntries2} status={STATUS.INTERVIEW} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
 
-                <DashboardColumn entries={fakeEntries4} status={STATUS.OFFER} />
+                <DashboardColumn entries={fakeEntries4} status={STATUS.OFFER} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
             </div>
+
+            {/* Used to add new entries */}
+            <EditEntryModal
+                open={isNewModalOpen}
+                onClose={() => setIsNewModalOpen(false)}
+                heading='New Entry'
+                initialValues={newModalInitialValues}
+                onSave={saveNewEntry}
+            />
+
+            {/* Used to edit existing entries */}
+            <EditEntryModal
+                open={isEditModalOpen}
+                onClose={() => setIsEditModalOpen(false)}
+                heading={`${editModalInitialValues.company} - ${editModalInitialValues.jobTitle}`}
+                initialValues={editModalInitialValues}
+                onSave={saveEditEntry}
+            />
         </div>
     );
 }

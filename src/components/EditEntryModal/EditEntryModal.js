@@ -159,7 +159,7 @@ function EditEntryModal(props) {
                     </Button>
                 <Button
                     content="Save"
-                    onClick={() => props.onSave({ isStarred, company: company.trim(), jobTitle: jobTitle.trim, applyDate, deadlineDate, status, url: url.trim(), notes: notes.trim() })}
+                    onClick={() => props.onSave({ isStarred, company: company.trim(), jobTitle: jobTitle.trim(), applyDate, deadlineDate, status, url: url.trim(), notes: notes.trim() })}
                     positive
                 />
             </Modal.Actions>
