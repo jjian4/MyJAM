@@ -2,7 +2,7 @@ export const STATUS = {
     WISHLIST: 'Wishlist',
     APPLIED: 'Applied',
     REJECTED: 'Rejected',
-    PHONE: 'Phone Screen',
+    PHONE_SCREEN: 'Phone Screen',
     INTERVIEW: 'Interview',
     OFFER: 'Offer!'
 }

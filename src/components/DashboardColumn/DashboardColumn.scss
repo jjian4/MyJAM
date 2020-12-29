@@ -1,119 +1,49 @@
-.DashboardColumn {
-    border: 1px solid gold;
-    width: 400px;
-    padding: 10px 5px;
+@import "../../utilities/variables";
+
+.DashboardColumn {     
+    position: relative; 
+    display: inline-block;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    min-width: 280px;
+    max-width: 350px;
+    height: calc(100vh - #{$menu-height} - #{$portfolio-menu-height});
+    overflow-y: auto;
+    padding: 20px 5px;
     text-align: center;
+
+    .heading {
+        font-size: 22px;
+        font-weight: bold;
+        padding-bottom: 10px;
+    }
 
     .entries {
         padding-bottom: 1em;
-        .entryCard {
+    }
+
+    .newEntryButton {
+        display: none; // Only display icons when column is hovered
+        z-index: 2;
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        right: 50%;
+        transform: translateX(-50%);
+        cursor: pointer;
+        border: none;
+        height: 50px;
+        width: 50px;
+        font-size: 26px;
+        border-radius: 50%;
+        background-color: white;
+        border: 1px solid gray;
+        color: gray;
+    }
+
+    &:hover {
+        .newEntryButton {
             display: inline-block;
-            border: 1px solid lightgray;
-            border-radius: 5px;
-            width: 300px;
-            margin: 6px;
-            
-            cursor: move; /* In case grab cursor is unsupported */
-            cursor: grab;      
-            
-            :active {
-                cursor: grabbing;
-            }
-
-            text-align: left;
-
-            .cardTop {
-                display: flex;
-                position: relative;
-                align-items: center;
-                padding: 12px;
-                .logo {
-                    max-width: 40px;
-                    max-height: 40px;
-                    margin-right: 10px;
-                }
-                .company {
-                    font-weight: bold;
-                }
-                .jobTitle {
-                    color: gray;
-                    font-size: 12px;
-                }
-
-                .cardOptions {
-                    position: absolute;
-                    top: 5px;
-                    right: 5px;
-
-                    svg {
-                        display: none; // Only display icons when card is hovered
-                        cursor: pointer;
-                        color: gray;
-                        font-size: 20px;
-                        padding: 3px;
-                    }
-                    .starIcon {
-                        display: inline-block;
-                        color: red;
-                    }    
-                }
-            }
-
-            .cardBottom {
-                border-top: 1px solid lightgray;
-                .cardDates {
-                    height: 30px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    font-size: 10px;
-                    padding: 6px 10px;
-                    color: gray;
-                    .dateIcon {
-                        margin-right: 4px;
-                    }
-                    .date {
-                    }    
-                }
-
-                .cardButtons {
-                    height: 30px;
-                    display: none; // Changes to flex when card is hovered
-                    justify-content: space-evenly;
-
-                    .cardButton {
-                        cursor: pointer;
-                        font-size: 12px;
-                        user-select: none;
-                        border-radius: 5px;
-                        flex: 1;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        &:hover {
-                            background-color: whitesmoke;
-                        }
-                    }    
-                }
-            }
-
-            &:hover {
-                .cardTop {
-                    .cardOptions {
-                        svg {
-                            display: inline-block;
-                        }    
-                    }    
-                }
-                .cardBottom {
-                    .cardDates {
-                        display: none;
-                    }
-                    .cardButtons {
-                        display: flex;
-                    }
-                }
-            }
         }
     }
 }

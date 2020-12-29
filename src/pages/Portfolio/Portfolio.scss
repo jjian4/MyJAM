@@ -5,8 +5,10 @@
         position: sticky;
         top: $menu-height;
         left: 0;
-        right: 0;
+		right: 0;
+		z-index: 2;
         border-bottom: 1px dashed gray;
+        height: $portfolio-menu-height;
       
         .portfolioMenuBarContent {
           display: flex;
@@ -26,5 +28,13 @@
           }
       
         }
+    }
+
+    .dashboardColumns {
+		display: flex;
+		overflow-x: auto;
+		::-webkit-scrollbar { 
+			display: none; 
+		}
     }
 }

@@ -1,0 +1,113 @@
+.DashboardCard {
+    display: block;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin: 10px 6px;
+    
+    cursor: move; /* In case grab cursor is unsupported */
+    cursor: grab;      
+    
+    :active {
+        cursor: grabbing;
+    }
+
+    text-align: left;
+
+    .cardTop {
+        display: flex;
+        position: relative;
+        align-items: center;
+        padding: 12px 12px 0 12px;
+        .logo {
+            max-width: 40px;
+            max-height: 40px;
+            margin-right: 10px;
+        }
+        .company {
+            font-weight: bold;
+        }
+        .jobTitle {
+            color: gray;
+            font-size: 12px;
+        }
+
+        .cardOptions {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+
+            svg {
+                display: none; // Only display icons when card is hovered
+                cursor: pointer;
+                color: gray;
+                font-size: 20px;
+                padding: 3px;
+            }
+            .starIcon {
+                display: inline-block;
+                color: gold;
+            }    
+        }
+    }
+
+    .cardMid {
+        padding: 4px 12px;
+        white-space: pre-line; // Otherwise, newlines are ignored
+    }
+
+    .cardBottom {
+        border-top: 1px solid lightgray;
+        .cardDates {
+            padding: 6px 12px;
+            height: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            color: gray;
+            .dateIcon {
+                margin-right: 4px;
+            }
+            .date {
+            }    
+        }
+
+        .cardButtons {
+            height: 30px;
+            display: none; // Changes to flex when card is hovered
+            justify-content: space-evenly;
+
+            .cardButton {
+                cursor: pointer;
+                font-size: 12px;
+                user-select: none;
+                border-radius: 5px;
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                &:hover {
+                    background-color: whitesmoke;
+                }
+            }    
+        }
+    }
+
+    &:hover {
+        .cardTop {
+            .cardOptions {
+                svg {
+                    display: inline-block;
+                }    
+            }    
+        }
+        .cardBottom {
+            .cardDates {
+                display: none;
+            }
+            .cardButtons {
+                display: flex;
+            }
+        }
+    }
+}

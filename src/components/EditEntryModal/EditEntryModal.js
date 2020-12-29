@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { Form, Button, Modal, Dropdown, TextArea, Input } from 'semantic-ui-react'
-import {
-    DateInput,
-} from 'semantic-ui-calendar-react';
+import { DateInput } from 'semantic-ui-calendar-react';
 import dateFormat from 'dateformat';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -47,6 +45,26 @@ function EditEntryModal(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.open]);
 
+    const validateDate = (value) => {
+        if (value.length !== 10) {
+            return false;
+        }
+
+        // Switch date and month (dateformat only recognizes mm-dd-yyyy)
+        const date = value.substring(0, 3);
+        const month = value.substring(3, 6);
+        const year = value.substring(6, 10);
+        value = month + date + year;
+
+        try {
+            dateFormat(value, "dddd, mmmm dS, yyyy, h:MM:ss TT")
+        } catch {
+            return false;
+        }
+
+        return true;
+    }
+
     return (
         <Modal
             className="EditEntryModal"
@@ -88,7 +106,7 @@ function EditEntryModal(props) {
                                 iconPosition="right"
                                 closable
                                 value={applyDate}
-                                onChange={(e, { name, value }) => setApplyDate(value)}
+                                onChange={(e, { name, value }) => validateDate(value) && setApplyDate(value)}
                             />
                         </Form.Field>
 
@@ -99,7 +117,7 @@ function EditEntryModal(props) {
                                 iconPosition="right"
                                 closable
                                 value={deadlineDate}
-                                onChange={(e, { name, value }) => setDeadlineDate(value)}
+                                onChange={(e, { name, value }) => validateDate(value) && setDeadlineDate(value)}
                             />
                         </Form.Field>
 
@@ -141,7 +159,7 @@ function EditEntryModal(props) {
                     </Button>
                 <Button
                     content="Save"
-                    onClick={() => props.onSave({ isStarred, company, jobTitle, applyDate, deadlineDate, status, url, notes })}
+                    onClick={() => props.onSave({ isStarred, company: company.trim(), jobTitle: jobTitle.trim, applyDate, deadlineDate, status, url: url.trim(), notes: notes.trim() })}
                     positive
                 />
             </Modal.Actions>

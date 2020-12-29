@@ -34,7 +34,7 @@ function CompanySelector(props) {
 
         // Used to get dropdown results, not relevant to parent
         timeoutRef.current = setTimeout(async () => {
-            if (data.value.length === 0) {
+            if (data.value.trim().length === 0) {
                 setLoading(false)
                 setSearchResults([])
                 return
