@@ -1,4 +1,4 @@
-import { faColumns, faList, faSearchMinus, faSearchPlus } from "@fortawesome/free-solid-svg-icons";
+import { faColumns, faList, faTh, faThLarge } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Button, Dropdown } from 'semantic-ui-react'
@@ -16,17 +16,14 @@ const fakeEntries = [
     { id: 5678, isStarred: true, company: 'Apple', logo: 'https://logo.clearbit.com/apple.com', jobTitle: 'Mechanical Engineer Intern - Cupertino, California', applyDate: '05-03-2020', deadlineDate: '06-01-2020', status: STATUS.APPLIED, url: 'https://apple.com', notes: 'awiufwb\n\n\n\nsfwsdhbfsi' },
     { id: 5678, isStarred: true, company: 'Apple', logo: 'https://logo.clearbit.com/apple.com', jobTitle: 'Mechanical Engineer Intern - Cupertino, California', applyDate: '05-03-2020', deadlineDate: '06-01-2020', status: STATUS.APPLIED, url: 'https://apple.com', notes: 'awiufwb\n\n\n\nsfwsdhbfsi' },
 ]
-
 const fakeEntries2 = [
     { id: 1234, isStarred: false, company: 'Facebook', logo: 'https://logo.clearbit.com/facebook.com', jobTitle: 'Software Engineer', applyDate: '01-01-2020', deadlineDate: '', status: STATUS.APPLIED, url: '', notes: '' },
     { id: 5678, isStarred: true, company: 'Apple', logo: 'https://logo.clearbit.com/apple.com', jobTitle: 'Mechanical Engineer Intern - Cupertino, California', applyDate: '05-03-2020', deadlineDate: '06-01-2020', status: STATUS.APPLIED, url: 'https://apple.com', notes: 'kjdasfnjasnvsa o jsdkfsa\njsdav inus oufjuh oudsofjof sd\nAnother line' },
 ]
-
 const fakeEntries3 = [
     { id: 5678, isStarred: true, company: 'Apple', logo: 'https://logo.clearbit.com/apple.com', jobTitle: 'Mechanical Engineer Intern - Cupertino, California', applyDate: '05-03-2020', deadlineDate: '06-01-2020', status: STATUS.APPLIED, url: 'https://apple.com', notes: 'kjdasfnjasnvsa o jsdkfsa\njsdav inus oufjuh oudsofjof sd\nAnother line' },
     { id: 1234, isStarred: true, company: 'Doordash', logo: 'https://logo.clearbit.com/doordash.com', jobTitle: 'Software Engineer Intern', applyDate: '01-01-2020', deadlineDate: '04-03-2020', status: STATUS.REJECTED, url: '', notes: 'siufha uafoidjiof oufdhsauofdj oqhwfw' },
 ]
-
 const fakeEntries4 = [
     { id: 1234, isStarred: true, company: 'Doordash', logo: 'https://logo.clearbit.com/doordash.com', jobTitle: 'Software Engineer Intern', applyDate: '01-01-2020', deadlineDate: '04-03-2020', status: STATUS.REJECTED, url: '', notes: 'siufha uafoidjiof oufdhsauofdj oqhwfw' },
     { id: 1234, isStarred: false, company: 'Facebook', logo: 'https://logo.clearbit.com/facebook.com', jobTitle: 'Software Engineer', applyDate: '01-01-2020', deadlineDate: '', status: STATUS.APPLIED, url: '', notes: 'sdjk dsaiiuh\nsdui' },
@@ -94,10 +91,10 @@ function Portfolio(props) {
                     <div className='menuRight'>
                         <Button.Group basic className='sizeButtons'>
                             <Button icon>
-                                <FontAwesomeIcon icon={faSearchMinus} />
+                                <FontAwesomeIcon icon={faTh} />
                             </Button>
-                            <Button icon disabled>
-                                <FontAwesomeIcon icon={faSearchPlus} />
+                            <Button icon active>
+                                <FontAwesomeIcon icon={faThLarge} />
                             </Button>
                         </Button.Group>
 
@@ -110,13 +107,13 @@ function Portfolio(props) {
             <div className='dashboardColumns'>
                 <DashboardColumn status={STATUS.APPLIED} entries={fakeEntries} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
 
-                <DashboardColumn entries={fakeEntries2} status={STATUS.REJECTED} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
+                <DashboardColumn status={STATUS.REJECTED} entries={fakeEntries2} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
 
-                <DashboardColumn entries={fakeEntries3} status={STATUS.PHONE_SCREEN} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
+                <DashboardColumn status={STATUS.PHONE_SCREEN} entries={fakeEntries3} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
 
-                <DashboardColumn entries={fakeEntries2} status={STATUS.INTERVIEW} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
+                <DashboardColumn status={STATUS.INTERVIEW} entries={fakeEntries2} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
 
-                <DashboardColumn entries={fakeEntries4} status={STATUS.OFFER} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
+                <DashboardColumn status={STATUS.OFFER} entries={fakeEntries4} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
             </div>
 
             {/* Used to add new entries */}

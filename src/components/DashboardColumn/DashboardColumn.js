@@ -1,8 +1,6 @@
 import "./DashboardColumn.scss";
 import DashboardCard from "../DashboardCard/DashboardCard";
 import { Dropdown } from "semantic-ui-react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function DashboardColumn(props) {
     return (
@@ -16,8 +14,10 @@ function DashboardColumn(props) {
 
                     <Dropdown className='options' icon='ellipsis horizontal' direction='left'>
                         <Dropdown.Menu>
-                            <Dropdown.Item>Add an entry</Dropdown.Item>
-                            <Dropdown.Item>Hide Column</Dropdown.Item>
+                            <Dropdown.Item icon='plus circle' content='Add an Entry' onClick={() => props.onOpenNewEntry({ status: props.status })} />
+                            <Dropdown.Item icon='expand' content='Expand View' />
+                            {/* <Dropdown.Item icon='compress' content='Compress View' /> */}
+                            <Dropdown.Item icon='minus' content='Hide Column' />
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>
@@ -28,11 +28,6 @@ function DashboardColumn(props) {
                     ))}
                 </div>
             </div>
-
-            <div className='newEntryButton' onClick={() => props.onOpenNewEntry({ status: props.status })}>
-                <FontAwesomeIcon icon={faPlus} />
-            </div>
-
         </div>
     );
 }
