@@ -2,7 +2,7 @@
     display: block;
     border: 1px solid lightgray;
     border-radius: 5px;
-    margin: 10px 6px;
+    margin: 10px 0;
     
     cursor: move; /* In case grab cursor is unsupported */
     cursor: grab;      
@@ -16,7 +16,7 @@
     .cardTop {
         display: flex;
         position: relative;
-        align-items: center;
+        align-items: flex-start;
         padding: 12px 12px 0 12px;
         .logo {
             max-width: 40px;

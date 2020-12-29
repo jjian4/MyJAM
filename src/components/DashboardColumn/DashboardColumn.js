@@ -4,8 +4,7 @@ import EditEntryModal from '../EditEntryModal/EditEntryModal'
 import { STATUS } from '../../constants'
 import "./DashboardColumn.scss";
 import DashboardCard from "../DashboardCard/DashboardCard";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Dropdown } from "semantic-ui-react";
 
 function DashboardColumn(props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,8 +12,21 @@ function DashboardColumn(props) {
     return (
         <div className="DashboardColumn">
             <div className='heading'>
-                {props.status}
+                <span>
+                    <span className='status'>{props.status.toUpperCase()}</span>
+                    <span className='numEntries'>({props.entries.length})</span>
+                </span>
+
+                <Dropdown className='options' icon='ellipsis horizontal' direction='left'>
+                    <Dropdown.Menu>
+                        <Dropdown.Item>Add an entry</Dropdown.Item>
+                        <Dropdown.Item>Hide Column</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+
+                {/* <FontAwesomeIcon className='options' icon={faEllipsisH} /> */}
             </div>
+
             <div className='entries'>
                 {props.entries.map((entry, index) => (
                     <DashboardCard entry={entry} key={index} />
@@ -33,9 +45,7 @@ function DashboardColumn(props) {
                 onSave={values => console.log(values)}
             />
 
-            <button className='newEntryButton' onClick={() => setIsModalOpen(true)}>
-                <FontAwesomeIcon icon={faPlus} />
-            </button>
+            <Button className='newEntryButton' onClick={() => setIsModalOpen(true)}>Add Entry</Button>
         </div>
     );
 }
