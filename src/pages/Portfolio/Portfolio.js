@@ -1,5 +1,3 @@
-import { } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Button, Dropdown } from 'semantic-ui-react'
 
@@ -40,7 +38,6 @@ function Portfolio(props) {
         [STATUS.INTERVIEW]: { isActive: true, isExpanded: false },
         [STATUS.OFFER]: { isActive: true, isExpanded: false },
     });
-    // const [activeStatuses, setActiveStatuses] = useState(new Set([STATUS.APPLIED, STATUS.INTERVIEW, STATUS.OFFER]))
 
     const [isNewModalOpen, setIsNewModalOpen] = useState(false);
     const [newModalInitialValues, setNewModalInitialValues] = useState({})
@@ -141,6 +138,16 @@ function Portfolio(props) {
                                 entries={fakeEntries}
                                 onOpenNewEntry={openNewEntry}
                                 onOpenEditEntry={openEditEntry}
+                                onSetIsExpanded={isExpanded => {
+                                    const newSettings = Object.assign({}, filterSettings);
+                                    newSettings[status].isExpanded = isExpanded;
+                                    setFilterSettings(newSettings);
+                                }}
+                                onHideColumn={() => {
+                                    const newSettings = Object.assign({}, filterSettings);
+                                    newSettings[status].isActive = false;
+                                    setFilterSettings(newSettings);
+                                }}
                             />
                         )
                     }

@@ -22,10 +22,10 @@ function DashboardColumn(props) {
                         <Dropdown.Menu>
                             <Dropdown.Item icon='plus circle' content='Add an Entry' onClick={() => props.onOpenNewEntry({ status: props.status })} />
                             {props.isExpanded ?
-                                <Dropdown.Item icon='compress' content='Compress View' />
-                                : <Dropdown.Item icon='expand' content='Expand View' />
+                                <Dropdown.Item icon='compress' content='Compress View' onClick={() => props.onSetIsExpanded(false)} />
+                                : <Dropdown.Item icon='expand' content='Expand View' onClick={() => props.onSetIsExpanded(true)} />
                             }
-                            <Dropdown.Item icon='minus' content='Hide Column' />
+                            <Dropdown.Item icon='minus' content='Hide Column' onClick={props.onHideColumn} />
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>

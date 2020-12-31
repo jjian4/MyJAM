@@ -30,7 +30,7 @@ function DashboardStatusFilterDropdown(props) {
     );
 
     const handleCheckboxChange = e => {
-        let newSettings = Object.assign({}, props.filterSettings);
+        const newSettings = Object.assign({}, props.filterSettings);
         const status = e.target.textContent;
 
         if (newSettings[status]?.isActive) {
@@ -44,7 +44,7 @@ function DashboardStatusFilterDropdown(props) {
     }
 
     const handleSizeChange = (status, isExpanded) => {
-        let newSettings = Object.assign({}, props.filterSettings);
+        const newSettings = Object.assign({}, props.filterSettings);
 
         if (newSettings[status]) {
             if (newSettings[status].isExpanded === isExpanded) {
