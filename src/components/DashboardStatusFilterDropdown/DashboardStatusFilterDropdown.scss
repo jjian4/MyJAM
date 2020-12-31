@@ -1,0 +1,12 @@
+.DashboardStatusFilterDropdown {
+    .dropdownCheckbox {
+        // Copies styling of Dropdown.Item
+        display: block;
+        padding: 11px 16px;
+        cursor: pointer;
+        &:hover {
+            background-color: rgba(0,0,0,.05);
+            color: rgba(0,0,0,.95);
+        }
+    }
+}

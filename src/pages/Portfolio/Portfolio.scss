@@ -21,6 +21,12 @@
 		  .menuleft {
 			padding: 0 10px;
 			.displayButtons {
+				margin-right: 12px;
+				svg {
+					margin-right: 4px;
+				}
+			}
+			.sizeButtons {
 			}
 		  }
 
@@ -29,12 +35,12 @@
             font-size: 18px;
             position: absolute;
             left: 50%;
-            transform: translateX(-50%);    
+            transform: translateX(-50%);
 		  }
 
 		  .menuRight {
 			padding: 0 10px;
-			.sizeButtons {
+			.filterDropdown {
 				margin-right: 12px;
 			}
 			.newEntryButton {

@@ -1,11 +1,12 @@
-import { faColumns, faList, faTh, faThLarge } from "@fortawesome/free-solid-svg-icons";
+import { faTh, faThLarge } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Button, Dropdown } from 'semantic-ui-react'
 
 import DashboardColumn from "../../components/DashboardColumn/DashboardColumn";
+import DashboardStatusFilterDropdown from "../../components/DashboardStatusFilterDropdown/DashboardStatusFilterDropdown";
 import EditEntryModal from '../../components/EditEntryModal/EditEntryModal'
-import { STATUS } from "../../constants";
+import { PORTFOLIO_DISPLAY, STATUS } from "../../constants";
 import "./Portfolio.scss";
 
 const fakeEntries = [
@@ -30,8 +31,11 @@ const fakeEntries4 = [
     { id: 1234, isStarred: false, company: 'Microsoft', logo: 'https://logo.clearbit.com/microsoft.com', jobTitle: 'QA Engineer', applyDate: '01-01-2020', deadlineDate: '', status: STATUS.PHONE_SCREEN, url: '', notes: 'usf iosoidsoiaoi dsdsoa oiuh iuweq w ef' },
 ]
 
-
 function Portfolio(props) {
+    const [display, setDisplay] = useState(PORTFOLIO_DISPLAY.BOARD_1.name);
+    const [isStatusFilterOpen, setIsStatusFilterOpen] = useState(false);
+    const [activeStatuses, setActiveStatuses] = useState(new Set([STATUS.APPLIED, STATUS.INTERVIEW, STATUS.OFFER]))
+
     const [isNewModalOpen, setIsNewModalOpen] = useState(false);
     const [newModalInitialValues, setNewModalInitialValues] = useState({})
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -66,15 +70,20 @@ function Portfolio(props) {
             <div className='portfolioMenuBar'>
                 <div className='content'>
                     <div className='menuleft'>
-                        <Button.Group basic className='displayButtons'>
+                        <Button.Group className='displayButtons' basic size='mini'>
+                            {Object.values(PORTFOLIO_DISPLAY).map((item, index) => (
+                                <Button key={index} icon active={display === item.name}>
+                                    {item.icon}{item.name}
+                                </Button>
+                            ))}
+                        </Button.Group>
+
+                        <Button.Group className='sizeButtons' basic size='mini'>
+                            <Button icon>
+                                <FontAwesomeIcon icon={faTh} />
+                            </Button>
                             <Button icon active>
-                                <FontAwesomeIcon icon={faColumns} />
-                            </Button>
-                            <Button icon>
-                                <FontAwesomeIcon icon={faColumns} rotation={270} />
-                            </Button>
-                            <Button icon>
-                                <FontAwesomeIcon icon={faList} />
+                                <FontAwesomeIcon icon={faThLarge} />
                             </Button>
                         </Button.Group>
                     </div>
@@ -89,31 +98,29 @@ function Portfolio(props) {
                     </Dropdown>
 
                     <div className='menuRight'>
-                        <Button.Group basic className='sizeButtons'>
-                            <Button icon>
-                                <FontAwesomeIcon icon={faTh} />
-                            </Button>
-                            <Button icon active>
-                                <FontAwesomeIcon icon={faThLarge} />
-                            </Button>
-                        </Button.Group>
+                        <span className='filterDropdown'>
+                            {/* Controlling this dropdown the hard way because checkbox clicks close the menu by default */}
+                            <DashboardStatusFilterDropdown
+                                open={isStatusFilterOpen}
+                                onOpen={() => setIsStatusFilterOpen(true)}
+                                onClose={() => setIsStatusFilterOpen(false)}
+                                activeStatuses={activeStatuses}
+                                onChange={x => setActiveStatuses(x)}
+                            />
+                        </span>
 
-                        <Button className='newEntryButton' positive >Add New Entry</Button>
+                        <Button className='newEntryButton' positive size='tiny' icon='plus' content='Add New Entry' />
                     </div>
 
                 </div>
             </div>
 
             <div className='dashboardColumns'>
-                <DashboardColumn status={STATUS.APPLIED} entries={fakeEntries} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
-
-                <DashboardColumn status={STATUS.REJECTED} entries={fakeEntries2} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
-
-                <DashboardColumn status={STATUS.PHONE_SCREEN} entries={fakeEntries3} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
-
-                <DashboardColumn status={STATUS.INTERVIEW} entries={fakeEntries2} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
-
-                <DashboardColumn status={STATUS.OFFER} entries={fakeEntries4} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
+                {Object.values(STATUS).map((status, index) => {
+                    if (activeStatuses.has(status)) {
+                        return <DashboardColumn key={index} status={status} entries={fakeEntries2} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
+                    }
+                })}
             </div>
 
             {/* Used to add new entries */}
