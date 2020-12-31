@@ -6,7 +6,7 @@ import { Button, Dropdown } from 'semantic-ui-react'
 import DashboardColumn from "../../components/DashboardColumn/DashboardColumn";
 import DashboardStatusFilterDropdown from "../../components/DashboardStatusFilterDropdown/DashboardStatusFilterDropdown";
 import EditEntryModal from '../../components/EditEntryModal/EditEntryModal'
-import { PORTFOLIO_DISPLAY, STATUS } from "../../constants";
+import { PORTFOLIO_DENSITY, PORTFOLIO_DISPLAY, STATUS } from "../../constants";
 import "./Portfolio.scss";
 
 const fakeEntries = [
@@ -33,6 +33,7 @@ const fakeEntries4 = [
 
 function Portfolio(props) {
     const [display, setDisplay] = useState(PORTFOLIO_DISPLAY.BOARD_1.name);
+    const [density, setDensity] = useState(PORTFOLIO_DENSITY.COMPACT.name);
     const [isStatusFilterOpen, setIsStatusFilterOpen] = useState(false);
     const [activeStatuses, setActiveStatuses] = useState(new Set([STATUS.APPLIED, STATUS.INTERVIEW, STATUS.OFFER]))
 
@@ -78,13 +79,12 @@ function Portfolio(props) {
                             ))}
                         </Button.Group>
 
-                        <Button.Group className='sizeButtons' basic size='mini'>
-                            <Button icon>
-                                <FontAwesomeIcon icon={faTh} />
-                            </Button>
-                            <Button icon active>
-                                <FontAwesomeIcon icon={faThLarge} />
-                            </Button>
+                        <Button.Group className='densityButtons' basic size='mini'>
+                            {Object.values(PORTFOLIO_DENSITY).map((item, index) => (
+                                <Button key={index} icon active={density === item.name}>
+                                    {item.icon}{item.name}
+                                </Button>
+                            ))}
                         </Button.Group>
                     </div>
 

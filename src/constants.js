@@ -24,3 +24,14 @@ export const PORTFOLIO_DISPLAY = {
         icon: <FontAwesomeIcon icon={faList} />
     }
 }
+
+export const PORTFOLIO_DENSITY = {
+    COMPACT: {
+        name: 'Compact',
+        icon: <FontAwesomeIcon icon={faTh} />
+    },
+    DETAILED: {
+        name: 'Detailed',
+        icon: <FontAwesomeIcon icon={faThLarge} />
+    },
+}
