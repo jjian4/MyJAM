@@ -3,11 +3,12 @@
 .DashboardColumn {    
     position: relative;  
     display: inline-block;
-    border: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
     border-bottom: none;
     min-width: 280px;
     max-width: 350px;
-    height: calc(100vh - #{$menu-height} - #{$portfolio-menu-height});
+    height: calc(100vh - #{$menu-height} - #{$portfolio-menu-height} - 1px);
     text-align: center;
 
     .content {
@@ -46,7 +47,7 @@
         }
     
         .entries {
-            padding: 0 10px;
+            padding: 4px 20px;
         }
     }
 

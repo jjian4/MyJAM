@@ -1,4 +1,4 @@
-import { faTh, faThLarge } from "@fortawesome/free-solid-svg-icons";
+import { } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Button, Dropdown } from 'semantic-ui-react'
@@ -35,7 +35,12 @@ function Portfolio(props) {
     const [display, setDisplay] = useState(PORTFOLIO_DISPLAY.BOARD_1.name);
     const [density, setDensity] = useState(PORTFOLIO_DENSITY.COMPACT.name);
     const [isStatusFilterOpen, setIsStatusFilterOpen] = useState(false);
-    const [activeStatuses, setActiveStatuses] = useState(new Set([STATUS.APPLIED, STATUS.INTERVIEW, STATUS.OFFER]))
+    const [filterSettings, setFilterSettings] = useState({
+        [STATUS.APPLIED]: { isActive: true, isExpanded: true },
+        [STATUS.INTERVIEW]: { isActive: true, isExpanded: false },
+        [STATUS.OFFER]: { isActive: true, isExpanded: false },
+    });
+    // const [activeStatuses, setActiveStatuses] = useState(new Set([STATUS.APPLIED, STATUS.INTERVIEW, STATUS.OFFER]))
 
     const [isNewModalOpen, setIsNewModalOpen] = useState(false);
     const [newModalInitialValues, setNewModalInitialValues] = useState({})
@@ -104,12 +109,22 @@ function Portfolio(props) {
                                 open={isStatusFilterOpen}
                                 onOpen={() => setIsStatusFilterOpen(true)}
                                 onClose={() => setIsStatusFilterOpen(false)}
-                                activeStatuses={activeStatuses}
-                                onChange={x => setActiveStatuses(x)}
+                                filterSettings={filterSettings}
+                                onChange={x => setFilterSettings(x)}
                             />
                         </span>
 
-                        <Button className='newEntryButton' positive size='tiny' icon='plus' content='Add New Entry' />
+                        <Button
+                            className='newEntryButton'
+                            positive
+                            size='tiny'
+                            icon='plus'
+                            content='Add New Entry'
+                            onClick={() => {
+                                setNewModalInitialValues({});
+                                setIsNewModalOpen(true);
+                            }}
+                        />
                     </div>
 
                 </div>
@@ -117,8 +132,17 @@ function Portfolio(props) {
 
             <div className='dashboardColumns'>
                 {Object.values(STATUS).map((status, index) => {
-                    if (activeStatuses.has(status)) {
-                        return <DashboardColumn key={index} status={status} entries={fakeEntries2} onOpenNewEntry={openNewEntry} onOpenEditEntry={openEditEntry} />
+                    if (filterSettings[status]?.isActive) {
+                        return (
+                            <DashboardColumn
+                                key={index}
+                                status={status}
+                                isExpanded={filterSettings[status].isExpanded}
+                                entries={fakeEntries}
+                                onOpenNewEntry={openNewEntry}
+                                onOpenEditEntry={openEditEntry}
+                            />
+                        )
                     }
                 })}
             </div>

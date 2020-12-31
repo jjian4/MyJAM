@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef } from 'react';
 import { Button, Dropdown, Checkbox } from 'semantic-ui-react'
 
@@ -27,16 +29,33 @@ function DashboardStatusFilterDropdown(props) {
         <Button size='tiny' icon='filter' content='Columns' onClick={() => props.open ? props.onClose() : props.onOpen()} />
     );
 
-    const handleChange = e => {
-        let newStatuses = new Set(props.activeStatuses);
+    const handleCheckboxChange = e => {
+        let newSettings = Object.assign({}, props.filterSettings);
         const status = e.target.textContent;
-        if (newStatuses.has(status)) {
-            newStatuses.delete(status);
-            props.onChange(newStatuses);
+
+        if (newSettings[status]?.isActive) {
+            newSettings[status].isActive = false;
+        } else if (newSettings[status]) {
+            newSettings[status].isActive = true;
         } else {
-            newStatuses.add(status);
-            props.onChange(newStatuses);
+            newSettings[status] = { isActive: true, isExpanded: false };
         }
+        props.onChange(newSettings);
+    }
+
+    const handleSizeChange = (status, isExpanded) => {
+        let newSettings = Object.assign({}, props.filterSettings);
+
+        if (newSettings[status]) {
+            if (newSettings[status].isExpanded === isExpanded) {
+                return;
+            }
+            newSettings[status].isExpanded = isExpanded;
+        } else {
+            newSettings[status] = { isActive: false, isExpanded: isExpanded };
+        }
+
+        props.onChange(newSettings);
     }
 
     return (
@@ -48,19 +67,38 @@ function DashboardStatusFilterDropdown(props) {
                 // closeOnBlur={false}
                 open={props.open}
                 onClose={e => {
-                    if (props.open && e && e.code === 'Escape') {
+                    if (props.open && e?.code === 'Escape') {
                         props.onClose();
                     }
                 }}
             >
                 <Dropdown.Menu>
                     {Object.values(STATUS).map((status, index) => (
-                        <Checkbox
-                            key={index}
-                            className='dropdownCheckbox'
-                            label={status}
-                            checked={props.activeStatuses.has(status)}
-                            onChange={handleChange} />
+                        <div className='dropdownRow' key={index}>
+                            <Checkbox
+                                toggle
+                                className='checkbox'
+                                label={status}
+                                checked={props.filterSettings[status]?.isActive}
+                                onChange={handleCheckboxChange} />
+
+                            <Button.Group className='sizeButtons' basic size='mini'>
+                                <Button
+                                    icon
+                                    active={!props.filterSettings[status]?.isExpanded}
+                                    onClick={() => handleSizeChange(status, false)}
+                                >
+                                    <FontAwesomeIcon icon={faCompress} />
+                                </Button>
+                                <Button
+                                    icon
+                                    active={props.filterSettings[status]?.isExpanded}
+                                    onClick={() => handleSizeChange(status, true)}
+                                >
+                                    <FontAwesomeIcon icon={faExpand} />
+                                </Button>
+                            </Button.Group>
+                        </div>
                     ))}
                 </Dropdown.Menu>
             </Dropdown>

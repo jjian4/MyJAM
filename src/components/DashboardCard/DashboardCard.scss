@@ -1,8 +1,10 @@
 .DashboardCard {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     border: 1px solid lightgray;
     border-radius: 5px;
-    margin: 10px 0;
+    // margin: 10px 0;
     
     cursor: move; /* In case grab cursor is unsupported */
     cursor: grab;      
@@ -51,6 +53,7 @@
     }
 
     .cardMid {
+        flex: 1;
         padding: 4px 12px;
         white-space: pre-line; // Otherwise, newlines are ignored
     }
