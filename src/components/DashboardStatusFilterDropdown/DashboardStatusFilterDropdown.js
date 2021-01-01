@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
+import { faExpand, faCompressAlt } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef } from 'react';
 import { Button, Dropdown, Checkbox } from 'semantic-ui-react'
 
@@ -88,7 +88,7 @@ function DashboardStatusFilterDropdown(props) {
                                     active={!props.filterSettings[status]?.isExpanded}
                                     onClick={() => handleSizeChange(status, false)}
                                 >
-                                    <FontAwesomeIcon icon={faCompress} />
+                                    <FontAwesomeIcon icon={faCompressAlt} />
                                 </Button>
                                 <Button
                                     title='Expand'

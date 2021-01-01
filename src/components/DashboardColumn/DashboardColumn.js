@@ -1,6 +1,9 @@
-import "./DashboardColumn.scss";
 import DashboardCard from "../DashboardCard/DashboardCard";
 import { Dropdown, Grid } from "semantic-ui-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCompressAlt, faExpand, faMinus, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+
+import "./DashboardColumn.scss";
 
 const MIN_WIDTH = 280;
 const MAX_WIDTH = 310;
@@ -20,12 +23,22 @@ function DashboardColumn(props) {
 
                     <Dropdown className='options' icon='ellipsis horizontal' direction='left'>
                         <Dropdown.Menu>
-                            <Dropdown.Item icon='plus circle' content='Add an Entry' onClick={() => props.onOpenNewEntry({ status: props.status })} />
-                            {props.isExpanded ?
-                                <Dropdown.Item icon='compress' content='Compress View' onClick={() => props.onSetIsExpanded(false)} />
-                                : <Dropdown.Item icon='expand' content='Expand View' onClick={() => props.onSetIsExpanded(true)} />
+                            <Dropdown.Item onClick={() => props.onOpenNewEntry({ status: props.status })}>
+                                <FontAwesomeIcon className='optionIcon' icon={faPlusCircle} /> Add an Entry
+                            </Dropdown.Item>
+                            {props.isExpanded ? (
+                                <Dropdown.Item onClick={() => props.onSetIsExpanded(false)}>
+                                    <FontAwesomeIcon className='optionIcon' icon={faCompressAlt} /> Compress View
+                                </Dropdown.Item>
+                            ) : (
+                                    <Dropdown.Item onClick={() => props.onSetIsExpanded(true)}>
+                                        <FontAwesomeIcon className='optionIcon' icon={faExpand} /> Expand View
+                                    </Dropdown.Item>
+                                )
                             }
-                            <Dropdown.Item icon='minus' content='Hide Column' onClick={props.onHideColumn} />
+                            <Dropdown.Item onClick={props.onHideColumn}>
+                                <FontAwesomeIcon className='optionIcon' icon={faMinus} /> Hide Column
+                            </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>
