@@ -26,7 +26,7 @@ function DashboardStatusFilterDropdown(props) {
     useOutsideClickListener(ref);
 
     const dropdownButton = (
-        <Button size='mini' basic icon='filter' content='Columns' onClick={() => props.open ? props.onClose() : props.onOpen()} />
+        <Button size='tiny' basic icon='filter' content={props.hideLabel ? null : 'Columns'} onClick={() => props.open ? props.onClose() : props.onOpen()} />
     );
 
     const handleCheckboxChange = e => {
@@ -44,12 +44,12 @@ function DashboardStatusFilterDropdown(props) {
     }
 
     const handleSizeChange = (status, isExpanded) => {
+        if (props.filterSettings?.isExpanded === isExpanded) {
+            return;
+        }
         const newSettings = Object.assign({}, props.filterSettings);
 
         if (newSettings[status]) {
-            if (newSettings[status].isExpanded === isExpanded) {
-                return;
-            }
             newSettings[status].isExpanded = isExpanded;
         } else {
             newSettings[status] = { isActive: false, isExpanded: isExpanded };
@@ -69,8 +69,9 @@ function DashboardStatusFilterDropdown(props) {
                         props.onClose();
                     }
                 }}
+                direction={props.hideLabel ? 'left' : 'right'}
             >
-                <Dropdown.Menu>
+                <Dropdown.Menu className='dropdownMenu'>
                     {Object.values(STATUS).map((status, index) => (
                         <div className='dropdownRow' key={index}>
                             <Checkbox

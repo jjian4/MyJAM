@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Dropdown } from 'semantic-ui-react'
 
 import DashboardColumn from "../../components/DashboardColumn/DashboardColumn";
@@ -30,6 +30,8 @@ const fakeEntries4 = [
 ]
 
 function Portfolio(props) {
+    const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth <= 991);
+
     const [display, setDisplay] = useState(PORTFOLIO_DISPLAY.BOARD_1.name);
     const [density, setDensity] = useState(PORTFOLIO_DENSITY.COMPACT.name);
     const [isStatusFilterOpen, setIsStatusFilterOpen] = useState(false);
@@ -43,6 +45,17 @@ function Portfolio(props) {
     const [newModalInitialValues, setNewModalInitialValues] = useState({})
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editModalInitialValues, setEditModalInitialValues] = useState({})
+
+    useEffect(() => {
+        window.addEventListener("resize", resizeWindow);
+        return () => {
+            window.removeEventListener("resize", resizeWindow);
+        }
+    });
+    // Resize menu items when window gets too small
+    const resizeWindow = () => {
+        setIsWindowSmall(window.innerWidth <= 991);
+    }
 
     const openNewEntry = initialValues => {
         setNewModalInitialValues(initialValues);
@@ -73,18 +86,18 @@ function Portfolio(props) {
             <div className='portfolioMenuBar'>
                 <div className='content'>
                     <div className='menuleft'>
-                        <Button.Group className='displayButtons' basic size='mini'>
+                        <Button.Group className='displayButtons' basic size='tiny'>
                             {Object.values(PORTFOLIO_DISPLAY).map((item, index) => (
                                 <Button key={index} icon active={display === item.name} onClick={() => setDisplay(item.name)}>
-                                    {item.icon}{item.name}
+                                    {item.icon}{!isWindowSmall && <span className='buttonLabel'>{item.name}</span>}
                                 </Button>
                             ))}
                         </Button.Group>
 
-                        <Button.Group className='densityButtons' basic size='mini'>
+                        <Button.Group className='densityButtons' basic size='tiny'>
                             {Object.values(PORTFOLIO_DENSITY).map((item, index) => (
                                 <Button key={index} icon active={density === item.name} onClick={() => setDensity(item.name)}>
-                                    {item.icon}{item.name}
+                                    {item.icon}{!isWindowSmall && <span className='buttonLabel'>{item.name}</span>}
                                 </Button>
                             ))}
                         </Button.Group>
@@ -100,9 +113,19 @@ function Portfolio(props) {
                     </Dropdown>
 
                     <div className='menuRight'>
+                        <Button
+                            className='sortDropdown'
+                            basic
+                            size='tiny'
+                            icon='sort amount down'
+                            content={isWindowSmall ? null : 'Sort'}
+                            onClick={() => console.log('TODO')}
+                        />
+
                         <span className='filterDropdown'>
                             {/* Controlling this dropdown the hard way because checkbox clicks close the menu by default */}
                             <DashboardStatusFilterDropdown
+                                hideLabel={isWindowSmall}
                                 open={isStatusFilterOpen}
                                 onOpen={() => setIsStatusFilterOpen(true)}
                                 onClose={() => setIsStatusFilterOpen(false)}
@@ -114,9 +137,9 @@ function Portfolio(props) {
                         <Button
                             className='newEntryButton'
                             positive
-                            size='mini'
+                            size='tiny'
                             icon='plus'
-                            content='Add New Entry'
+                            content={isWindowSmall ? null : 'New Entry'}
                             onClick={() => {
                                 setNewModalInitialValues({});
                                 setIsNewModalOpen(true);

@@ -27,14 +27,12 @@
 			padding: 0 10px;
 			.displayButtons {
 				margin-right: 12px;
-				svg {
-					margin-right: 4px;
-				}
 			}
 			.densityButtons {
-				svg {
-					margin-right: 4px;
-				}
+			}
+
+			.buttonLabel {
+				margin-left: 4px;
 			}
 		  }
 
@@ -48,6 +46,9 @@
 
 		  .menuRight {
 			padding: 0 10px;
+			.sortDropdown {
+				margin-right: 12px;
+			}
 			.filterDropdown {
 				margin-right: 12px;
 			}
