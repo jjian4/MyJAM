@@ -26,7 +26,7 @@ function DashboardStatusFilterDropdown(props) {
     useOutsideClickListener(ref);
 
     const dropdownButton = (
-        <Button size='tiny' icon='filter' content='Columns' onClick={() => props.open ? props.onClose() : props.onOpen()} />
+        <Button size='mini' basic icon='filter' content='Columns' onClick={() => props.open ? props.onClose() : props.onOpen()} />
     );
 
     const handleCheckboxChange = e => {
@@ -63,8 +63,6 @@ function DashboardStatusFilterDropdown(props) {
             <Dropdown
                 className='DashboardStatusFilterDropdown'
                 trigger={dropdownButton} icon={false}
-                // closeOnChange={false}
-                // closeOnBlur={false}
                 open={props.open}
                 onClose={e => {
                     if (props.open && e?.code === 'Escape') {
@@ -84,6 +82,7 @@ function DashboardStatusFilterDropdown(props) {
 
                             <Button.Group className='sizeButtons' basic size='mini'>
                                 <Button
+                                    title='Compress'
                                     icon
                                     active={!props.filterSettings[status]?.isExpanded}
                                     onClick={() => handleSizeChange(status, false)}
@@ -91,6 +90,7 @@ function DashboardStatusFilterDropdown(props) {
                                     <FontAwesomeIcon icon={faCompress} />
                                 </Button>
                                 <Button
+                                    title='Expand'
                                     icon
                                     active={props.filterSettings[status]?.isExpanded}
                                     onClick={() => handleSizeChange(status, true)}

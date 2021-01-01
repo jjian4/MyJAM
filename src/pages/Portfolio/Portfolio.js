@@ -4,7 +4,7 @@ import { Button, Dropdown } from 'semantic-ui-react'
 import DashboardColumn from "../../components/DashboardColumn/DashboardColumn";
 import DashboardStatusFilterDropdown from "../../components/DashboardStatusFilterDropdown/DashboardStatusFilterDropdown";
 import EditEntryModal from '../../components/EditEntryModal/EditEntryModal'
-import { PORTFOLIO_DENSITY, PORTFOLIO_DISPLAY, STATUS } from "../../constants";
+import { PORTFOLIO_DISPLAY, PORTFOLIO_DENSITY, STATUS } from "../../constants";
 import "./Portfolio.scss";
 
 const fakeEntries = [
@@ -75,7 +75,7 @@ function Portfolio(props) {
                     <div className='menuleft'>
                         <Button.Group className='displayButtons' basic size='mini'>
                             {Object.values(PORTFOLIO_DISPLAY).map((item, index) => (
-                                <Button key={index} icon active={display === item.name}>
+                                <Button key={index} icon active={display === item.name} onClick={() => setDisplay(item.name)}>
                                     {item.icon}{item.name}
                                 </Button>
                             ))}
@@ -83,7 +83,7 @@ function Portfolio(props) {
 
                         <Button.Group className='densityButtons' basic size='mini'>
                             {Object.values(PORTFOLIO_DENSITY).map((item, index) => (
-                                <Button key={index} icon active={density === item.name}>
+                                <Button key={index} icon active={density === item.name} onClick={() => setDensity(item.name)}>
                                     {item.icon}{item.name}
                                 </Button>
                             ))}
@@ -114,7 +114,7 @@ function Portfolio(props) {
                         <Button
                             className='newEntryButton'
                             positive
-                            size='tiny'
+                            size='mini'
                             icon='plus'
                             content='Add New Entry'
                             onClick={() => {
@@ -127,32 +127,47 @@ function Portfolio(props) {
                 </div>
             </div>
 
-            <div className='dashboardColumns'>
-                {Object.values(STATUS).map((status, index) => {
-                    if (filterSettings[status]?.isActive) {
-                        return (
-                            <DashboardColumn
-                                key={index}
-                                status={status}
-                                isExpanded={filterSettings[status].isExpanded}
-                                entries={fakeEntries}
-                                onOpenNewEntry={openNewEntry}
-                                onOpenEditEntry={openEditEntry}
-                                onSetIsExpanded={isExpanded => {
-                                    const newSettings = Object.assign({}, filterSettings);
-                                    newSettings[status].isExpanded = isExpanded;
-                                    setFilterSettings(newSettings);
-                                }}
-                                onHideColumn={() => {
-                                    const newSettings = Object.assign({}, filterSettings);
-                                    newSettings[status].isActive = false;
-                                    setFilterSettings(newSettings);
-                                }}
-                            />
-                        )
-                    }
-                })}
-            </div>
+            {display === PORTFOLIO_DISPLAY.BOARD_1.name && (
+                <div className='dashboardColumns'>
+                    {Object.values(STATUS).map((status, index) => {
+                        if (filterSettings[status]?.isActive) {
+                            return (
+                                <DashboardColumn
+                                    key={index}
+                                    status={status}
+                                    isExpanded={filterSettings[status].isExpanded}
+                                    entries={fakeEntries4}
+                                    isDetailed={density === PORTFOLIO_DENSITY.DETAILED.name}
+                                    onOpenNewEntry={openNewEntry}
+                                    onOpenEditEntry={openEditEntry}
+                                    onSetIsExpanded={isExpanded => {
+                                        const newSettings = Object.assign({}, filterSettings);
+                                        newSettings[status].isExpanded = isExpanded;
+                                        setFilterSettings(newSettings);
+                                    }}
+                                    onHideColumn={() => {
+                                        const newSettings = Object.assign({}, filterSettings);
+                                        newSettings[status].isActive = false;
+                                        setFilterSettings(newSettings);
+                                    }}
+                                />
+                            )
+                        }
+                    })}
+                </div>
+            )}
+
+            {display === PORTFOLIO_DISPLAY.BOARD_2.name && (
+                <div>
+                    TODO
+                </div>
+            )}
+
+            {display === PORTFOLIO_DISPLAY.TABLE.name && (
+                <div>
+                    TODO
+                </div>
+            )}
 
             {/* Used to add new entries */}
             <EditEntryModal

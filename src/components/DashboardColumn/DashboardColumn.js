@@ -35,7 +35,7 @@ function DashboardColumn(props) {
                         <Grid.Row>
                             {props.entries.map((entry, index) => (
                                 <Grid.Column key={index} width={props.isExpanded ? 8 : 16} style={{ padding: '6px' }}>
-                                    <DashboardCard entry={entry} onOpenEditEntry={props.onOpenEditEntry} />
+                                    <DashboardCard entry={entry} onOpenEditEntry={props.onOpenEditEntry} isDetailed={props.isDetailed} />
                                 </Grid.Column>
                             ))}
                         </Grid.Row>

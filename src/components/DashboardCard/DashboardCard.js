@@ -19,7 +19,7 @@ function DashboardCard(props) {
 
     return (
         <div className='DashboardCard'>
-            <div className='cardTop'>
+            <div className={`cardTop ${props.isDetailed ? '' : 'compactCardTop'}`}>
                 <img className='logo' src={props.entry.logo} alt='logo' />
                 <div>
                     <div className='company'>{props.entry.company}</div>
@@ -50,49 +50,52 @@ function DashboardCard(props) {
                 </div>
             </div>
 
-            <div className='cardMid'>
-                {truncatedNotes}
-            </div>
-
-            <div className='cardBottom'>
-                <div className='cardDates'>
-                    <div>
-                        <FontAwesomeIcon
-                            className={'dateIcon'}
-                            icon={faCalendar}
-                        />
-                        <span className='date'>edited X min ago</span>
+            {props.isDetailed && (
+                <>
+                    <div className='cardMid'>
+                        {truncatedNotes}
                     </div>
-                    {props.entry.deadlineDate && (
-                        <div>
-                            <FontAwesomeIcon
-                                className={'dateIcon'}
-                                icon={faCalendarTimes}
-                            />
-                            <span className='date'>{`Next: ${props.entry.deadlineDate}`}</span>
+
+                    <div className='cardBottom'>
+                        <div className='cardDates'>
+                            <div>
+                                <FontAwesomeIcon
+                                    className={'dateIcon'}
+                                    icon={faCalendar}
+                                />
+                                <span className='date'>edited X min ago</span>
+                            </div>
+                            {props.entry.deadlineDate && (
+                                <div>
+                                    <FontAwesomeIcon
+                                        className={'dateIcon'}
+                                        icon={faCalendarTimes}
+                                    />
+                                    <span className='date'>{`Next: ${props.entry.deadlineDate}`}</span>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
 
-                <div className='cardButtons'>
-                    {props.entry.url && (
-                        <a
-                            className='cardButton'
-                            href={props.entry.url}
-                            target='_blank'
-                            rel='noreferrer'
-                        >
-                            Visit
-                        </a>
+                        <div className='cardButtons'>
+                            {props.entry.url && (
+                                <a
+                                    className='cardButton'
+                                    href={props.entry.url}
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    Visit
+                                </a>
 
-                    )}
-                    <div className='cardButton' onClick={() => props.onOpenEditEntry(props.entry)}>
-                        Edit
+                            )}
+                            <div className='cardButton' onClick={() => props.onOpenEditEntry(props.entry)}>
+                                Edit
                     </div>
-                </div>
+                        </div>
+                    </div>
+                </>
+            )}
 
-
-            </div>
         </div>
     );
 }
