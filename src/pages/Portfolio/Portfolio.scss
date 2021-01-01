@@ -15,7 +15,6 @@
         left: 0;
 		right: 0;
 		z-index: 3;
-		border-bottom: 1px solid lightgray;
       
         .content {
           display: flex;
@@ -24,7 +23,7 @@
 		  height: $portfolio-menu-height;
 		  
 		  .menuleft {
-			padding: 0 10px;
+			padding: 0 8px;
 			.displayButtons {
 				margin-right: 12px;
 			}
@@ -45,7 +44,7 @@
 		  }
 
 		  .menuRight {
-			padding: 0 10px;
+			padding: 0 8px;
 			.sortDropdown {
 				margin-right: 12px;
 			}
@@ -62,5 +61,8 @@
     .dashboardColumns {
 		display: flex;
 		overflow-x: auto;
+		height: calc(100vh - #{$menu-height} - #{$portfolio-menu-height});
+		background-color: lightgray;
+		padding: 6px 4px;
     }
 }

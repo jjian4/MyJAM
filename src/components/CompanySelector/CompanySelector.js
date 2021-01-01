@@ -20,17 +20,15 @@ const dropdownEntry = ({ name, domain, logo }) => (
 function CompanySelector(props) {
     const [loading, setLoading] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
-    const [selectedCompanyLogo, setSelectedCompanyLogo] = useState(null);
 
 
     const timeoutRef = useRef()
     const handleSearchChange = useCallback((e, data) => {
         clearTimeout(timeoutRef.current)
         setLoading(true)
-        setSelectedCompanyLogo(null)
 
         // Parent updates value
-        props.onNewValue(data.value);
+        props.onNewValue({ name: data.value, domain: '', logo: '' });
 
         // Used to get dropdown results, not relevant to parent
         timeoutRef.current = setTimeout(async () => {
@@ -63,22 +61,21 @@ function CompanySelector(props) {
             <Search
                 className='searchBar'
                 onResultSelect={(e, data) => {
-                    props.onNewValue(data.result.name);
-                    setSelectedCompanyLogo(data.result.logo)
+                    props.onNewValue(data.result);
                 }}
                 onSearchChange={handleSearchChange}
                 resultRenderer={dropdownEntry}
                 noResultsMessage={loading ? 'Loading...' : 'No results found.'}
                 results={searchResults}
-                value={props.value}
+                value={props.companyObj.name}
                 fluid
                 input={{
-                    icon: selectedCompanyLogo ? (
+                    icon: props.companyObj.logo ? (
                         <Icon className='selectedCompanyLogo'>
-                            <Image src={selectedCompanyLogo} />
+                            <Image src={props.companyObj.logo} />
                         </Icon>
                     ) : null
-                    , iconPosition: selectedCompanyLogo ? 'left' : null
+                    , iconPosition: props.companyObj.logo ? 'left' : null
                 }}
             />
         </div>

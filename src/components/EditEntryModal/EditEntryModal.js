@@ -16,6 +16,8 @@ function EditEntryModal(props) {
     const [isStarred, setIsStarred] = useState(false)
 
     const [company, setCompany] = useState('')
+    const [domain, setDomain] = useState('')
+    const [logo, setLogo] = useState('')
     const [jobTitle, setJobTitle] = useState('')
 
     const [applyDate, setApplyDate] = useState(dateFormat(new Date(), "dd-mm-yyyy"))
@@ -35,6 +37,8 @@ function EditEntryModal(props) {
         if (props.open) {
             setIsStarred(props.initialValues.isStarred || false)
             setCompany(props.initialValues.company || '')
+            setDomain(props.initialValues.domain || '')
+            setLogo(props.initialValues.logo || '')
             setJobTitle(props.initialValues.jobTitle || '')
             setApplyDate(props.initialValues.applyDate || dateFormat(new Date(), "dd-mm-yyyy"))
             setDeadlineDate(props.initialValues.deadlineDate || '')
@@ -89,7 +93,14 @@ function EditEntryModal(props) {
                     <Form.Group widths='equal'>
                         <Form.Field>
                             <label>Company</label>
-                            <CompanySelector value={company} onNewValue={setCompany} />
+                            <CompanySelector
+                                companyObj={{ name: company, domain: domain, logo: logo }}
+                                onNewValue={({ name, domain, logo }) => {
+                                    setCompany(name);
+                                    setDomain(domain);
+                                    setLogo(logo);
+                                }}
+                            />
                         </Form.Field>
 
                         <Form.Field>
@@ -159,7 +170,18 @@ function EditEntryModal(props) {
                     </Button>
                 <Button
                     content="Save"
-                    onClick={() => props.onSave({ isStarred, company: company.trim(), jobTitle: jobTitle.trim(), applyDate, deadlineDate, status, url: url.trim(), notes: notes.trim() })}
+                    onClick={() => props.onSave({
+                        isStarred,
+                        company: company.trim(),
+                        domain: domain,
+                        logo: logo,
+                        jobTitle: jobTitle.trim(),
+                        applyDate,
+                        deadlineDate,
+                        status,
+                        url: url.trim(),
+                        notes: notes.trim()
+                    })}
                     positive
                 />
             </Modal.Actions>

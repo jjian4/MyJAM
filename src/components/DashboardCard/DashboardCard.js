@@ -20,7 +20,9 @@ function DashboardCard(props) {
     return (
         <div className='DashboardCard'>
             <div className={`cardTop ${props.isDetailed ? '' : 'compactCardTop'}`}>
-                <img className='logo' src={props.entry.logo} alt='logo' />
+                <a href={props.entry.domain ? `https://${props.entry.domain}` : null} target='_blank' rel='noreferrer'>
+                    <img className='logo' src={props.entry.logo} alt='logo' />
+                </a>
                 <div>
                     <div className='company'>{props.entry.company}</div>
                     <div className='jobTitle'>{props.entry.jobTitle}</div>
