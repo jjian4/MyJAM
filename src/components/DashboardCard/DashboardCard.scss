@@ -23,6 +23,7 @@
             max-width: 40px;
             max-height: 40px;
             margin-right: 10px;
+            border-radius: 50%;
         }
         .company {
             font-weight: bold;
@@ -62,7 +63,9 @@
     }
 
     .cardBottom {
-        border-top: 1px solid lightgray;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        background-color: whitesmoke;
         .cardDates {
             padding: 6px 12px;
             height: 30px;
@@ -87,13 +90,13 @@
                 cursor: pointer;
                 font-size: 12px;
                 user-select: none;
-                border-radius: 5px;
+                border-radius: 4px;
                 flex: 1;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 &:hover {
-                    background-color: whitesmoke;
+                    background-color: darken(whitesmoke, 3%);
                 }
             }    
         }
@@ -118,4 +121,53 @@
             }
         }
     }
+}
+
+.DashboardCard-colored {
+    // background-color assigned in js
+    border: 1px solid white;
+
+    .cardTop {
+        .logo {
+            // border: 1px solid white;
+        }
+        .company {
+            color: white;
+        }
+        .jobTitle {
+            color: whitesmoke;
+        }
+        .cardOptions {
+            svg {
+                color: whitesmoke;
+            }
+            .starIcon {
+                color: gold;
+            }    
+        }
+    }
+    .cardMid {
+        color: whitesmoke;
+    }
+    .cardBottom {
+        // background-color assigned in js
+        filter: brightness(95%);
+        .cardDates {
+            color: white;
+        }
+        .cardButtons {
+            color: white;
+            .cardButton {
+                &:hover {
+                    // background-color assigned in js
+                    filter: brightness(97%);
+                }
+            }    
+        }
+    }
+
+    &:hover {
+        border: 1px solid lightgray;
+    }
+
 }

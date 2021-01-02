@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faCalendarTimes, faEdit, faLink, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 
+import { CARD_COLORS } from "../../constants";
 import "./DashboardCard.scss";
 
 const maxNotesLength = 100;
@@ -17,8 +18,10 @@ function DashboardCard(props) {
         truncatedNotes += '\u2026';
     }
 
+    const color = CARD_COLORS[Math.floor(Math.random() * CARD_COLORS.length)];
+
     return (
-        <div className='DashboardCard'>
+        <div className={`DashboardCard ${color ? 'DashboardCard-colored' : ''}`} style={{ backgroundColor: color }}>
             <div className={`cardTop ${props.isDetailed ? '' : 'compactCardTop'}`}>
                 <a href={props.entry.domain ? `https://${props.entry.domain}` : null} target='_blank' rel='noreferrer'>
                     <img className='logo' src={props.entry.logo} alt='logo' />
@@ -28,7 +31,7 @@ function DashboardCard(props) {
                     <div className='jobTitle'>{props.entry.jobTitle}</div>
                 </div>
                 <div className='cardOptions'>
-                    {props.entry.url && (
+                    {!props.isDetailed && props.entry.url && (
                         <a href={props.entry.url} target='_blank' rel='noreferrer'>
                             <FontAwesomeIcon
                                 title='URL'
@@ -37,11 +40,13 @@ function DashboardCard(props) {
                         </a>
                     )}
 
-                    <FontAwesomeIcon
-                        title='Edit'
-                        icon={faEdit}
-                        onClick={() => props.onOpenEditEntry(props.entry)}
-                    />
+                    {!props.isDetailed && (
+                        <FontAwesomeIcon
+                            title='Edit'
+                            icon={faEdit}
+                            onClick={() => props.onOpenEditEntry(props.entry)}
+                        />
+                    )}
 
                     <FontAwesomeIcon
                         className={props.entry.isStarred ? 'starIcon' : 'starOutlineIcon'}
@@ -58,7 +63,7 @@ function DashboardCard(props) {
                         {truncatedNotes}
                     </div>
 
-                    <div className='cardBottom'>
+                    <div className='cardBottom' style={{ backgroundColor: color }}>
                         <div className='cardDates'>
                             <div>
                                 <FontAwesomeIcon
@@ -82,6 +87,7 @@ function DashboardCard(props) {
                             {props.entry.url && (
                                 <a
                                     className='cardButton'
+                                    style={{ backgroundColor: color }}
                                     href={props.entry.url}
                                     target='_blank'
                                     rel='noreferrer'
@@ -90,7 +96,7 @@ function DashboardCard(props) {
                                 </a>
 
                             )}
-                            <div className='cardButton' onClick={() => props.onOpenEditEntry(props.entry)}>
+                            <div className='cardButton' style={{ backgroundColor: color }} onClick={() => props.onOpenEditEntry(props.entry)}>
                                 Edit
                     </div>
                         </div>

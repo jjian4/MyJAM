@@ -35,3 +35,57 @@ export const PORTFOLIO_DENSITY = {
         icon: <FontAwesomeIcon icon={faThLarge} />
     },
 }
+
+export const CARD_COLORS = [
+    //red
+    'indianred',
+    'crimson',
+    'firebrick',
+    'maroon',
+
+    //pink
+    'orchid',
+    'palevioletred',
+    'lightcoral',
+
+    //orange
+    'salmon',
+    'coral',
+    'orangered',
+
+    //brown
+    'sandybrown',
+    'darksalmon',
+    'peru',
+    'chocolate',
+    'sienna',
+    'brown',
+
+    //green
+    'darkkhaki',
+    'olive',
+    'mediumseagreen',
+    'seagreen',
+    'forestgreen',
+    'darkolivegreen',
+    'darkgreen',
+    'darkslategray',
+
+    //blue
+    'lightseagreen',
+    'cadetblue',
+    'darkcyan',
+    'steelblue',
+    'navy',
+
+    //violet
+    'mediumorchid',
+    'mediumvioletred',
+    'slateblue',
+    'darkorchid',
+    'darkmagenta',
+    'indigo',
+
+    //gray
+    'slategray'
+]
