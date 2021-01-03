@@ -8,11 +8,13 @@ import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 
 
 import CompanySelector from "../CompanySelector/CompanySelector";
-import { STATUS } from '../../constants'
+import { CARD_COLORS, STATUS, notes } from '../../constants'
 import "./EditEntryModal.scss";
+import { IS_CARD_COLORS_ON } from "../../settings";
 
 
 function EditEntryModal(props) {
+    const [color, setColor] = useState(CARD_COLORS[Math.floor(Math.random() * CARD_COLORS.length)]);
     const [isStarred, setIsStarred] = useState(false)
 
     const [company, setCompany] = useState('')
@@ -35,16 +37,17 @@ function EditEntryModal(props) {
     useEffect(() => {
         // Initialize values everytime modal reopens
         if (props.open) {
-            setIsStarred(props.initialValues.isStarred || false)
-            setCompany(props.initialValues.company || '')
-            setDomain(props.initialValues.domain || '')
-            setLogo(props.initialValues.logo || '')
-            setJobTitle(props.initialValues.jobTitle || '')
-            setApplyDate(props.initialValues.applyDate || dateFormat(new Date(), "dd-mm-yyyy"))
-            setDeadlineDate(props.initialValues.deadlineDate || '')
-            setStatus(props.initialValues.status || STATUS.APPLIED)
-            setUrl(props.initialValues.url || '')
-            setNotes(props.initialValues.notes || '')
+            setColor(props.initialValues.color || color)
+            setIsStarred(props.initialValues.isStarred || isStarred)
+            setCompany(props.initialValues.company || company)
+            setDomain(props.initialValues.domain || domain)
+            setLogo(props.initialValues.logo || logo)
+            setJobTitle(props.initialValues.jobTitle || jobTitle)
+            setApplyDate(props.initialValues.applyDate || applyDate)
+            setDeadlineDate(props.initialValues.deadlineDate || deadlineDate)
+            setStatus(props.initialValues.status || status)
+            setUrl(props.initialValues.url || url)
+            setNotes(props.initialValues.notes || notes)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.open]);
@@ -77,17 +80,46 @@ function EditEntryModal(props) {
             size='small'
             closeOnEscape={false}
         >
-            <Modal.Header>
-                <div className='header'>
-                    <span>{props.heading}</span>
-                    <FontAwesomeIcon
-                        className={isStarred ? 'starButton' : 'starOutlineButton'}
-                        icon={isStarred ? faStar : faStarOutline}
-                        onClick={() => setIsStarred(!isStarred)}
-                    />
+            <Modal.Header className='header'>
+                <div className='headerContent'>
+                    <div>
+                        {props.heading}
+                    </div>
 
+                    <div className='headerRight'>
+                        {IS_CARD_COLORS_ON && (
+                            <Dropdown
+                                className='colorDropdown'
+                                trigger={<div className='colorDropdownButton' style={{ backgroundColor: color }} />}
+                                icon={false}
+                                direction='left'
+                            >
+                                <Dropdown.Menu className='dropdownMenu'>
+                                    <div className='colorsGrid'>
+                                        {CARD_COLORS.map((colorOption, index) => (
+                                            <div key={index} className='optionContainer'>
+                                                <div
+                                                    className={`colorOption ${colorOption === color ? 'colorOption-selected' : ''}`}
+                                                    style={{ backgroundColor: colorOption }}
+                                                    onClick={() => setColor(colorOption)}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        )}
+
+                        <FontAwesomeIcon
+                            tabIndex={0}
+                            className={isStarred ? 'starButton' : 'starOutlineButton'}
+                            icon={isStarred ? faStar : faStarOutline}
+                            onClick={() => setIsStarred(!isStarred)}
+                        />
+                    </div>
                 </div>
             </Modal.Header>
+
             <Modal.Content>
                 <Form>
                     <Form.Group widths='equal'>

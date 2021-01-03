@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faCalendarTimes, faEdit, faLink, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 
-import { CARD_COLORS } from "../../constants";
+import { IS_CARD_COLORS_ON } from "../../settings";
 import "./DashboardCard.scss";
 
 const maxNotesLength = 100;
@@ -18,10 +18,10 @@ function DashboardCard(props) {
         truncatedNotes += '\u2026';
     }
 
-    const color = CARD_COLORS[Math.floor(Math.random() * CARD_COLORS.length)];
+    const cardColor = IS_CARD_COLORS_ON ? props.entry.color : null;
 
     return (
-        <div className={`DashboardCard ${color ? 'DashboardCard-colored' : ''}`} style={{ backgroundColor: color }}>
+        <div className={`DashboardCard ${cardColor ? 'DashboardCard-colored' : ''}`} style={{ backgroundColor: cardColor }}>
             <div className={`cardTop ${props.isDetailed ? '' : 'compactCardTop'}`}>
                 <a href={props.entry.domain ? `https://${props.entry.domain}` : null} target='_blank' rel='noreferrer'>
                     <img className='logo' src={props.entry.logo} alt='logo' />
@@ -63,7 +63,7 @@ function DashboardCard(props) {
                         {truncatedNotes}
                     </div>
 
-                    <div className='cardBottom' style={{ backgroundColor: color }}>
+                    <div className='cardBottom' style={{ backgroundColor: cardColor }}>
                         <div className='cardDates'>
                             <div>
                                 <FontAwesomeIcon
@@ -87,7 +87,7 @@ function DashboardCard(props) {
                             {props.entry.url && (
                                 <a
                                     className='cardButton'
-                                    style={{ backgroundColor: color }}
+                                    style={{ backgroundColor: cardColor }}
                                     href={props.entry.url}
                                     target='_blank'
                                     rel='noreferrer'
@@ -96,7 +96,7 @@ function DashboardCard(props) {
                                 </a>
 
                             )}
-                            <div className='cardButton' style={{ backgroundColor: color }} onClick={() => props.onOpenEditEntry(props.entry)}>
+                            <div className='cardButton' style={{ backgroundColor: cardColor }} onClick={() => props.onOpenEditEntry(props.entry)}>
                                 Edit
                     </div>
                         </div>

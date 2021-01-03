@@ -62,7 +62,8 @@ function DashboardStatusFilterDropdown(props) {
         <span ref={ref}>
             <Dropdown
                 className='DashboardStatusFilterDropdown'
-                trigger={dropdownButton} icon={false}
+                trigger={dropdownButton}
+                icon={false}
                 open={props.open}
                 onClose={e => {
                     if (props.open && e?.code === 'Escape') {

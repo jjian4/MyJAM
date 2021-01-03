@@ -36,7 +36,7 @@ function DashboardColumn(props) {
                                     </Dropdown.Item>
                                 )
                             }
-                            <Dropdown.Item onClick={props.onHideColumn}>
+                            <Dropdown.Item onClick={() => console.log(props.entries)}>
                                 <FontAwesomeIcon className='optionIcon' icon={faMinus} /> Hide Column
                             </Dropdown.Item>
                         </Dropdown.Menu>

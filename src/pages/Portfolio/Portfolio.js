@@ -5,6 +5,7 @@ import DashboardColumn from "../../components/DashboardColumn/DashboardColumn";
 import DashboardStatusFilterDropdown from "../../components/DashboardStatusFilterDropdown/DashboardStatusFilterDropdown";
 import EditEntryModal from '../../components/EditEntryModal/EditEntryModal'
 import { PORTFOLIO_DISPLAY, PORTFOLIO_DENSITY, STATUS } from "../../constants";
+import { LAST_PORTFOLIO_DISPLAY, LAST_PORTFOLIO_DENSITY, LAST_FILTER_SETTINGS } from "../../settings";
 import "./Portfolio.scss";
 
 const fakeEntries = [
@@ -18,30 +19,25 @@ const fakeEntries = [
 const fakeEntries2 = [
     { id: 1234, isStarred: false, company: 'Facebook', domain: 'google.com', logo: 'https://logo.clearbit.com/facebook.com', jobTitle: 'Software Engineer', applyDate: '01-01-2020', deadlineDate: '', status: STATUS.APPLIED, url: '', notes: '' },
     { id: 5678, isStarred: true, company: 'Apple', domain: 'google.com', logo: 'https://logo.clearbit.com/apple.com', jobTitle: 'Mechanical Engineer Intern - Cupertino, California', applyDate: '05-03-2020', deadlineDate: '06-01-2020', status: STATUS.APPLIED, url: 'https://apple.com', notes: 'kjdasfnjasnvsa o jsdkfsa\njsdav inus oufjuh oudsofjof sd\nAnother line' },
-]
-const fakeEntries3 = [
-    { id: 5678, isStarred: true, company: 'Apple', domain: 'google.com', logo: 'https://logo.clearbit.com/apple.com', jobTitle: 'Mechanical Engineer Intern - Cupertino, California', applyDate: '05-03-2020', deadlineDate: '06-01-2020', status: STATUS.APPLIED, url: 'https://apple.com', notes: 'kjdasfnjasnvsa o jsdkfsa\njsdav inus oufjuh oudsofjof sd\nAnother line' },
     { id: 1234, isStarred: true, company: 'Doordash', domain: 'google.com', logo: 'https://logo.clearbit.com/doordash.com', jobTitle: 'Software Engineer Intern', applyDate: '01-01-2020', deadlineDate: '04-03-2020', status: STATUS.REJECTED, url: '', notes: 'siufha uafoidjiof oufdhsauofdj oqhwfw' },
 ]
-const fakeEntries4 = [
-    { id: 1234, isStarred: true, company: 'Doordash', domain: 'google.com', logo: 'https://logo.clearbit.com/doordash.com', jobTitle: 'Software Engineer Intern', applyDate: '01-01-2020', deadlineDate: '04-03-2020', status: STATUS.REJECTED, url: 'https://doordash.com', notes: 'siufha uafoidjiof oufdhsauofdj oqhwfw' },
-    { id: 1234, isStarred: false, company: 'Facebook', domain: 'google.com', logo: 'https://logo.clearbit.com/facebook.com', jobTitle: 'Software Engineer', applyDate: '01-01-2020', deadlineDate: '', status: STATUS.APPLIED, url: '', notes: 'sdjk dsaiiuh\nsdui' },
-    { id: 1234, isStarred: false, company: 'Microsoft', domain: 'google.com', logo: 'https://logo.clearbit.com/microsoft.com', jobTitle: 'QA Engineer', applyDate: '01-01-2020', deadlineDate: '', status: STATUS.PHONE_SCREEN, url: 'https://microsoft.com', notes: 'usf iosoidsoiaoi dsdsoa oiuh iuweq w ef' },
-    { id: 1234, isStarred: false, company: 'Oracle', domain: 'oracle.com', logo: 'https://logo.clearbit.com/oracle.com', jobTitle: 'QA Engineer II', applyDate: '03-06-2020', deadlineDate: '', status: STATUS.REJECTED, url: '', notes: 'usf sfs wdfs dsef' },
-    { id: 1234, isStarred: true, company: 'Salesforce', domain: 'salesforce.com', logo: 'https://logo.clearbit.com/salesforce.com', jobTitle: 'Data Analyst', applyDate: '01-04-2020', deadlineDate: '01-04-2021', status: STATUS.PHONE_SCREEN, url: 'https://salesforce.com', notes: 'usf sfs wdfs dsef' },
+const fakeEntries3 = [
+    { id: 1234, color: 'indianred', isStarred: true, company: 'Doordash', domain: 'google.com', logo: 'https://logo.clearbit.com/doordash.com', jobTitle: 'Software Engineer Intern', applyDate: '01-01-2020', deadlineDate: '04-03-2020', status: STATUS.REJECTED, url: 'https://doordash.com', notes: 'siufha uafoidjiof oufdhsauofdj oqhwfw' },
+    { id: 1234, color: 'darkcyan', isStarred: false, company: 'Facebook', domain: 'google.com', logo: 'https://logo.clearbit.com/facebook.com', jobTitle: 'Software Engineer', applyDate: '01-01-2020', deadlineDate: '', status: STATUS.APPLIED, url: '', notes: 'sdjk dsaiiuh\nsdui' },
+    { id: 1234, color: 'mediumorchid', isStarred: false, company: 'Microsoft', domain: 'google.com', logo: 'https://logo.clearbit.com/microsoft.com', jobTitle: 'QA Engineer', applyDate: '01-01-2020', deadlineDate: '', status: STATUS.PHONE_SCREEN, url: 'https://microsoft.com', notes: 'usf iosoidsoiaoi dsdsoa oiuh iuweq w ef' },
+    { id: 1234, color: 'coral', isStarred: false, company: 'Oracle', domain: 'oracle.com', logo: 'https://logo.clearbit.com/oracle.com', jobTitle: 'QA Engineer II', applyDate: '03-06-2020', deadlineDate: '', status: STATUS.REJECTED, url: '', notes: 'usf sfs wdfs dsef' },
+    { id: 1234, color: 'slateblue', isStarred: true, company: 'Salesforce', domain: 'salesforce.com', logo: 'https://logo.clearbit.com/salesforce.com', jobTitle: 'Data Analyst', applyDate: '01-04-2020', deadlineDate: '01-04-2021', status: STATUS.PHONE_SCREEN, url: 'https://salesforce.com', notes: 'usf sfs wdfs dsef' },
 ]
 
 function Portfolio(props) {
     const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth <= 991);
 
-    const [display, setDisplay] = useState(PORTFOLIO_DISPLAY.BOARD_1.name);
-    const [density, setDensity] = useState(PORTFOLIO_DENSITY.COMPACT.name);
+    const [display, setDisplay] = useState(LAST_PORTFOLIO_DISPLAY);
+    const [density, setDensity] = useState(LAST_PORTFOLIO_DENSITY);
     const [isStatusFilterOpen, setIsStatusFilterOpen] = useState(false);
-    const [filterSettings, setFilterSettings] = useState({
-        [STATUS.APPLIED]: { isActive: true, isExpanded: true },
-        [STATUS.INTERVIEW]: { isActive: true, isExpanded: false },
-        [STATUS.OFFER]: { isActive: true, isExpanded: false },
-    });
+    const [filterSettings, setFilterSettings] = useState(LAST_FILTER_SETTINGS);
+
+    const [entries, setEntries] = useState([]);
 
     const [isNewModalOpen, setIsNewModalOpen] = useState(false);
     const [newModalInitialValues, setNewModalInitialValues] = useState({})
@@ -49,11 +45,15 @@ function Portfolio(props) {
     const [editModalInitialValues, setEditModalInitialValues] = useState({})
 
     useEffect(() => {
+        // TODO: fetch portfolio entries from db
+        setEntries(fakeEntries3);
+
         window.addEventListener("resize", resizeWindow);
         return () => {
             window.removeEventListener("resize", resizeWindow);
         }
-    });
+    }, []);
+
     // Resize menu items when window gets too small
     const resizeWindow = () => {
         setIsWindowSmall(window.innerWidth <= 991);
@@ -161,7 +161,7 @@ function Portfolio(props) {
                                     key={index}
                                     status={status}
                                     isExpanded={filterSettings[status].isExpanded}
-                                    entries={fakeEntries4}
+                                    entries={entries}
                                     isDetailed={density === PORTFOLIO_DENSITY.DETAILED.name}
                                     onOpenNewEntry={openNewEntry}
                                     onOpenEditEntry={openEditEntry}
@@ -212,6 +212,7 @@ function Portfolio(props) {
                 initialValues={editModalInitialValues}
                 onSave={saveEditEntry}
             />
+
         </div>
     );
 }
