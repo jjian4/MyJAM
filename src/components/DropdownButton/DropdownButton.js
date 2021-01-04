@@ -1,7 +1,7 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faMinus, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
-import { Button, Dropdown, Checkbox } from 'semantic-ui-react'
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { Button } from 'semantic-ui-react'
 
 import "./DropdownButton.scss";
 

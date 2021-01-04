@@ -1,7 +1,7 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp, faChevronDown, faLongArrowAltDown, faLongArrowAltUp, faSortAmountDown, faSortDown, faSortUp, faChevronUp } from "@fortawesome/free-solid-svg-icons";
-import { Button, Dropdown } from 'semantic-ui-react'
+import { faLongArrowAltDown, faLongArrowAltUp } from "@fortawesome/free-solid-svg-icons";
+import { Dropdown } from 'semantic-ui-react'
 
 import { SORT_BY } from "../../constants";
 import "./DashboardSortDropdown.scss";

@@ -57,8 +57,18 @@
             }
         }
     
-        .entries {
-            padding: 4px 20px;
+        .entriesGrid {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px 10px;
+
+            .entry {
+                width: 100%;
+                padding: 4px;
+            }
+            .entry-halfWidth {
+                width: 50%;
+            }
         }
     }
 

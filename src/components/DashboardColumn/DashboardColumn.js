@@ -1,5 +1,5 @@
 import DashboardCard from "../DashboardCard/DashboardCard";
-import { Dropdown, Grid } from "semantic-ui-react";
+import { Dropdown } from "semantic-ui-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCompressAlt, faExpand, faMinus, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
@@ -43,19 +43,12 @@ function DashboardColumn(props) {
                     </Dropdown>
                 </div>
 
-                <div className='entries'>
-                    <Grid className='entriesGrid'>
-                        <Grid.Row>
-                            {props.entries.map((entry, index) => (
-                                <Grid.Column key={index} width={props.isExpanded ? 8 : 16} style={{ padding: '6px' }}>
-                                    <DashboardCard entry={entry} onOpenEditEntry={props.onOpenEditEntry} isDetailed={props.isDetailed} />
-                                </Grid.Column>
-                            ))}
-                        </Grid.Row>
-                    </Grid>
-
-
-
+                <div className='entriesGrid'>
+                    {props.entries.map((entry, index) => (
+                        <div className={`entry ${props.isExpanded ? 'entry-halfWidth' : ''}`} key={index}>
+                            <DashboardCard entry={entry} onOpenEditEntry={props.onOpenEditEntry} isDetailed={props.isDetailed} />
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
