@@ -1,15 +1,6 @@
 import { faColumns, faList, faTh, faThLarge } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const STATUS = {
-    REJECTED: 'Rejected',
-    WISHLIST: 'Wishlist',
-    APPLIED: 'Applied',
-    PHONE_SCREEN: 'Phone Screen',
-    INTERVIEW: 'Interview',
-    OFFER: 'Offer!'
-}
-
 export const PORTFOLIO_DISPLAY = {
     BOARD_1: {
         name: 'Board 1',
@@ -33,6 +24,42 @@ export const PORTFOLIO_DENSITY = {
     DETAILED: {
         name: 'Detailed',
         icon: <FontAwesomeIcon icon={faThLarge} />
+    },
+}
+
+export const STATUS = {
+    REJECTED: 'Rejected',
+    WISHLIST: 'Wishlist',
+    APPLIED: 'Applied',
+    PHONE_SCREEN: 'Phone Screen',
+    INTERVIEW: 'Interview',
+    OFFER: 'Offer!'
+}
+
+export const SORT_BY = {
+    LAST_UPDATED: {
+        name: 'Last Updated',
+        isDefaultAscending: false
+    },
+    DEADLINE_DATE: {
+        name: 'Deadline Date',
+        isDefaultAscending: false
+    },
+    COMPANY: {
+        name: 'Company',
+        isDefaultAscending: true
+    },
+    JOB_TITLE: {
+        name: 'Job Title',
+        isDefaultAscending: true
+    },
+    APPLICATION_DATE: {
+        name: 'Application Date',
+        isDefaultAscending: false
+    },
+    DATE_ADDED: {
+        name: 'Date Added',
+        isDefaultAscending: false
     },
 }
 

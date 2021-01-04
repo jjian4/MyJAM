@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { Button, Dropdown, Checkbox } from 'semantic-ui-react'
 
 import { STATUS } from "../../constants";
+import DropdownButton from "../DropdownButton/DropdownButton";
 import "./DashboardStatusFilterDropdown.scss";
 
 
@@ -26,7 +27,7 @@ function DashboardStatusFilterDropdown(props) {
     useOutsideClickListener(ref);
 
     const dropdownButton = (
-        <Button size='tiny' basic icon='filter' content={props.hideLabel ? null : 'Columns'} onClick={() => props.open ? props.onClose() : props.onOpen()} />
+        <DropdownButton size='mini' basic icon='filter' text={props.hideLabel ? null : 'Columns'} onClick={() => props.open ? props.onClose() : props.onOpen()} />
     );
 
     const handleCheckboxChange = e => {

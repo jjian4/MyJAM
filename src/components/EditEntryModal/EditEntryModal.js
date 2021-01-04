@@ -8,13 +8,13 @@ import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 
 
 import CompanySelector from "../CompanySelector/CompanySelector";
-import { CARD_COLORS, STATUS, notes } from '../../constants'
+import { CARD_COLORS, STATUS } from '../../constants'
 import "./EditEntryModal.scss";
 import { IS_CARD_COLORS_ON } from "../../settings";
 
 
 function EditEntryModal(props) {
-    const [color, setColor] = useState(CARD_COLORS[Math.floor(Math.random() * CARD_COLORS.length)]);
+    const [color, setColor] = useState('');
     const [isStarred, setIsStarred] = useState(false)
 
     const [company, setCompany] = useState('')
@@ -22,7 +22,7 @@ function EditEntryModal(props) {
     const [logo, setLogo] = useState('')
     const [jobTitle, setJobTitle] = useState('')
 
-    const [applyDate, setApplyDate] = useState(dateFormat(new Date(), "dd-mm-yyyy"))
+    const [applyDate, setApplyDate] = useState('')
     const [deadlineDate, setDeadlineDate] = useState('')
     const [status, setStatus] = useState(STATUS.APPLIED)
 
@@ -37,31 +37,25 @@ function EditEntryModal(props) {
     useEffect(() => {
         // Initialize values everytime modal reopens
         if (props.open) {
-            setColor(props.initialValues.color || color)
-            setIsStarred(props.initialValues.isStarred || isStarred)
-            setCompany(props.initialValues.company || company)
-            setDomain(props.initialValues.domain || domain)
-            setLogo(props.initialValues.logo || logo)
-            setJobTitle(props.initialValues.jobTitle || jobTitle)
-            setApplyDate(props.initialValues.applyDate || applyDate)
-            setDeadlineDate(props.initialValues.deadlineDate || deadlineDate)
-            setStatus(props.initialValues.status || status)
-            setUrl(props.initialValues.url || url)
-            setNotes(props.initialValues.notes || notes)
+            setColor(props.initialValues.color || CARD_COLORS[Math.floor(Math.random() * CARD_COLORS.length)])
+            setIsStarred(props.initialValues.isStarred || false)
+            setCompany(props.initialValues.company || '')
+            setDomain(props.initialValues.domain || '')
+            setLogo(props.initialValues.logo || '')
+            setJobTitle(props.initialValues.jobTitle || '')
+            setApplyDate(props.initialValues.applyDate || dateFormat(new Date(), "yyyy-mm-dd"))
+            setDeadlineDate(props.initialValues.deadlineDate || '')
+            setStatus(props.initialValues.status || STATUS.APPLIED)
+            setUrl(props.initialValues.url || '')
+            setNotes(props.initialValues.notes || '')
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.open]);
 
     const validateDate = (value) => {
-        if (value.length !== 10) {
+        if (value.length !== 0 && value.length !== 10) {
             return false;
         }
-
-        // Switch date and month (dateformat only recognizes mm-dd-yyyy)
-        const date = value.substring(0, 3);
-        const month = value.substring(3, 6);
-        const year = value.substring(6, 10);
-        value = month + date + year;
 
         try {
             dateFormat(value, "dddd, mmmm dS, yyyy, h:MM:ss TT")
@@ -149,6 +143,7 @@ function EditEntryModal(props) {
                                 iconPosition="right"
                                 closable
                                 value={applyDate}
+                                dateFormat='YYYY-MM-DD'
                                 onChange={(e, { name, value }) => validateDate(value) && setApplyDate(value)}
                             />
                         </Form.Field>
@@ -160,6 +155,7 @@ function EditEntryModal(props) {
                                 iconPosition="right"
                                 closable
                                 value={deadlineDate}
+                                dateFormat='YYYY-MM-DD'
                                 onChange={(e, { name, value }) => validateDate(value) && setDeadlineDate(value)}
                             />
                         </Form.Field>
