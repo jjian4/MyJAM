@@ -3,7 +3,6 @@ import { faExpand, faCompressAlt } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef } from 'react';
 import { Button, Dropdown, Checkbox } from 'semantic-ui-react'
 
-import { STATUS } from "../../constants";
 import DropdownButton from "../DropdownButton/DropdownButton";
 import "./DashboardStatusFilterDropdown.scss";
 
@@ -30,9 +29,9 @@ function DashboardStatusFilterDropdown(props) {
         <DropdownButton size='mini' basic icon='filter' text={props.hideLabel ? null : 'Columns'} onClick={() => props.open ? props.onClose() : props.onOpen()} />
     );
 
-    const handleCheckboxChange = e => {
+    const handleCheckboxChange = (e, { value }) => {
         const newSettings = Object.assign({}, props.filterSettings);
-        const status = e.target.textContent;
+        const status = value;
 
         if (newSettings[status]?.isActive) {
             newSettings[status].isActive = false;
@@ -74,12 +73,13 @@ function DashboardStatusFilterDropdown(props) {
                 direction={props.hideLabel ? 'left' : 'right'}
             >
                 <Dropdown.Menu className='dropdownMenu'>
-                    {Object.values(STATUS).map((status, index) => (
+                    {Object.keys(props.entriesByStatus).map((status, index) => (
                         <div className='dropdownRow' key={index}>
                             <Checkbox
                                 toggle
                                 className='checkbox'
-                                label={status}
+                                label={`${status}${props.entriesByStatus[status].length ? ` (${props.entriesByStatus[status].length})` : ''}`}
+                                value={status}
                                 checked={props.filterSettings[status]?.isActive}
                                 onChange={handleCheckboxChange} />
 

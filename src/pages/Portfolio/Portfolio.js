@@ -143,6 +143,7 @@ function Portfolio() {
                                 open={isStatusFilterOpen}
                                 onOpen={() => setIsStatusFilterOpen(true)}
                                 onClose={() => setIsStatusFilterOpen(false)}
+                                entriesByStatus={entriesByStatus}
                                 filterSettings={filterSettings}
                                 onChange={x => setFilterSettings(x)}
                             />
