@@ -199,6 +199,9 @@ function EditEntryModal(props) {
                 <Button
                     content="Save"
                     onClick={() => props.onSave({
+                        id: props.initialValues.id,
+                        dateCreated: props.initialValues.dateCreated,
+                        lastUpdate: Date.now(),
                         isStarred,
                         company: company.trim(),
                         domain: domain,

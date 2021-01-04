@@ -10,16 +10,16 @@ import { LAST_PORTFOLIO_DISPLAY, LAST_PORTFOLIO_DENSITY, LAST_FILTER_SETTINGS } 
 import "./Portfolio.scss";
 
 const fakeEntries3 = [
-    { id: 1234, color: 'darkorchid', isStarred: false, company: 'Facebook', domain: 'google.com', logo: 'https://logo.clearbit.com/facebook.com', jobTitle: 'Software Engineer', applyDate: '2020-01-01', deadlineDate: '', status: STATUS.APPLIED, url: '', notes: '' },
-    { id: 5678, color: 'chocolate', isStarred: true, company: 'Apple', domain: 'google.com', logo: 'https://logo.clearbit.com/apple.com', jobTitle: 'Mechanical Engineer Intern - Cupertino, California', applyDate: '2020-05-03', deadlineDate: '2020-01-01', status: STATUS.APPLIED, url: 'https://apple.com', notes: 'kjdasfnjasnvsa o jsdkfsa\njsdav inus oufjuh oudsofjof sd\nAnother line' },
-    { id: 1234, color: 'navy', isStarred: true, company: 'Doordash', domain: 'google.com', logo: 'https://logo.clearbit.com/doordash.com', jobTitle: 'Software Engineer Intern', applyDate: '2020-01-01', deadlineDate: '2020-01-01', status: STATUS.INTERVIEW, url: '', notes: 'siufha uafoidjiof oufdhsauofdj oqhwfw' },
-    { id: 1234, color: 'seagreen', isStarred: false, company: 'Facebook', domain: '', logo: 'https://logo.clearbit.com/facebook.com', jobTitle: 'Software Engineer II', applyDate: '2020-01-01', deadlineDate: '', status: STATUS.APPLIED, url: '', notes: '' },
-    { id: 5678, color: 'darkgreen', isStarred: true, company: 'Apple', domain: 'google.com', logo: 'https://logo.clearbit.com/apple.com', jobTitle: 'Mechanical Engineer Intern - Cupertino, California', applyDate: '2020-01-01', deadlineDate: '2020-01-01', status: STATUS.APPLIED, url: 'https://apple.com', notes: 'awiufwb\n\n\n\nsfwsdhbfsi' },
-    { id: 1234, color: 'indianred', isStarred: true, company: 'Doordash', domain: 'google.com', logo: 'https://logo.clearbit.com/doordash.com', jobTitle: 'Software Engineer Intern', applyDate: '2020-01-01', deadlineDate: '2020-01-01', status: STATUS.OFFER, url: 'https://doordash.com', notes: 'siufha uafoidjiof oufdhsauofdj oqhwfw' },
-    { id: 1234, color: 'darkcyan', isStarred: false, company: 'Facebook', domain: 'google.com', logo: 'https://logo.clearbit.com/facebook.com', jobTitle: 'Software Engineer', applyDate: '2020-01-01', deadlineDate: '', status: STATUS.APPLIED, url: '', notes: 'sdjk dsaiiuh\nsdui' },
-    { id: 1234, color: 'mediumorchid', isStarred: false, company: 'Microsoft', domain: 'google.com', logo: 'https://logo.clearbit.com/microsoft.com', jobTitle: 'QA Engineer', applyDate: '2020-01-01', deadlineDate: '', status: STATUS.INTERVIEW, url: 'https://microsoft.com', notes: 'usf iosoidsoiaoi dsdsoa oiuh iuweq w ef' },
-    { id: 1234, color: 'coral', isStarred: false, company: 'Oracle', domain: 'oracle.com', logo: 'https://logo.clearbit.com/oracle.com', jobTitle: 'QA Engineer II', applyDate: '2020-01-01', deadlineDate: '', status: STATUS.OFFER, url: '', notes: 'usf sfs wdfs dsef' },
-    { id: 1234, color: 'slateblue', isStarred: true, company: 'Salesforce', domain: 'salesforce.com', logo: 'https://logo.clearbit.com/salesforce.com', jobTitle: 'Data Analyst', applyDate: '2020-01-01', deadlineDate: '2020-01-01', status: STATUS.INTERVIEW, url: 'https://salesforce.com', notes: 'usf sfs wdfs dsef' },
+    { id: 1234, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'darkorchid', isStarred: false, company: 'Facebook', domain: 'google.com', logo: 'https://logo.clearbit.com/facebook.com', jobTitle: 'Software Engineer', applyDate: '2020-01-01', deadlineDate: '', status: STATUS.APPLIED, url: '', notes: '' },
+    { id: 5678, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'chocolate', isStarred: true, company: 'Apple', domain: 'google.com', logo: 'https://logo.clearbit.com/apple.com', jobTitle: 'Mechanical Engineer Intern - Cupertino, California', applyDate: '2020-05-03', deadlineDate: '2020-01-01', status: STATUS.APPLIED, url: 'https://apple.com', notes: 'kjdasfnjasnvsa o jsdkfsa\njsdav inus oufjuh oudsofjof sd\nAnother line' },
+    { id: 1234, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'navy', isStarred: true, company: 'Doordash', domain: 'google.com', logo: 'https://logo.clearbit.com/doordash.com', jobTitle: 'Software Engineer Intern', applyDate: '2020-01-01', deadlineDate: '2020-01-01', status: STATUS.INTERVIEW, url: '', notes: 'siufha uafoidjiof oufdhsauofdj oqhwfw' },
+    { id: 1234, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'seagreen', isStarred: false, company: 'Facebook', domain: '', logo: 'https://logo.clearbit.com/facebook.com', jobTitle: 'Software Engineer II', applyDate: '2020-01-01', deadlineDate: '', status: STATUS.APPLIED, url: '', notes: '' },
+    { id: 5678, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'darkgreen', isStarred: true, company: 'Apple', domain: 'google.com', logo: 'https://logo.clearbit.com/apple.com', jobTitle: 'Mechanical Engineer Intern - Cupertino, California', applyDate: '2020-01-01', deadlineDate: '2020-01-01', status: STATUS.APPLIED, url: 'https://apple.com', notes: 'awiufwb\n\n\n\nsfwsdhbfsi' },
+    { id: 1234, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'indianred', isStarred: true, company: 'Doordash', domain: 'google.com', logo: 'https://logo.clearbit.com/doordash.com', jobTitle: 'Software Engineer Intern', applyDate: '2020-01-01', deadlineDate: '2020-01-01', status: STATUS.OFFER, url: 'https://doordash.com', notes: 'siufha uafoidjiof oufdhsauofdj oqhwfw' },
+    { id: 1234, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'darkcyan', isStarred: false, company: 'Facebook', domain: 'google.com', logo: 'https://logo.clearbit.com/facebook.com', jobTitle: 'Software Engineer', applyDate: '2020-01-01', deadlineDate: '', status: STATUS.APPLIED, url: '', notes: 'sdjk dsaiiuh\nsdui' },
+    { id: 1234, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'mediumorchid', isStarred: false, company: 'Microsoft', domain: 'google.com', logo: 'https://logo.clearbit.com/microsoft.com', jobTitle: 'QA Engineer', applyDate: '2020-01-01', deadlineDate: '', status: STATUS.INTERVIEW, url: 'https://microsoft.com', notes: 'usf iosoidsoiaoi dsdsoa oiuh iuweq w ef' },
+    { id: 1234, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'coral', isStarred: false, company: 'Oracle', domain: 'oracle.com', logo: 'https://logo.clearbit.com/oracle.com', jobTitle: 'QA Engineer II', applyDate: '2020-01-01', deadlineDate: '', status: STATUS.OFFER, url: '', notes: 'usf sfs wdfs dsef' },
+    { id: 1234, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'slateblue', isStarred: true, company: 'Salesforce', domain: 'salesforce.com', logo: 'https://logo.clearbit.com/salesforce.com', jobTitle: 'Data Analyst', applyDate: '2020-01-01', deadlineDate: '2020-01-01', status: STATUS.INTERVIEW, url: 'https://salesforce.com', notes: 'usf sfs wdfs dsef' },
 ];
 
 function Portfolio() {
@@ -58,6 +58,22 @@ function Portfolio() {
             window.removeEventListener("resize", resizeWindow);
         }
     }, []);
+
+    const sortDashboardEntries = (sortBy, isSortAscending) => {
+        setSortBy(sortBy);
+        setIsSortAscending(isSortAscending);
+
+        const entryProperty = Object.values(SORT_BY).find(x => x.name === sortBy).entryProperty;
+        const statusToEntry = Object.assign({}, entriesByStatus);
+        Object.values(statusToEntry).forEach(entries => {
+            if (isSortAscending) {
+                entries.sort((a, b) => (a[entryProperty] > b[entryProperty]) ? 1 : -1)
+            } else {
+                entries.sort((a, b) => (a[entryProperty] < b[entryProperty]) ? 1 : -1)
+            }
+        });
+        setEntriesByStatus(statusToEntry);
+    }
 
     // Resize menu items when window gets too small
     const resizeWindow = () => {
@@ -137,10 +153,7 @@ function Portfolio() {
                                 hideLabel={isWindowSmall}
                                 value={sortBy}
                                 isSortAscending={isSortAscending}
-                                onSelect={(sortBy, isSortAscending) => {
-                                    setSortBy(sortBy);
-                                    setIsSortAscending(isSortAscending);
-                                }}
+                                onSelect={sortDashboardEntries}
                             />
                         </span>
 

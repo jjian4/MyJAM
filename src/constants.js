@@ -39,26 +39,32 @@ export const STATUS = {
 export const SORT_BY = {
     LAST_UPDATED: {
         name: 'Last Updated',
+        entryProperty: 'lastUpdated',
         isDefaultAscending: false
     },
     DEADLINE_DATE: {
         name: 'Deadline Date',
+        entryProperty: 'deadlineDate',
         isDefaultAscending: false
     },
     COMPANY: {
         name: 'Company',
+        entryProperty: 'company',
         isDefaultAscending: true
     },
     JOB_TITLE: {
         name: 'Job Title',
+        entryProperty: 'jobTitle',
         isDefaultAscending: true
     },
     APPLICATION_DATE: {
         name: 'Application Date',
+        entryProperty: 'applyDate',
         isDefaultAscending: false
     },
-    DATE_ADDED: {
-        name: 'Date Added',
+    DATE_CREATED: {
+        name: 'Date Created',
+        entryProperty: 'dateCreated',
         isDefaultAscending: false
     },
 }
