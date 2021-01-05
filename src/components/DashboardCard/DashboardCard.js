@@ -4,6 +4,7 @@ import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 
 import { IS_CARD_COLORS_ON } from "../../settings";
 import "./DashboardCard.scss";
+import { PORTFOLIO_DENSITY } from "../../constants";
 
 const maxNotesLength = 100;
 const maxNotesLines = 3;
@@ -22,42 +23,45 @@ function DashboardCard(props) {
 
     return (
         <div className={`DashboardCard ${cardColor ? 'DashboardCard-colored' : ''}`} style={{ backgroundColor: cardColor }}>
-            <div className={`cardTop ${props.isDetailed ? '' : 'compactCardTop'}`}>
-                <a href={props.entry.domain ? `https://${props.entry.domain}` : null} target='_blank' rel='noreferrer'>
-                    <img className='logo' src={props.entry.logo} alt='logo' />
-                </a>
-                <div>
-                    <div className='company'>{props.entry.company}</div>
-                    <div className='jobTitle'>{props.entry.jobTitle}</div>
-                </div>
-                <div className='cardOptions'>
-                    {!props.isDetailed && props.entry.url && (
-                        <a href={props.entry.url} target='_blank' rel='noreferrer'>
+
+            {(props.density === PORTFOLIO_DENSITY.COMPACT.name || props.density === PORTFOLIO_DENSITY.DETAILED.name) && (
+                <div className={`cardTop ${props.density === PORTFOLIO_DENSITY.COMPACT.name ? 'compactCardTop' : ''}`}>
+                    <a href={props.entry.domain ? `https://${props.entry.domain}` : null} target='_blank' rel='noreferrer'>
+                        <img className='logo' src={props.entry.logo} alt='logo' />
+                    </a>
+                    <div>
+                        <div className='company'>{props.entry.company}</div>
+                        <div className='jobTitle'>{props.entry.jobTitle}</div>
+                    </div>
+                    <div className='cardOptions'>
+                        {props.density === PORTFOLIO_DENSITY.COMPACT.name && props.entry.url && (
+                            <a href={props.entry.url} target='_blank' rel='noreferrer'>
+                                <FontAwesomeIcon
+                                    title='URL'
+                                    icon={faLink}
+                                />
+                            </a>
+                        )}
+
+                        {props.density === PORTFOLIO_DENSITY.COMPACT.name && (
                             <FontAwesomeIcon
-                                title='URL'
-                                icon={faLink}
+                                title='Edit'
+                                icon={faEdit}
+                                onClick={() => props.onOpenEditEntry(props.entry)}
                             />
-                        </a>
-                    )}
+                        )}
 
-                    {!props.isDetailed && (
                         <FontAwesomeIcon
-                            title='Edit'
-                            icon={faEdit}
-                            onClick={() => props.onOpenEditEntry(props.entry)}
+                            className={props.entry.isStarred ? 'starIcon' : 'starOutlineIcon'}
+                            title='Favorite'
+                            onClick={() => console.log('TODO')}
+                            icon={props.entry.isStarred ? faStar : faStarOutline}
                         />
-                    )}
-
-                    <FontAwesomeIcon
-                        className={props.entry.isStarred ? 'starIcon' : 'starOutlineIcon'}
-                        title='Favorite'
-                        onClick={() => console.log('TODO')}
-                        icon={props.entry.isStarred ? faStar : faStarOutline}
-                    />
+                    </div>
                 </div>
-            </div>
+            )}
 
-            {props.isDetailed && (
+            {props.density === PORTFOLIO_DENSITY.DETAILED.name && (
                 <>
                     <div className='cardMid'>
                         {truncatedNotes}

@@ -20,6 +20,7 @@ const fakeEntries3 = [
     { id: 1234, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'mediumorchid', isStarred: false, company: 'Microsoft', domain: 'google.com', logo: 'https://logo.clearbit.com/microsoft.com', jobTitle: 'QA Engineer', applyDate: '2020-01-01', deadlineDate: '', status: STATUS.INTERVIEW, url: 'https://microsoft.com', notes: 'usf iosoidsoiaoi dsdsoa oiuh iuweq w ef' },
     { id: 1234, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'coral', isStarred: false, company: 'Oracle', domain: 'oracle.com', logo: 'https://logo.clearbit.com/oracle.com', jobTitle: 'QA Engineer II', applyDate: '2020-01-01', deadlineDate: '', status: STATUS.OFFER, url: '', notes: 'usf sfs wdfs dsef' },
     { id: 1234, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'slateblue', isStarred: true, company: 'Salesforce', domain: 'salesforce.com', logo: 'https://logo.clearbit.com/salesforce.com', jobTitle: 'Data Analyst', applyDate: '2020-01-01', deadlineDate: '2020-01-01', status: STATUS.INTERVIEW, url: 'https://salesforce.com', notes: 'usf sfs wdfs dsef' },
+    { id: 1234, dateCreated: Date.now(), lastUpdate: Date.now(), color: 'navy', isStarred: false, company: 'React', domain: 'google.com', logo: 'https://logo.clearbit.com/reactjs.org', jobTitle: 'Software Engineer III', applyDate: '2020-01-01', deadlineDate: '2020-11-22', status: STATUS.APPLIED, url: '', notes: '' },
 ];
 
 function Portfolio() {
@@ -174,7 +175,7 @@ function Portfolio() {
                 </div>
             </div>
 
-            {display === PORTFOLIO_DISPLAY.BOARD_1.name && (
+            {display === PORTFOLIO_DISPLAY.BOARD.name && (
                 <div className='dashboardColumns'>
                     {Object.values(STATUS).map((status, index) => {
                         if (filterSettings[status]?.isActive) {
@@ -184,10 +185,10 @@ function Portfolio() {
                                     status={status}
                                     isExpanded={filterSettings[status].isExpanded}
                                     entries={entriesByStatus[status] || []}
-                                    isDetailed={density === PORTFOLIO_DENSITY.DETAILED.name}
+                                    density={density}
                                     onOpenNewEntry={openNewEntry}
                                     onOpenEditEntry={openEditEntry}
-                                    onSetIsExpanded={isExpanded => {
+                                    onChangeExpanded={isExpanded => {
                                         const newSettings = Object.assign({}, filterSettings);
                                         newSettings[status].isExpanded = isExpanded;
                                         setFilterSettings(newSettings);
@@ -202,12 +203,6 @@ function Portfolio() {
                         }
                         return null;
                     })}
-                </div>
-            )}
-
-            {display === PORTFOLIO_DISPLAY.BOARD_2.name && (
-                <div>
-                    TODO
                 </div>
             )}
 

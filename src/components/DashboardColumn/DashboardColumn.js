@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCompressAlt, faExpand, faMinus, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 import "./DashboardColumn.scss";
+import { PORTFOLIO_DENSITY } from "../../constants";
+import DashboardIconCard from "../DashboardIconCard/DashboardIconCard";
 
 const MIN_WIDTH = 280;
 const MAX_WIDTH = 310;
@@ -27,11 +29,11 @@ function DashboardColumn(props) {
                                 <FontAwesomeIcon className='optionIcon' icon={faPlusCircle} /> Add an Entry
                             </Dropdown.Item>
                             {props.isExpanded ? (
-                                <Dropdown.Item onClick={() => props.onSetIsExpanded(false)}>
+                                <Dropdown.Item onClick={() => props.onChangeExpanded(false)}>
                                     <FontAwesomeIcon className='optionIcon' icon={faCompressAlt} /> Compress View
                                 </Dropdown.Item>
                             ) : (
-                                    <Dropdown.Item onClick={() => props.onSetIsExpanded(true)}>
+                                    <Dropdown.Item onClick={() => props.onChangeExpanded(true)}>
                                         <FontAwesomeIcon className='optionIcon' icon={faExpand} /> Expand View
                                     </Dropdown.Item>
                                 )
@@ -45,9 +47,17 @@ function DashboardColumn(props) {
 
                 <div className='entriesGrid'>
                     {props.entries.map((entry, index) => (
-                        <div className={`entry ${props.isExpanded ? 'entry-halfWidth' : ''}`} key={index}>
-                            <DashboardCard entry={entry} onOpenEditEntry={props.onOpenEditEntry} isDetailed={props.isDetailed} />
-                        </div>
+                        <>
+                            {props.density === PORTFOLIO_DENSITY.ICONS.name ? (
+                                <div className={`entryIconCard ${props.isExpanded ? 'entryIconCard-halfWidth' : ''}`} key={index}>
+                                    <DashboardIconCard entry={entry} onOpenEditEntry={props.onOpenEditEntry} />
+                                </div>
+                            ) : (
+                                    <div className={`entryCard ${props.isExpanded ? 'entryCard-halfWidth' : ''}`} key={index}>
+                                        <DashboardCard entry={entry} onOpenEditEntry={props.onOpenEditEntry} density={props.density} />
+                                    </div>
+                                )}
+                        </>
                     ))}
                 </div>
             </div>

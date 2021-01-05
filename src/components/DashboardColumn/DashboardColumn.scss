@@ -62,11 +62,20 @@
             flex-wrap: wrap;
             padding: 10px 10px;
 
-            .entry {
+            .entryIconCard {
+                width: 25%;
+                padding: 4px;
+                line-height: 0;
+            }
+            .entryIconCard-halfWidth {
+                width: 12.5%;
+            }
+
+            .entryCard {
                 width: 100%;
                 padding: 4px;
             }
-            .entry-halfWidth {
+            .entryCard-halfWidth {
                 width: 50%;
             }
         }

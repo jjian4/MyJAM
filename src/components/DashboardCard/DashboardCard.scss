@@ -4,6 +4,7 @@
     height: 100%;
     border: 1px solid lightgray;
     border-radius: 5px;
+    text-align: left;
     
     cursor: move; /* In case grab cursor is unsupported */
     cursor: grab;      
@@ -11,8 +12,6 @@
     :active {
         cursor: grabbing;
     }
-
-    text-align: left;
 
     .cardTop {
         display: flex;

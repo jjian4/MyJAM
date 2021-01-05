@@ -1,14 +1,10 @@
-import { faColumns, faList, faTh, faThLarge } from "@fortawesome/free-solid-svg-icons";
+import { faColumns, faList, faStickyNote, faTh, faThLarge } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const PORTFOLIO_DISPLAY = {
-    BOARD_1: {
-        name: 'Board 1',
+    BOARD: {
+        name: 'Board',
         icon: <FontAwesomeIcon icon={faColumns} />
-    },
-    BOARD_2: {
-        name: 'Board 2',
-        icon: <FontAwesomeIcon icon={faColumns} rotation={270} />
     },
     TABLE: {
         name: 'Table',
@@ -17,13 +13,17 @@ export const PORTFOLIO_DISPLAY = {
 }
 
 export const PORTFOLIO_DENSITY = {
+    ICONS: {
+        name: 'Icons',
+        icon: <FontAwesomeIcon icon={faTh} />
+    },
     COMPACT: {
         name: 'Compact',
-        icon: <FontAwesomeIcon icon={faTh} />
+        icon: <FontAwesomeIcon icon={faThLarge} />
     },
     DETAILED: {
         name: 'Detailed',
-        icon: <FontAwesomeIcon icon={faThLarge} />
+        icon: <FontAwesomeIcon icon={faStickyNote} />
     },
 }
 
