@@ -1,88 +1,87 @@
 .ui {
-    .EditEntryModal {
-        // Fix semantic modal unbalanced padding
-        .header {
-            @media (max-width: 991px) {
-                padding-right: 1.5rem !important;
-            }
-            @media (max-width: 767px) {
-                padding-right: 1rem !important;
-            }
-        }
+  .EditEntryModal {
+    // Fix semantic modal unbalanced padding
+    .header {
+      @media (max-width: 991px) {
+        padding-right: 1.5rem !important;
+      }
+      @media (max-width: 767px) {
+        padding-right: 1rem !important;
+      }
     }
+  }
 }
 
-.EditEntryModal {    
-    .headerContent {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+.EditEntryModal {
+  .headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
+    .headerRight {
+      display: flex;
+      align-items: center;
 
-        .headerRight {        
-            display: flex;
-            align-items: center;
+      .colorDropdown {
+        height: 26px;
+        width: 26px;
+        margin-right: 14px;
 
-            .colorDropdown {
-                height: 26px;
-                width: 26px;    
-                margin-right: 14px;
-
-                .colorDropdownButton {
-                    display: inline-block;
-                    border: 1px solid gray;
-                    border-radius: 5px;
-                    height: 100%;
-                    width: 100%;    
-                }
-        
-                .dropdownMenu {
-                    background-color: white;
-                    border: 1px solid gray;
-                    padding: 10px 14px 6px 14px;
-                    margin-top: 2px;
-
-                    .colorsGrid {
-                        width: 200px;
-                        display: flex;
-                        flex-wrap: wrap;
-
-                        .optionContainer {
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            width: 20%;
-                            height: 35px;
-                        }
-                        
-                        .colorOption {
-                            display: inline-block;
-                            width: 28px;
-                            height: 28px;
-                            border-radius: 50%;
-                            cursor: pointer;
-                            border: 2px solid white;
-                        }
-                        .colorOption-selected {
-                            border: 2px solid black;
-                        }
-                    }    
-                }
-            }
-    
-            .starButton {
-                width: 26px;
-                height: 26px;
-                cursor: pointer;
-                color: gold;
-            }
-    
-            .starOutlineButton {
-                width: 26px;
-                height: 26px;
-                cursor: pointer;
-                color: gray;
-            }
+        .colorDropdownButton {
+          display: inline-block;
+          border: 1px solid gray;
+          border-radius: 5px;
+          height: 100%;
+          width: 100%;
         }
+
+        .dropdownMenu {
+          background-color: white;
+          border: 1px solid gray;
+          padding: 10px 14px 6px 14px;
+          margin-top: 2px;
+
+          .colorsGrid {
+            width: 200px;
+            display: flex;
+            flex-wrap: wrap;
+
+            .optionContainer {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 20%;
+              height: 35px;
+            }
+
+            .colorOption {
+              display: inline-block;
+              width: 28px;
+              height: 28px;
+              border-radius: 50%;
+              cursor: pointer;
+              border: 2px solid white;
+            }
+            .colorOption-selected {
+              border: 2px solid black;
+            }
+          }
+        }
+      }
+
+      .starButton {
+        width: 26px;
+        height: 26px;
+        cursor: pointer;
+        color: gold;
+      }
+
+      .starOutlineButton {
+        width: 26px;
+        height: 26px;
+        cursor: pointer;
+        color: gray;
+      }
     }
+  }
 }

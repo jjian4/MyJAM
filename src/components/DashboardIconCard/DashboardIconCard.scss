@@ -1,22 +1,22 @@
 .DashboardIconCard {
-    border: 3px solid lightgray;
-    border-radius: 50%;
-    
-    cursor: pointer;      
-    
-    :active {
-        cursor: grabbing;
-    }
+  border: 3px solid lightgray;
+  border-radius: 50%;
 
-    .logo {
-        height: 100%;
-        width: 100%;
-        border-radius: 50%;
-    }
+  cursor: pointer;
+
+  :active {
+    cursor: grabbing;
+  }
+
+  .logo {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+  }
 }
 
 .DashboardIconCard-colored {
-    // border color assigned in js
-    border-width: 3px;
-    border-style: solid;
+  // border color assigned in js
+  border-width: 3px;
+  border-style: solid;
 }

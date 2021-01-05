@@ -1,47 +1,46 @@
 .DashboardStatusFilterDropdown {
-    .dropdownMenu {
-        margin-top: 2px !important;
-        .dropdownRow {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            // Adopts styling from Dropdown.Item
-            padding: 2px 8px 2px 0;
-            &:hover {
-                background-color: rgba(0,0,0,.05);
-                color: rgba(0,0,0,.95);
-            }
-    
-            .checkbox {
-                padding: 11px 12px;
-                flex: 1;
-                cursor: pointer;
-    
-                input {
-                    width: 2.5rem;
-                }
-                label {
-                    padding-left: 3.5rem;
-                    &::before {
-                        width: 2.5rem;
-                    }
-                    &::after {
-                        left: -.05rem;
-                    }
-                }
-                input:checked ~ label {
-                    &::after {
-                        left: 1.15rem;
-                    }
-                }
-    
-            }
-            .sizeButtons { 
-                button {
-                    height: 28px;
-                    width: 28px;
-                }
-            }    
-        }    
+  .dropdownMenu {
+    margin-top: 2px !important;
+    .dropdownRow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      // Adopts styling from Dropdown.Item
+      padding: 2px 8px 2px 0;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        color: rgba(0, 0, 0, 0.95);
+      }
+
+      .checkbox {
+        padding: 11px 12px;
+        flex: 1;
+        cursor: pointer;
+
+        input {
+          width: 2.5rem;
+        }
+        label {
+          padding-left: 3.5rem;
+          &::before {
+            width: 2.5rem;
+          }
+          &::after {
+            left: -0.05rem;
+          }
+        }
+        input:checked ~ label {
+          &::after {
+            left: 1.15rem;
+          }
+        }
+      }
+      .sizeButtons {
+        button {
+          height: 28px;
+          width: 28px;
+        }
+      }
     }
+  }
 }

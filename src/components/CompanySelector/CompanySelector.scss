@@ -1,34 +1,34 @@
 .CompanySelector {
-    .searchBar {
-        .selectedCompanyLogo {
-            padding: 5px;
-            display: flex;
-            align-items: center;
-            text-align: center;
-        }
+  .searchBar {
+    .selectedCompanyLogo {
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  .dropdownEntry {
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .entryLeft {
+      display: flex;
+      align-items: center;
+      .companyLogo {
+        max-height: 20px;
+        max-width: 20px;
+      }
+      .companyName {
+        padding: 0 6px;
+      }
     }
 
-    .dropdownEntry {
-        height: 30px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .entryLeft {
-            display: flex;
-            align-items: center;
-            .companyLogo {
-                max-height: 20px;
-                max-width: 20px;
-            }
-            .companyName {
-                padding: 0 6px;
-            }    
-        }
-
-        .companyDomain {
-            color: darkgray;
-            font-size: 12px;
-        }
+    .companyDomain {
+      color: darkgray;
+      font-size: 12px;
     }
+  }
 }

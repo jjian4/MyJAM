@@ -1,172 +1,171 @@
 .DashboardCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  text-align: left;
+
+  cursor: move; /* In case grab cursor is unsupported */
+  cursor: grab;
+
+  :active {
+    cursor: grabbing;
+  }
+
+  .cardTop {
     display: flex;
-    flex-direction: column;
-    height: 100%;
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    text-align: left;
-    
-    cursor: move; /* In case grab cursor is unsupported */
-    cursor: grab;      
-    
-    :active {
-        cursor: grabbing;
+    position: relative;
+    align-items: flex-start;
+    padding: 12px 12px 0 12px;
+    .logo {
+      max-width: 40px;
+      max-height: 40px;
+      margin-right: 10px;
+      border-radius: 50%;
     }
+    .company {
+      font-weight: bold;
+    }
+    .jobTitle {
+      color: gray;
+      font-size: 12px;
+    }
+
+    .cardOptions {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+
+      svg {
+        display: none; // Only display icons when card is hovered
+        cursor: pointer;
+        color: darkgray;
+        font-size: 22px;
+        padding: 4px;
+      }
+      .starIcon {
+        display: inline-block; // Star icon is always visible, even when not hovering
+        color: gold;
+      }
+    }
+  }
+
+  .compactCardTop {
+    padding: 12px;
+  }
+
+  .cardMid {
+    flex: 1;
+    padding: 4px 12px;
+    white-space: pre-line; // Otherwise, newlines are ignored
+  }
+
+  .cardBottom {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: whitesmoke;
+    .cardDates {
+      padding: 6px 12px;
+      height: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: gray;
+      .dateIcon {
+        margin-right: 4px;
+      }
+      .date {
+      }
+    }
+
+    .cardButtons {
+      height: 30px;
+      display: none; // Changes to flex when card is hovered
+      justify-content: space-evenly;
+
+      .cardButton {
+        cursor: pointer;
+        font-size: 12px;
+        user-select: none;
+        border-radius: 4px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:hover {
+          background-color: darken(whitesmoke, 3%);
+        }
+      }
+    }
+  }
+
+  &:hover {
+    border: 1px solid darkgray;
 
     .cardTop {
-        display: flex;
-        position: relative;
-        align-items: flex-start;
-        padding: 12px 12px 0 12px;
-        .logo {
-            max-width: 40px;
-            max-height: 40px;
-            margin-right: 10px;
-            border-radius: 50%;
+      .cardOptions {
+        svg {
+          display: inline-block;
         }
-        .company {
-            font-weight: bold;
-        }
-        .jobTitle {
-            color: gray;
-            font-size: 12px;
-        }
-
-        .cardOptions {
-            position: absolute;
-            top: 4px;
-            right: 4px;
-
-            svg {
-                display: none; // Only display icons when card is hovered
-                cursor: pointer;
-                color: darkgray;
-                font-size: 22px;
-                padding: 4px;
-            }
-            .starIcon {
-                display: inline-block; // Star icon is always visible, even when not hovering
-                color: gold;
-            }    
-        }
+      }
     }
-
-    .compactCardTop {
-        padding: 12px;
-    }
-
-    .cardMid {
-        flex: 1;
-        padding: 4px 12px;
-        white-space: pre-line; // Otherwise, newlines are ignored
-    }
-
     .cardBottom {
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-        background-color: whitesmoke;
-        .cardDates {
-            padding: 6px 12px;
-            height: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 10px;
-            color: gray;
-            .dateIcon {
-                margin-right: 4px;
-            }
-            .date {
-            }    
-        }
-
-        .cardButtons {
-            height: 30px;
-            display: none; // Changes to flex when card is hovered
-            justify-content: space-evenly;
-
-            .cardButton {
-                cursor: pointer;
-                font-size: 12px;
-                user-select: none;
-                border-radius: 4px;
-                flex: 1;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                &:hover {
-                    background-color: darken(whitesmoke, 3%);
-                }
-            }    
-        }
+      .cardDates {
+        display: none;
+      }
+      .cardButtons {
+        display: flex;
+      }
     }
-
-    &:hover {
-        border: 1px solid darkgray;
-
-        .cardTop {
-            .cardOptions {
-                svg {
-                    display: inline-block;
-                }    
-            }    
-        }
-        .cardBottom {
-            .cardDates {
-                display: none;
-            }
-            .cardButtons {
-                display: flex;
-            }
-        }
-    }
+  }
 }
 
 .DashboardCard-colored {
-    // background-color assigned in js
-    border: 1px solid white;
+  // background-color assigned in js
+  border: 1px solid white;
 
-    .cardTop {
-        .logo {
-            // border: 1px solid white;
-        }
-        .company {
-            color: white;
-        }
-        .jobTitle {
-            color: whitesmoke;
-        }
-        .cardOptions {
-            svg {
-                color: whitesmoke;
-            }
-            .starIcon {
-                color: gold;
-            }    
-        }
+  .cardTop {
+    .logo {
+      // border: 1px solid white;
     }
-    .cardMid {
+    .company {
+      color: white;
+    }
+    .jobTitle {
+      color: whitesmoke;
+    }
+    .cardOptions {
+      svg {
         color: whitesmoke;
+      }
+      .starIcon {
+        color: gold;
+      }
     }
-    .cardBottom {
-        // background-color assigned in js
-        filter: brightness(95%);
-        .cardDates {
-            color: white;
+  }
+  .cardMid {
+    color: whitesmoke;
+  }
+  .cardBottom {
+    // background-color assigned in js
+    filter: brightness(95%);
+    .cardDates {
+      color: white;
+    }
+    .cardButtons {
+      color: white;
+      .cardButton {
+        &:hover {
+          // background-color assigned in js
+          filter: brightness(97%);
         }
-        .cardButtons {
-            color: white;
-            .cardButton {
-                &:hover {
-                    // background-color assigned in js
-                    filter: brightness(97%);
-                }
-            }    
-        }
+      }
     }
+  }
 
-    &:hover {
-        border: 1px solid lightgray;
-    }
-
+  &:hover {
+    border: 1px solid lightgray;
+  }
 }

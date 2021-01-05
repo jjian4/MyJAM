@@ -1,92 +1,91 @@
 @import "../../utilities/variables";
 
-.DashboardColumn {    
-    position: relative;  
-    display: inline-block;
-    padding-right: 8px;
+.DashboardColumn {
+  position: relative;
+  display: inline-block;
+  padding-right: 8px;
 
-    min-width: 280px;
-    max-width: 350px;
-    text-align: center;
+  min-width: 280px;
+  max-width: 350px;
+  text-align: center;
 
+  .content {
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    background-color: white;
+    border-radius: 5px;
+
+    .heading {
+      border-radius: 5px;
+      position: sticky;
+      top: 0;
+      display: block;
+      text-align: left;
+      padding: 14px 14px 10px 14px;
+      font-size: 16px;
+      background-color: whitesmoke;
+      z-index: 2;
+
+      .status {
+        font-weight: bold;
+        padding-right: 6px;
+      }
+
+      .numEntries {
+        color: gray;
+      }
+
+      .options {
+        display: none;
+        position: absolute;
+        right: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 6px 10px;
+        cursor: pointer;
+        color: gray;
+        user-select: none;
+        i {
+          margin: 0;
+        }
+        .optionIcon {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .entriesGrid {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 10px 10px;
+
+      .entryIconCard {
+        width: 25%;
+        padding: 4px;
+        line-height: 0;
+      }
+      .entryIconCard-halfWidth {
+        width: 12.5%;
+      }
+
+      .entryCard {
+        width: 100%;
+        padding: 4px;
+      }
+      .entryCard-halfWidth {
+        width: 50%;
+      }
+    }
+  }
+
+  &:hover {
     .content {
-        height: 100%;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-
-        background-color: white;
-        border-radius: 5px;
-
-        .heading {
-            border-radius: 5px;
-            position: sticky;
-            top: 0;
-            display: block;
-            text-align: left;
-            padding: 14px 14px 10px 14px;
-            font-size: 16px;
-            background-color: whitesmoke;
-            z-index: 2;
-            
-            .status {
-                font-weight: bold;
-                padding-right: 6px;
-            }
-        
-            .numEntries {
-                color: gray;
-            }    
-    
-            .options {
-                display: none;
-                position: absolute;
-                right: 4px;
-                top: 50%;
-                transform: translateY(-50%);
-                padding: 6px 10px;
-                cursor: pointer;
-                color: gray;
-                user-select: none;
-                i {
-                    margin: 0;
-                }
-                .optionIcon {
-                    margin-right: 10px;
-                }
-            }
-        }
-    
-        .entriesGrid {
-            display: flex;
-            flex-wrap: wrap;
-            padding: 10px 10px;
-
-            .entryIconCard {
-                width: 25%;
-                padding: 4px;
-                line-height: 0;
-            }
-            .entryIconCard-halfWidth {
-                width: 12.5%;
-            }
-
-            .entryCard {
-                width: 100%;
-                padding: 4px;
-            }
-            .entryCard-halfWidth {
-                width: 50%;
-            }
-        }
+      .options {
+        display: block;
+      }
     }
-
-    &:hover {
-        .content {
-            .options {
-                display: block;
-            }
-        }
-
-    }
+  }
 }

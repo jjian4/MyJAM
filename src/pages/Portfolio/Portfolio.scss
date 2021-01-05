@@ -1,68 +1,67 @@
 @import "../../utilities/variables";
 
 .Portfolio {
-	::-webkit-scrollbar { 
-		display: none; 
-		// width: 2px;
-	}
-	// ::-webkit-scrollbar-thumb {
-	// 	background-color: gray;
-	// }
+  ::-webkit-scrollbar {
+    display: none;
+    // width: 2px;
+  }
+  // ::-webkit-scrollbar-thumb {
+  // 	background-color: gray;
+  // }
 
-    .portfolioMenuBar {
-        position: sticky;
-        top: $menu-height;
-        left: 0;
-		right: 0;
-		z-index: 3;
-      
-        .content {
-          display: flex;
-          justify-content: space-between;
-		  align-items: center;
-		  height: $portfolio-menu-height;
-		  
-		  .menuleft {
-			padding: 0 8px;
-			.displayButtons {
-				margin-right: 12px;
-			}
-			.densityButtons {
-			}
+  .portfolioMenuBar {
+    position: sticky;
+    top: $menu-height;
+    left: 0;
+    right: 0;
+    z-index: 3;
 
-			.buttonLabel {
-				margin-left: 4px;
-			}
-		  }
+    .content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: $portfolio-menu-height;
 
-		  .portfolioSelector {
-            font-weight: bold;
-            font-size: 18px;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-		  }
-
-		  .menuRight {
-			padding: 0 8px;
-			.sortDropdown {
-				margin-right: 12px;
-			}
-			.filterDropdown {
-				margin-right: 12px;
-			}
-			.newEntryButton {
-			}  
-		  }		  
-      
+      .menuleft {
+        padding: 0 8px;
+        .displayButtons {
+          margin-right: 12px;
         }
-    }
+        .densityButtons {
+        }
 
-    .dashboardColumns {
-		display: flex;
-		overflow-x: auto;
-		height: calc(100vh - #{$menu-height} - #{$portfolio-menu-height});
-		background-color: lightgray;
-		padding: 6px 8px;
+        .buttonLabel {
+          margin-left: 4px;
+        }
+      }
+
+      .portfolioSelector {
+        font-weight: bold;
+        font-size: 18px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .menuRight {
+        padding: 0 8px;
+        .sortDropdown {
+          margin-right: 12px;
+        }
+        .filterDropdown {
+          margin-right: 12px;
+        }
+        .newEntryButton {
+        }
+      }
     }
+  }
+
+  .dashboardColumns {
+    display: flex;
+    overflow-x: auto;
+    height: calc(100vh - #{$menu-height} - #{$portfolio-menu-height});
+    background-color: lightgray;
+    padding: 6px 8px;
+  }
 }

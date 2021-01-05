@@ -1,19 +1,18 @@
 .DashboardSortDropdown {
-    .dropdownMenu {
-        margin-top: 2px !important;
+  .dropdownMenu {
+    margin-top: 2px !important;
 
-        .itemContent {
-            display: flex;
-            justify-content: space-between;
+    .itemContent {
+      display: flex;
+      justify-content: space-between;
 
-            .menuIcon {
-                margin-left: 10px;
-                color: gray;
-            }
-            .menuIcon-hidden {
-                visibility: hidden;
-            }    
-        }
-
+      .menuIcon {
+        margin-left: 10px;
+        color: gray;
+      }
+      .menuIcon-hidden {
+        visibility: hidden;
+      }
     }
+  }
 }
