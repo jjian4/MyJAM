@@ -10,7 +10,7 @@ import {
 
 export const IS_CARD_COLORS_ON = true;
 
-export const LAST_PORTFOLIO_DISPLAY = PORTFOLIO_DISPLAY.BOARD.name;
+export const LAST_PORTFOLIO_DISPLAY = PORTFOLIO_DISPLAY.TABLE.name;
 
 export const LAST_BOARD_DENSITY = BOARD_DENSITY.COMPACT.name;
 
@@ -22,4 +22,4 @@ export const LAST_BOARD_COLUMN_FILTER = {
   [STATUS.OFFER]: { isActive: true, isExpanded: false },
 };
 
-export const LAST_TABLE_DENSITY = TABLE_DENSITY.COMPACT.name;
+export const LAST_TABLE_DENSITY = TABLE_DENSITY.COMFORTABLE.name;

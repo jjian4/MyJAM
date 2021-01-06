@@ -15,7 +15,6 @@ import {
   LAST_BOARD_COLUMN_FILTER,
   LAST_BOARD_SORT,
 } from "../../settings";
-
 import "./Dashboard.scss";
 
 function Dashboard(props) {

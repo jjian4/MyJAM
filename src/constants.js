@@ -9,6 +9,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+export const MENU_HEIGHT = "55px";
+export const PORTFOLIO_MENU_HEIGHT = "55px";
+
 export const PORTFOLIO_DISPLAY = {
   BOARD: {
     name: "Board",
@@ -49,7 +52,7 @@ export const TABLE_DENSITY = {
     name: "Compact",
     icon: <FontAwesomeIcon icon={faList} />,
   },
-  DETAILED: {
+  COMFORTABLE: {
     name: "Comfortable",
     icon: <FontAwesomeIcon icon={faThList} />,
   },
