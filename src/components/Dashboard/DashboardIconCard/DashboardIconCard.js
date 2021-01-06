@@ -1,4 +1,4 @@
-import { IS_CARD_COLORS_ON } from "../../settings";
+import { IS_CARD_COLORS_ON } from "../../../settings";
 import "./DashboardIconCard.scss";
 
 function DashboardIconCard(props) {

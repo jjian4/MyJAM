@@ -1,9 +1,11 @@
 import {
   faColumns,
   faList,
+  faListAlt,
   faStickyNote,
   faTh,
   faThLarge,
+  faThList,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -14,11 +16,20 @@ export const PORTFOLIO_DISPLAY = {
   },
   TABLE: {
     name: "Table",
-    icon: <FontAwesomeIcon icon={faList} />,
+    icon: <FontAwesomeIcon icon={faListAlt} />,
   },
 };
 
-export const PORTFOLIO_DENSITY = {
+export const STATUS = {
+  REJECTED: "Rejected",
+  WISHLIST: "Wishlist",
+  APPLIED: "Applied",
+  PHONE_SCREEN: "Phone Screen",
+  INTERVIEW: "Interview",
+  OFFER: "Offer!",
+};
+
+export const BOARD_DENSITY = {
   ICONS: {
     name: "Icons",
     icon: <FontAwesomeIcon icon={faTh} />,
@@ -33,16 +44,18 @@ export const PORTFOLIO_DENSITY = {
   },
 };
 
-export const STATUS = {
-  REJECTED: "Rejected",
-  WISHLIST: "Wishlist",
-  APPLIED: "Applied",
-  PHONE_SCREEN: "Phone Screen",
-  INTERVIEW: "Interview",
-  OFFER: "Offer!",
+export const TABLE_DENSITY = {
+  COMPACT: {
+    name: "Compact",
+    icon: <FontAwesomeIcon icon={faList} />,
+  },
+  DETAILED: {
+    name: "Comfortable",
+    icon: <FontAwesomeIcon icon={faThList} />,
+  },
 };
 
-export const SORT_BY = {
+export const BOARD_SORT_BY = {
   LAST_UPDATED: {
     name: "Last Updated",
     entryProperty: "lastUpdated",

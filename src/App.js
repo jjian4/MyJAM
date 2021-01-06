@@ -15,10 +15,22 @@ function App() {
           <span className="menuBarName">Website Name</span>
         </Menu.Item>
 
-        <Menu.Item as="a">Portfolio</Menu.Item>
-        <Menu.Item as="a">Find More Jobs</Menu.Item>
+        <Dropdown
+          className="portfolioSelector link item"
+          text="Summer Internships 2019"
+          pointing
+        >
+          <Dropdown.Menu>
+            <Dropdown.Item>Summer Internships 2019</Dropdown.Item>
+            <Dropdown.Item>Summer 2018</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item>Edit Portfolios</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
 
         <Menu.Menu position="right">
+          <Menu.Item as="a">Find More Jobs</Menu.Item>
+
           <Dropdown text="Username" pointing className="link item" icon={false}>
             <Dropdown.Menu>
               {/* <Dropdown.Item>List Item</Dropdown.Item>

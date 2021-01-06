@@ -8,9 +8,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 
-import { IS_CARD_COLORS_ON } from "../../settings";
+import { IS_CARD_COLORS_ON } from "../../../settings";
 import "./DashboardCard.scss";
-import { PORTFOLIO_DENSITY } from "../../constants";
+import { BOARD_DENSITY } from "../../../constants";
 
 const maxNotesLength = 100;
 const maxNotesLines = 3;
@@ -35,13 +35,11 @@ function DashboardCard(props) {
       className={`DashboardCard ${cardColor ? "DashboardCard-colored" : ""}`}
       style={{ backgroundColor: cardColor }}
     >
-      {(props.density === PORTFOLIO_DENSITY.COMPACT.name ||
-        props.density === PORTFOLIO_DENSITY.DETAILED.name) && (
+      {(props.density === BOARD_DENSITY.COMPACT.name ||
+        props.density === BOARD_DENSITY.DETAILED.name) && (
         <div
           className={`cardTop ${
-            props.density === PORTFOLIO_DENSITY.COMPACT.name
-              ? "compactCardTop"
-              : ""
+            props.density === BOARD_DENSITY.COMPACT.name ? "compactCardTop" : ""
           }`}
         >
           <a
@@ -56,14 +54,13 @@ function DashboardCard(props) {
             <div className="jobTitle">{props.entry.jobTitle}</div>
           </div>
           <div className="cardOptions">
-            {props.density === PORTFOLIO_DENSITY.COMPACT.name &&
-              props.entry.url && (
-                <a href={props.entry.url} target="_blank" rel="noreferrer">
-                  <FontAwesomeIcon title="URL" icon={faLink} />
-                </a>
-              )}
+            {props.density === BOARD_DENSITY.COMPACT.name && props.entry.url && (
+              <a href={props.entry.url} target="_blank" rel="noreferrer">
+                <FontAwesomeIcon title="URL" icon={faLink} />
+              </a>
+            )}
 
-            {props.density === PORTFOLIO_DENSITY.COMPACT.name && (
+            {props.density === BOARD_DENSITY.COMPACT.name && (
               <FontAwesomeIcon
                 title="Edit"
                 icon={faEdit}
@@ -81,7 +78,7 @@ function DashboardCard(props) {
         </div>
       )}
 
-      {props.density === PORTFOLIO_DENSITY.DETAILED.name && (
+      {props.density === BOARD_DENSITY.DETAILED.name && (
         <>
           <div className="cardMid">{truncatedNotes}</div>
 

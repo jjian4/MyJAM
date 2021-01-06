@@ -5,9 +5,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "semantic-ui-react";
 
-import { SORT_BY } from "../../constants";
+import { BOARD_SORT_BY } from "../../../constants";
 import "./DashboardSortDropdown.scss";
-import DropdownButton from "../DropdownButton/DropdownButton";
+import DropdownButton from "../../DropdownButton/DropdownButton";
 
 function DashboardSortDropdown(props) {
   const dropdownButton = (
@@ -27,7 +27,7 @@ function DashboardSortDropdown(props) {
       direction={props.hideLabel ? "left" : "right"}
     >
       <Dropdown.Menu className="dropdownMenu">
-        {Object.values(SORT_BY).map((option) => (
+        {Object.values(BOARD_SORT_BY).map((option) => (
           <Dropdown.Item
             key={option.name}
             onClick={() =>

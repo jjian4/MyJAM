@@ -1,21 +1,10 @@
 import { useState, useEffect } from "react";
-import { Button, Dropdown } from "semantic-ui-react";
+import Dashboard from "../../components/Dashboard/Dashboard";
 
-import DashboardColumn from "../../components/DashboardColumn/DashboardColumn";
-import DashboardSortDropdown from "../../components/DashboardSortDropdown/DashboardSortDropdown";
-import DashboardStatusFilterDropdown from "../../components/DashboardStatusFilterDropdown/DashboardStatusFilterDropdown";
 import EditEntryModal from "../../components/EditEntryModal/EditEntryModal";
-import {
-  PORTFOLIO_DISPLAY,
-  PORTFOLIO_DENSITY,
-  STATUS,
-  SORT_BY,
-} from "../../constants";
-import {
-  LAST_PORTFOLIO_DISPLAY,
-  LAST_PORTFOLIO_DENSITY,
-  LAST_FILTER_SETTINGS,
-} from "../../settings";
+import EntriesTable from "../../components/EntriesTable/EntriesTable";
+import { PORTFOLIO_DISPLAY, STATUS } from "../../constants";
+import { LAST_PORTFOLIO_DISPLAY } from "../../settings";
 import "./Portfolio.scss";
 
 const fakeEntries3 = [
@@ -203,16 +192,9 @@ function Portfolio() {
 
   // Menu options
   const [display, setDisplay] = useState(LAST_PORTFOLIO_DISPLAY);
-  const [density, setDensity] = useState(LAST_PORTFOLIO_DENSITY);
-  const [sortBy, setSortBy] = useState(SORT_BY.LAST_UPDATED.name);
-  const [isSortAscending, setIsSortAscending] = useState(
-    SORT_BY.LAST_UPDATED.isDefaultAscending
-  );
-  const [isStatusFilterOpen, setIsStatusFilterOpen] = useState(false);
-  const [filterSettings, setFilterSettings] = useState(LAST_FILTER_SETTINGS);
 
   // Entries
-  const [entriesByStatus, setEntriesByStatus] = useState({});
+  const [entries, setEntries] = useState([]);
 
   // Edit Entry Modals
   const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -222,37 +204,13 @@ function Portfolio() {
 
   useEffect(() => {
     // TODO: fetch portfolio entries from db
-    const statusToEntry = {};
-    Object.values(STATUS).forEach((status) => {
-      statusToEntry[status] = [];
-    });
-    fakeEntries3.forEach((entry) => {
-      statusToEntry[entry.status].push(entry);
-    });
-    setEntriesByStatus(statusToEntry);
+    setEntries(fakeEntries3);
 
     window.addEventListener("resize", resizeWindow);
     return () => {
       window.removeEventListener("resize", resizeWindow);
     };
   }, []);
-
-  const sortDashboardEntries = (sortBy, isSortAscending) => {
-    setSortBy(sortBy);
-    setIsSortAscending(isSortAscending);
-
-    const entryProperty = Object.values(SORT_BY).find((x) => x.name === sortBy)
-      .entryProperty;
-    const statusToEntry = Object.assign({}, entriesByStatus);
-    Object.values(statusToEntry).forEach((entries) => {
-      if (isSortAscending) {
-        entries.sort((a, b) => (a[entryProperty] > b[entryProperty] ? 1 : -1));
-      } else {
-        entries.sort((a, b) => (a[entryProperty] < b[entryProperty] ? 1 : -1));
-      }
-    });
-    setEntriesByStatus(statusToEntry);
-  };
 
   // Resize menu items when window gets too small
   const resizeWindow = () => {
@@ -285,125 +243,25 @@ function Portfolio() {
 
   return (
     <div className="Portfolio">
-      <div className="portfolioMenuBar">
-        <div className="content">
-          <div className="menuleft">
-            <Button.Group className="displayButtons" basic size="mini">
-              {Object.values(PORTFOLIO_DISPLAY).map((item, index) => (
-                <Button
-                  key={index}
-                  icon
-                  active={display === item.name}
-                  onClick={() => setDisplay(item.name)}
-                >
-                  {item.icon}
-                  {!isWindowSmall && (
-                    <span className="buttonLabel">{item.name}</span>
-                  )}
-                </Button>
-              ))}
-            </Button.Group>
-
-            <Button.Group className="densityButtons" basic size="mini">
-              {Object.values(PORTFOLIO_DENSITY).map((item, index) => (
-                <Button
-                  key={index}
-                  icon
-                  active={density === item.name}
-                  onClick={() => setDensity(item.name)}
-                >
-                  {item.icon}
-                  {!isWindowSmall && (
-                    <span className="buttonLabel">{item.name}</span>
-                  )}
-                </Button>
-              ))}
-            </Button.Group>
-          </div>
-
-          <Dropdown
-            className="portfolioSelector"
-            text="Summer Internships 2019"
-            pointing
-          >
-            <Dropdown.Menu>
-              <Dropdown.Item>Summer Internships 2019</Dropdown.Item>
-              <Dropdown.Item>Summer 2018</Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item>Edit Portfolios</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-
-          <div className="menuRight">
-            <span className="filterDropdown">
-              {/* Controlling this dropdown the hard way because checkbox clicks close the menu by default */}
-              <DashboardStatusFilterDropdown
-                hideLabel={isWindowSmall}
-                open={isStatusFilterOpen}
-                onOpen={() => setIsStatusFilterOpen(true)}
-                onClose={() => setIsStatusFilterOpen(false)}
-                entriesByStatus={entriesByStatus}
-                filterSettings={filterSettings}
-                onChange={(x) => setFilterSettings(x)}
-              />
-            </span>
-
-            <span className="sortDropdown">
-              <DashboardSortDropdown
-                hideLabel={isWindowSmall}
-                value={sortBy}
-                isSortAscending={isSortAscending}
-                onSelect={sortDashboardEntries}
-              />
-            </span>
-
-            <Button
-              className="newEntryButton"
-              positive
-              size="mini"
-              icon="plus"
-              content={isWindowSmall ? null : "New Entry"}
-              onClick={() => {
-                setNewModalInitialValues({});
-                setIsNewModalOpen(true);
-              }}
-            />
-          </div>
-        </div>
-      </div>
-
       {display === PORTFOLIO_DISPLAY.BOARD.name && (
-        <div className="dashboardColumns">
-          {Object.values(STATUS).map((status, index) => {
-            if (filterSettings[status]?.isActive) {
-              return (
-                <DashboardColumn
-                  key={index}
-                  status={status}
-                  isExpanded={filterSettings[status].isExpanded}
-                  entries={entriesByStatus[status] || []}
-                  density={density}
-                  onOpenNewEntry={openNewEntry}
-                  onOpenEditEntry={openEditEntry}
-                  onChangeExpanded={(isExpanded) => {
-                    const newSettings = Object.assign({}, filterSettings);
-                    newSettings[status].isExpanded = isExpanded;
-                    setFilterSettings(newSettings);
-                  }}
-                  onHideColumn={() => {
-                    const newSettings = Object.assign({}, filterSettings);
-                    newSettings[status].isActive = false;
-                    setFilterSettings(newSettings);
-                  }}
-                />
-              );
-            }
-            return null;
-          })}
-        </div>
+        <Dashboard
+          isWindowSmall={isWindowSmall}
+          onChangeDisplay={setDisplay}
+          entries={entries}
+          onOpenNewEntry={openNewEntry}
+          onOpenEditEntry={openEditEntry}
+        />
       )}
 
-      {display === PORTFOLIO_DISPLAY.TABLE.name && <div>TODO</div>}
+      {display === PORTFOLIO_DISPLAY.TABLE.name && (
+        <EntriesTable
+          isWindowSmall={isWindowSmall}
+          onChangeDisplay={setDisplay}
+          entries={entries}
+          onOpenNewEntry={openNewEntry}
+          onOpenEditEntry={openEditEntry}
+        />
+      )}
 
       {/* Used to add new entries */}
       <EditEntryModal

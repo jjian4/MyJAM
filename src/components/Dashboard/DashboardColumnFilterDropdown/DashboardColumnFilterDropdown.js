@@ -3,10 +3,10 @@ import { faExpand, faCompressAlt } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef } from "react";
 import { Button, Dropdown, Checkbox } from "semantic-ui-react";
 
-import DropdownButton from "../DropdownButton/DropdownButton";
-import "./DashboardStatusFilterDropdown.scss";
+import DropdownButton from "../../DropdownButton/DropdownButton";
+import "./DashboardColumnFilterDropdown.scss";
 
-function DashboardStatusFilterDropdown(props) {
+function DashboardColumnFilterDropdown(props) {
   const ref = useRef(null);
   const useOutsideClickListener = (ref) => {
     useEffect(() => {
@@ -35,7 +35,7 @@ function DashboardStatusFilterDropdown(props) {
   );
 
   const handleCheckboxChange = (e, { value }) => {
-    const newSettings = Object.assign({}, props.filterSettings);
+    const newSettings = Object.assign({}, props.columnFilter);
     const status = value;
 
     if (newSettings[status]?.isActive) {
@@ -49,10 +49,10 @@ function DashboardStatusFilterDropdown(props) {
   };
 
   const handleSizeChange = (status, isExpanded) => {
-    if (props.filterSettings?.isExpanded === isExpanded) {
+    if (props.columnFilter?.isExpanded === isExpanded) {
       return;
     }
-    const newSettings = Object.assign({}, props.filterSettings);
+    const newSettings = Object.assign({}, props.columnFilter);
 
     if (newSettings[status]) {
       newSettings[status].isExpanded = isExpanded;
@@ -66,7 +66,7 @@ function DashboardStatusFilterDropdown(props) {
   return (
     <span ref={ref}>
       <Dropdown
-        className="DashboardStatusFilterDropdown"
+        className="DashboardColumnFilterDropdown"
         trigger={dropdownButton}
         icon={false}
         open={props.open}
@@ -89,7 +89,7 @@ function DashboardStatusFilterDropdown(props) {
                     : ""
                 }`}
                 value={status}
-                checked={props.filterSettings[status]?.isActive}
+                checked={props.columnFilter[status]?.isActive}
                 onChange={handleCheckboxChange}
               />
 
@@ -97,7 +97,7 @@ function DashboardStatusFilterDropdown(props) {
                 <Button
                   title="Compress"
                   icon
-                  active={!props.filterSettings[status]?.isExpanded}
+                  active={!props.columnFilter[status]?.isExpanded}
                   onClick={() => handleSizeChange(status, false)}
                 >
                   <FontAwesomeIcon icon={faCompressAlt} />
@@ -105,7 +105,7 @@ function DashboardStatusFilterDropdown(props) {
                 <Button
                   title="Expand"
                   icon
-                  active={props.filterSettings[status]?.isExpanded}
+                  active={props.columnFilter[status]?.isExpanded}
                   onClick={() => handleSizeChange(status, true)}
                 >
                   <FontAwesomeIcon icon={faExpand} />
@@ -119,4 +119,4 @@ function DashboardStatusFilterDropdown(props) {
   );
 }
 
-export default DashboardStatusFilterDropdown;
+export default DashboardColumnFilterDropdown;

@@ -8,9 +8,9 @@ import {
   faPlusCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-import "./DashboardColumn.scss";
-import { PORTFOLIO_DENSITY } from "../../constants";
+import { BOARD_DENSITY } from "../../../constants";
 import DashboardIconCard from "../DashboardIconCard/DashboardIconCard";
+import "./DashboardColumn.scss";
 
 const MIN_WIDTH = 280;
 const MAX_WIDTH = 310;
@@ -66,9 +66,9 @@ function DashboardColumn(props) {
         </div>
 
         <div className="entriesGrid">
-          {props.entries.map((entry, index) => (
-            <>
-              {props.density === PORTFOLIO_DENSITY.ICONS.name ? (
+          {props.entries.map((entry, index) => {
+            if (props.density === BOARD_DENSITY.ICONS.name) {
+              return (
                 <div
                   className={`entryIconCard ${
                     props.isExpanded ? "entryIconCard-halfWidth" : ""
@@ -80,7 +80,9 @@ function DashboardColumn(props) {
                     onOpenEditEntry={props.onOpenEditEntry}
                   />
                 </div>
-              ) : (
+              );
+            } else {
+              return (
                 <div
                   className={`entryCard ${
                     props.isExpanded ? "entryCard-halfWidth" : ""
@@ -93,9 +95,9 @@ function DashboardColumn(props) {
                     density={props.density}
                   />
                 </div>
-              )}
-            </>
-          ))}
+              );
+            }
+          })}
         </div>
       </div>
     </div>

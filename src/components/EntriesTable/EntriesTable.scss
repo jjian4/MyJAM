@@ -1,0 +1,44 @@
+@import "../../utilities/variables";
+
+.EntriesTable {
+  .tableMenuBar {
+    height: $portfolio-menu-height;
+    position: sticky;
+    top: $menu-height;
+    left: 0;
+    right: 0;
+    z-index: 3;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: white;
+
+    .menuleft {
+      padding: 0 8px;
+      .displayButtons {
+        margin-right: 12px;
+      }
+      .densityButtons {
+      }
+
+      .buttonLabel {
+        margin-left: 4px;
+      }
+    }
+
+    .menuRight {
+      padding: 0 8px;
+
+      .newEntryButton {
+      }
+    }
+  }
+
+  .dataTable {
+    height: calc(100vh - #{$menu-height} - #{$portfolio-menu-height});
+    padding: 6px 8px;
+    background-color: pink;
+  }
+}
