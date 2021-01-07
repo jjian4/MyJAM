@@ -1,6 +1,14 @@
 @import "../../utilities/variables";
 
 .Dashboard {
+  ::-webkit-scrollbar {
+    display: none;
+    // width: 2px;
+  }
+  // ::-webkit-scrollbar-thumb {
+  // 	background-color: gray;
+  // }
+
   .dashboardMenuBar {
     height: $portfolio-menu-height;
     position: sticky;

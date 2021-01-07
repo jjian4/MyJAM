@@ -1,109 +1,30 @@
 import { useState } from "react";
-import { Button } from "semantic-ui-react";
-import DataTable, { createTheme } from "react-data-table-component";
+import { Button, Table } from "semantic-ui-react";
 import dateFormat from "dateformat";
 
-import {
-  MENU_HEIGHT,
-  PORTFOLIO_DISPLAY,
-  PORTFOLIO_MENU_HEIGHT,
-  TABLE_DENSITY,
-} from "../../constants";
+import { PORTFOLIO_DISPLAY, TABLE_DENSITY } from "../../constants";
 import { LAST_TABLE_DENSITY } from "../../settings";
 import "./EntriesTable.scss";
-
-// createTheme("myTheme", {
-//   text: {
-//     primary: "black",
-//     secondary: "gray",
-//   },
-//   background: {
-//     default: "transparant",
-//   },
-//   action: {
-//     hover: "rgba(0,0,0,.08)",
-//   },
-// });
-
-const columns = [
-  {
-    name: "Date Created",
-    selector: "dateCreated",
-    sortable: true,
-    format: (row) => dateFormat(row.dateCreated, "mmm dd, yyyy"),
-  },
-  {
-    name: "Last Update",
-    selector: "lastUpdate",
-    sortable: true,
-    format: (row) => dateFormat(row.lastUpdate, "mmm dd, yyyy"),
-  },
-  {
-    name: "Color",
-    selector: "color",
-    sortable: true,
-    cell: (row) => (
-      <div className="colorCell">
-        <div
-          className="color"
-          style={{ backgroundColor: row.color }}
-          title={row.color}
-        />
-      </div>
-    ),
-    grow: 0,
-  },
-  {
-    name: "Company",
-    selector: "company",
-    sortable: true,
-    cell: (row) => (
-      <div className="companyCell">
-        <img className="logo" src={row.logo} alt="logo" /> {row.company}
-      </div>
-    ),
-    grow: 1.5,
-  },
-  {
-    name: "Job Title",
-    selector: "jobTitle",
-    sortable: true,
-    grow: 1.5,
-    wrap: true,
-  },
-  {
-    name: "Application Date",
-    selector: "applyDate",
-    sortable: true,
-    format: (row) => dateFormat(row.applyDate, "mmm dd, yyyy"),
-  },
-
-  {
-    name: "Deadline Date",
-    selector: "deadlineDate",
-    sortable: true,
-    format: (row) => dateFormat(row.deadlineDate, "mmm dd, yyyy"),
-  },
-  {
-    name: "Status",
-    selector: "status",
-    sortable: true,
-  },
-  {
-    name: "Notes",
-    selector: "notes",
-    sortable: true,
-    grow: 1.5,
-    wrap: true,
-  },
-];
 
 function EntriesTable(props) {
   // Menu
   const [density, setDensity] = useState(LAST_TABLE_DENSITY);
 
-  const handleRowClick = (e) => {
-    console.log(e);
+  const [dataOrder, setDataOrder] = useState([
+    { name: "Color", property: "color" },
+    { name: "Company", property: "company" },
+    { name: "Job Title", property: "jobTitle" },
+    { name: "Status", property: "status" },
+    { name: "Notes", property: "notes" },
+    { name: "Date Created", property: "dateCreated", isDate: true },
+    { name: "Last Update", property: "lastUpdate", isDate: true },
+    { name: "Application Date", property: "applyDate", isDate: true },
+    { name: "Deadline Date", property: "deadlineDate", isDate: true },
+  ]);
+
+  const handleRowClick = (entry) => {
+    console.log(entry);
+    console.log("TODO");
   };
 
   return (
@@ -156,20 +77,77 @@ function EntriesTable(props) {
       </div>
 
       <div className="dataTableContainer">
-        <DataTable
+        <Table
           className="dataTable"
-          // title="Summer Internships 2019"
-          noHeader
-          // fixedHeader
-          // fixedHeaderScrollHeight={`calc(100vh - ${MENU_HEIGHT} - ${PORTFOLIO_MENU_HEIGHT} - 56px)`}
-          columns={columns}
-          data={props.entries}
-          onRowClicked={handleRowClick}
-          highlightOnHover
-          pointerOnHover
-          dense={density === TABLE_DENSITY.COMPACT.name}
-          // theme="myTheme"
-        />
+          celled
+          selectable
+          compact={density === TABLE_DENSITY.COMPACT.name ? "very" : false}
+          size="small"
+          sortable
+          unstackable
+        >
+          <Table.Header>
+            <Table.Row>
+              {dataOrder.map((column, index) => (
+                <Table.HeaderCell
+                  key={index}
+                  // sorted={column === "name" ? direction : null}
+                  // onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'name' })}
+                >
+                  {column.name}
+                </Table.HeaderCell>
+              ))}
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {props.entries.map((entry) => (
+              <Table.Row key={entry.id} onClick={() => handleRowClick(entry)}>
+                {dataOrder.map((column, index) => {
+                  if (column.property === "color") {
+                    return (
+                      <Table.Cell key={index} singleLine>
+                        <div className="colorCell">
+                          <div
+                            className="color"
+                            style={{ backgroundColor: entry[column.property] }}
+                            title={entry[column.property]}
+                          />
+                        </div>
+                      </Table.Cell>
+                    );
+                  }
+                  if (column.property === "company") {
+                    return (
+                      <Table.Cell key={index} singleLine>
+                        <div className="companyCell">
+                          <img
+                            className="logo"
+                            src={entry["logo"]}
+                            alt="logo"
+                          />{" "}
+                          {entry[column.property]}
+                        </div>
+                      </Table.Cell>
+                    );
+                  }
+                  if (column.isDate && entry[column.property]) {
+                    return (
+                      <Table.Cell key={index} singleLine>
+                        {dateFormat(entry[column.property], "mmm dd, yyyy")}
+                      </Table.Cell>
+                    );
+                  }
+
+                  return (
+                    <Table.Cell key={index}>
+                      {entry[column.property]}
+                    </Table.Cell>
+                  );
+                })}
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
       </div>
     </div>
   );
