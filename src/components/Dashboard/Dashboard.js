@@ -133,32 +133,27 @@ function Dashboard(props) {
       </div>
 
       <div className="dashboardColumns">
-        {Object.values(STATUS).map((status, index) => {
-          if (columnFilter[status]?.isActive) {
-            return (
-              <DashboardColumn
-                key={index}
-                status={status}
-                isExpanded={columnFilter[status].isExpanded}
-                entries={entriesByStatus[status] || []}
-                density={density}
-                onOpenNewEntry={props.onOpenNewEntry}
-                onOpenEditEntry={props.onOpenEditEntry}
-                onChangeExpanded={(isExpanded) => {
-                  const newSettings = Object.assign({}, columnFilter);
-                  newSettings[status].isExpanded = isExpanded;
-                  setcolumnFilter(newSettings);
-                }}
-                onHideColumn={() => {
-                  const newSettings = Object.assign({}, columnFilter);
-                  newSettings[status].isActive = false;
-                  setcolumnFilter(newSettings);
-                }}
-              />
-            );
-          }
-          return null;
-        })}
+        {columnFilter.map((column, index) => (
+          <DashboardColumn
+            key={index}
+            status={column.status}
+            isExpanded={column.isExpanded}
+            entries={entriesByStatus[column.status] || []}
+            density={density}
+            onOpenNewEntry={props.onOpenNewEntry}
+            onOpenEditEntry={props.onOpenEditEntry}
+            onChangeExpanded={(isExpanded) => {
+              const newColumnFilter = [...columnFilter];
+              newColumnFilter[index].isExpanded = isExpanded;
+              setcolumnFilter(newColumnFilter);
+            }}
+            onHideColumn={() => {
+              const newColumnFilter = [...columnFilter];
+              newColumnFilter.splice(index, 1);
+              setcolumnFilter(newColumnFilter);
+            }}
+          />
+        ))}
       </div>
     </div>
   );

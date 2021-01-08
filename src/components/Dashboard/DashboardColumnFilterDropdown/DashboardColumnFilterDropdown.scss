@@ -34,11 +34,12 @@
         }
       }
     }
-    .sizeButtons {
-      button {
-        height: 28px;
-        width: 28px;
-      }
+    .sizeButton {
+      height: 28px;
+      width: 28px;
+    }
+    .sizeButton-hidden {
+      visibility: hidden;
     }
   }
 }

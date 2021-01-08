@@ -1,7 +1,6 @@
 import {
   PORTFOLIO_DISPLAY,
   BOARD_DENSITY,
-  STATUS,
   TABLE_DENSITY,
   BOARD_SORT_BY,
 } from "./constants";
@@ -16,11 +15,11 @@ export const LAST_BOARD_DENSITY = BOARD_DENSITY.COMPACT.name;
 
 export const LAST_BOARD_SORT = BOARD_SORT_BY.LAST_UPDATE;
 
-export const LAST_BOARD_COLUMN_FILTER = {
-  [STATUS.APPLIED]: { isActive: true, isExpanded: false },
-  [STATUS.INTERVIEW]: { isActive: true, isExpanded: false },
-  [STATUS.OFFER]: { isActive: true, isExpanded: false },
-};
+export const LAST_BOARD_COLUMN_FILTER = [
+  { status: "Applied", isExpanded: false },
+  { status: "Interview", isExpanded: false },
+  { status: "Offer", isExpanded: false },
+];
 
 export const LAST_TABLE_DENSITY = TABLE_DENSITY.COMFORTABLE.name;
 

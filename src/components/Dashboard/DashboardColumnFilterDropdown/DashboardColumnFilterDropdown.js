@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExpand, faCompressAlt } from "@fortawesome/free-solid-svg-icons";
 import { Button, Checkbox } from "semantic-ui-react";
 
 import DropdownButton from "../../DropdownButton/DropdownButton";
 import "./DashboardColumnFilterDropdown.scss";
 import ControlledDropdown from "../../ControlledDropdown/ControlledDropdown";
+import { BOARD_COLUMN_OPTION_ICONS } from "../../../constants";
 
 function DashboardColumnFilterDropdown(props) {
   const dropdownButton = (
@@ -16,32 +16,32 @@ function DashboardColumnFilterDropdown(props) {
     />
   );
 
-  const handleCheckboxChange = (e, { value }) => {
-    const newSettings = Object.assign({}, props.columnFilter);
+  const handleCheckboxToggle = (e, { value }) => {
+    const newSettings = [...props.columnFilter];
     const status = value;
 
-    if (newSettings[status]?.isActive) {
-      newSettings[status].isActive = false;
-    } else if (newSettings[status]) {
-      newSettings[status].isActive = true;
+    const index = props.columnFilter.findIndex(
+      (column) => column.status === status
+    );
+    if (index === -1) {
+      newSettings.push({ status: status, isExpanded: false });
     } else {
-      newSettings[status] = { isActive: true, isExpanded: false };
+      newSettings.splice(index, 1);
     }
     props.onChange(newSettings);
   };
 
-  const handleSizeChange = (status, isExpanded) => {
-    if (props.columnFilter?.isExpanded === isExpanded) {
+  const handleSizeToggle = (status) => {
+    const newSettings = [...props.columnFilter];
+
+    const index = props.columnFilter.findIndex(
+      (column) => column.status === status
+    );
+    if (index === -1) {
       return;
     }
-    const newSettings = Object.assign({}, props.columnFilter);
 
-    if (newSettings[status]) {
-      newSettings[status].isExpanded = isExpanded;
-    } else {
-      newSettings[status] = { isActive: false, isExpanded: isExpanded };
-    }
-
+    newSettings[index].isExpanded = !newSettings[index].isExpanded;
     props.onChange(newSettings);
   };
 
@@ -64,28 +64,34 @@ function DashboardColumnFilterDropdown(props) {
                 : ""
             }`}
             value={status}
-            checked={props.columnFilter[status]?.isActive}
-            onChange={handleCheckboxChange}
+            checked={
+              props.columnFilter.findIndex(
+                (column) => column.status === status
+              ) !== -1
+            }
+            onChange={handleCheckboxToggle}
           />
 
-          <Button.Group className="sizeButtons" basic size="mini">
-            <Button
-              title="Compress"
-              icon
-              active={!props.columnFilter[status]?.isExpanded}
-              onClick={() => handleSizeChange(status, false)}
-            >
-              <FontAwesomeIcon icon={faCompressAlt} />
-            </Button>
-            <Button
-              title="Expand"
-              icon
-              active={props.columnFilter[status]?.isExpanded}
-              onClick={() => handleSizeChange(status, true)}
-            >
-              <FontAwesomeIcon icon={faExpand} />
-            </Button>
-          </Button.Group>
+          <Button
+            className={`sizeButton ${
+              props.columnFilter.findIndex(
+                (column) => column.status === status
+              ) === -1
+                ? "sizeButton-hidden"
+                : ""
+            }`}
+            title="Expand"
+            basic
+            size="mini"
+            icon
+            active={
+              props.columnFilter.find((column) => column.status === status)
+                ?.isExpanded
+            }
+            onClick={() => handleSizeToggle(status)}
+          >
+            <FontAwesomeIcon icon={BOARD_COLUMN_OPTION_ICONS.EXPAND} />
+          </Button>
         </div>
       ))}
     </ControlledDropdown>

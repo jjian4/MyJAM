@@ -1,7 +1,11 @@
 import {
   faColumns,
+  faCompress,
+  faExpandAlt,
   faList,
   faListAlt,
+  faMinus,
+  faPlusCircle,
   faStickyNote,
   faTh,
   faThLarge,
@@ -21,12 +25,12 @@ export const PORTFOLIO_DISPLAY = {
 };
 
 export const STATUS = {
-  REJECTED: "Rejected",
+  Rejected: "Rejected",
   WISHLIST: "Wishlist",
   APPLIED: "Applied",
   PHONE_SCREEN: "Phone Screen",
   INTERVIEW: "Interview",
-  OFFER: "Offer!",
+  OFFER: "Offer",
 };
 
 export const BOARD_DENSITY = {
@@ -44,15 +48,11 @@ export const BOARD_DENSITY = {
   },
 };
 
-export const TABLE_DENSITY = {
-  COMPACT: {
-    name: "Compact",
-    icon: <FontAwesomeIcon icon={faList} />,
-  },
-  COMFORTABLE: {
-    name: "Comfortable",
-    icon: <FontAwesomeIcon icon={faThList} />,
-  },
+export const BOARD_COLUMN_OPTION_ICONS = {
+  COMPRESS: faCompress,
+  EXPAND: faExpandAlt,
+  ADD_ENTRY: faPlusCircle,
+  HIDE_COLUMN: faMinus,
 };
 
 export const BOARD_SORT_BY = {
@@ -85,6 +85,17 @@ export const BOARD_SORT_BY = {
     name: "Date Created",
     entryProperty: "dateCreated",
     isDefaultAscending: false,
+  },
+};
+
+export const TABLE_DENSITY = {
+  COMPACT: {
+    name: "Compact",
+    icon: <FontAwesomeIcon icon={faList} />,
+  },
+  COMFORTABLE: {
+    name: "Comfortable",
+    icon: <FontAwesomeIcon icon={faThList} />,
   },
 };
 
