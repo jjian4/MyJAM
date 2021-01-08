@@ -56,13 +56,13 @@ export const TABLE_DENSITY = {
 };
 
 export const BOARD_SORT_BY = {
-  LAST_UPDATED: {
-    name: "Last Updated",
-    entryProperty: "lastUpdated",
+  LAST_UPDATE: {
+    name: "Last Update",
+    entryProperty: "lastUpdate",
     isDefaultAscending: false,
   },
   DEADLINE_DATE: {
-    name: "Deadline Date",
+    name: "Interview/Deadline",
     entryProperty: "deadlineDate",
     isDefaultAscending: false,
   },
@@ -85,6 +85,22 @@ export const BOARD_SORT_BY = {
     name: "Date Created",
     entryProperty: "dateCreated",
     isDefaultAscending: false,
+  },
+};
+
+export const TABLE_COLUMNS = {
+  COLOR: { name: "Color", property: "color" },
+  COMPANY: { name: "Company", property: "company" },
+  JOB_TITLE: { name: "Job Title", property: "jobTitle" },
+  STATUS: { name: "Status", property: "status" },
+  NOTES: { name: "Notes", property: "notes" },
+  DATE_CREATED: { name: "Date Created", property: "dateCreated", isDate: true },
+  LAST_UPDATE: { name: "Last Update", property: "lastUpdate", isDate: true },
+  APPLY_DATE: { name: "Application Date", property: "applyDate", isDate: true },
+  DEADLINE_DATE: {
+    name: "Interview/Deadline",
+    property: "deadlineDate",
+    isDate: true,
   },
 };
 

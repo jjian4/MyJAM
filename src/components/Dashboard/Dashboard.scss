@@ -24,7 +24,7 @@
     background-color: white;
 
     .menuleft {
-      padding: 0 8px;
+      padding: 0 10px;
       .displayButtons {
         margin-right: 12px;
       }
@@ -37,7 +37,7 @@
     }
 
     .menuRight {
-      padding: 0 8px;
+      padding: 0 10px;
       .sortDropdown {
         margin-right: 12px;
       }
@@ -53,6 +53,6 @@
     display: flex;
     overflow-x: auto;
     height: calc(100vh - #{$menu-height} - #{$portfolio-menu-height});
-    padding: 6px 8px;
+    padding: 6px 10px;
   }
 }
