@@ -26,7 +26,6 @@ function Dashboard(props) {
   const [isSortAscending, setIsSortAscending] = useState(
     LAST_BOARD_SORT.isDefaultAscending
   );
-  const [isColumnFilterOpen, setisColumnFilterOpen] = useState(false);
   const [columnFilter, setcolumnFilter] = useState(LAST_BOARD_COLUMN_FILTER);
 
   useEffect(() => {
@@ -105,12 +104,8 @@ function Dashboard(props) {
 
         <div className="menuRight">
           <span className="filterDropdown">
-            {/* Controlling this dropdown the hard way because checkbox clicks close the menu by default */}
             <DashboardColumnFilterDropdown
               hideLabel={props.isWindowSmall}
-              open={isColumnFilterOpen}
-              onOpen={() => setisColumnFilterOpen(true)}
-              onClose={() => setisColumnFilterOpen(false)}
               entriesByStatus={entriesByStatus}
               columnFilter={columnFilter}
               onChange={(x) => setcolumnFilter(x)}
