@@ -32,7 +32,6 @@ function DashboardColumn(props) {
 
   return (
     <div
-      ref={drop}
       className="DashboardColumn"
       style={{
         minWidth: `${MIN_WIDTH * (props.isExpanded ? 2 : 1)}px`,
@@ -40,6 +39,7 @@ function DashboardColumn(props) {
       }}
     >
       <div
+        ref={drop}
         className="content"
         style={{
           opacity: `${canDrop ? "0.9" : "1"}`,

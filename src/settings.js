@@ -7,7 +7,7 @@ import {
 
 // Hard-coded for now
 
-export const IS_CARD_COLORS_ON = false;
+export const IS_CARD_COLORS_ON = true;
 
 export const LAST_PORTFOLIO_DISPLAY = PORTFOLIO_DISPLAY.BOARD.name;
 

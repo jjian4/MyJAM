@@ -158,12 +158,11 @@
       .cardButton {
         &:hover {
           // background-color assigned in js
-          filter: brightness(97%);
+          filter: brightness(95%);
         }
       }
     }
   }
-
   &:hover {
     border: 1px solid lightgray;
   }

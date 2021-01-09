@@ -96,6 +96,7 @@ function EditEntryModal(props) {
                 trigger={
                   <div
                     className="colorDropdownButton"
+                    title={color}
                     style={{ backgroundColor: color }}
                   />
                 }
@@ -110,6 +111,7 @@ function EditEntryModal(props) {
                           className={`colorOption ${
                             colorOption === color ? "colorOption-selected" : ""
                           }`}
+                          title={colorOption}
                           style={{ backgroundColor: colorOption }}
                           onClick={() => setColor(colorOption)}
                         />
@@ -121,8 +123,9 @@ function EditEntryModal(props) {
             )}
 
             <FontAwesomeIcon
-              tabIndex={0}
               className={isStarred ? "starButton" : "starOutlineButton"}
+              tabIndex={0}
+              title="Favorite"
               icon={isStarred ? faStar : faStarOutline}
               onClick={() => setIsStarred(!isStarred)}
             />
@@ -199,7 +202,11 @@ function EditEntryModal(props) {
           <Form.Group widths="equal">
             <Form.Field>
               <label>URL</label>
-              <Input value={url} onChange={(e) => setUrl(e.target.value)} />
+              <Input
+                type="url"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+              />
             </Form.Field>
           </Form.Group>
 

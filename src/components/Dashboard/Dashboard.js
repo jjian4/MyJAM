@@ -45,9 +45,13 @@ function Dashboard(props) {
       ).entryProperty;
       Object.values(statusToEntries).forEach((entries) => {
         if (isSortAscending) {
-          entries.sort((a, b) =>
-            a[entryProperty] > b[entryProperty] ? 1 : -1
-          );
+          entries.sort((a, b) => {
+            // Show the cards that have a value first, even though empty string technically comes first
+            if (!(a[entryProperty] && b[entryProperty])) {
+              return !a[entryProperty] ? 1 : -1;
+            }
+            return a[entryProperty] > b[entryProperty] ? 1 : -1;
+          });
         } else {
           entries.sort((a, b) =>
             a[entryProperty] < b[entryProperty] ? 1 : -1

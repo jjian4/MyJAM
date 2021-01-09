@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import { useDrag } from "react-dnd";
+import TimeAgo from "react-timeago";
 
 import { IS_CARD_COLORS_ON } from "../../../settings";
 import "./DashboardCard.scss";
@@ -96,7 +97,9 @@ function DashboardCard(props) {
             <div className="cardDates">
               <div>
                 <FontAwesomeIcon className={"dateIcon"} icon={faCalendar} />
-                <span className="date">edited X min ago</span>
+                <span className="date">
+                  edited <TimeAgo date={props.entry.lastUpdate} minPeriod={5} />
+                </span>
               </div>
               {props.entry.deadlineDate && (
                 <div>

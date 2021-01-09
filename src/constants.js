@@ -68,7 +68,7 @@ export const BOARD_SORT_BY = {
   DEADLINE_DATE: {
     name: "Interview/Deadline",
     entryProperty: "deadlineDate",
-    isDefaultAscending: false,
+    isDefaultAscending: true,
   },
   COMPANY: {
     name: "Company",
