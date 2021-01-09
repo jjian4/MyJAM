@@ -145,6 +145,7 @@ function EditEntryModal(props) {
                   setDomain(domain);
                   setLogo(logo);
                 }}
+                autoFocus={props.autoFocusProperty === "company"}
               />
             </Form.Field>
 
@@ -153,6 +154,7 @@ function EditEntryModal(props) {
               <Input
                 value={jobTitle}
                 onChange={(e) => setJobTitle(e.target.value)}
+                autoFocus={props.autoFocusProperty === "jobTitle"}
               />
             </Form.Field>
           </Form.Group>
@@ -169,6 +171,7 @@ function EditEntryModal(props) {
                 onChange={(e, { name, value }) =>
                   validateDate(value) && setApplyDate(value)
                 }
+                autoFocus={props.autoFocusProperty === "applyDate"}
               />
             </Form.Field>
 
@@ -183,6 +186,7 @@ function EditEntryModal(props) {
                 onChange={(e, { name, value }) =>
                   validateDate(value) && setDeadlineDate(value)
                 }
+                autoFocus={props.autoFocusProperty === "deadlineDate"}
               />
             </Form.Field>
 
@@ -190,11 +194,11 @@ function EditEntryModal(props) {
               <label>Status</label>
               <Dropdown
                 fluid
-                search
                 selection
                 options={statusOptions}
                 value={status}
                 onChange={(e, { name, value }) => setStatus(value)}
+                defaultOpen={props.autoFocusProperty === "status"}
               />
             </Form.Field>
           </Form.Group>
@@ -206,6 +210,7 @@ function EditEntryModal(props) {
                 type="url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
+                autoFocus={props.autoFocusProperty === "url"}
               />
             </Form.Field>
           </Form.Group>
@@ -217,6 +222,7 @@ function EditEntryModal(props) {
                 placeholder="Recruiter name, number of interviews, etc..."
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
+                autoFocus={props.autoFocusProperty === "notes"}
               />
             </Form.Field>
           </Form.Group>

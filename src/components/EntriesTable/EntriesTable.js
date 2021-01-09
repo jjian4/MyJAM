@@ -1,29 +1,26 @@
 import { useState, useEffect } from "react";
 import { Button, Table } from "semantic-ui-react";
 import dateFormat from "dateformat";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 import { PORTFOLIO_DISPLAY, TABLE_DENSITY } from "../../constants";
 import {
+  LAST_TABLE_COLUMN_FILTER,
   LAST_TABLE_DENSITY,
   LAST_TABLE_IS_SORT_ASCENDING,
   LAST_TABLE_SORT_PROPERTY,
 } from "../../settings";
+import EntriesTableColumnFilterDropdown from "./EntriesTableColumnFilterDropdown/EntriesTableColumnFilterDropdown";
+
 import "./EntriesTable.scss";
 
 function EntriesTable(props) {
   const [data, setData] = useState([]);
 
-  const [activeColumns, setActiveColumns] = useState([
-    { name: "Color", property: "color" },
-    { name: "Company", property: "company" },
-    { name: "Job Title", property: "jobTitle" },
-    { name: "Status", property: "status" },
-    { name: "Notes", property: "notes" },
-    { name: "Last Update", property: "lastUpdate", isDate: true },
-  ]);
-
   // Menu
   const [density, setDensity] = useState(LAST_TABLE_DENSITY);
+  const [columnFilter, setcolumnFilter] = useState(LAST_TABLE_COLUMN_FILTER);
 
   // Sorting
   const [sortProperty, setSortProperty] = useState(LAST_TABLE_SORT_PROPERTY);
@@ -55,10 +52,14 @@ function EntriesTable(props) {
     }
   };
 
-  const handleRowClick = (entry) => {
-    console.log(entry);
-    console.log("TODO");
-  };
+  const EditCellButton = ({ entryId, propertyToEdit }) => (
+    <div
+      className="editCellButton"
+      onClick={() => props.onOpenEditCell(entryId, propertyToEdit)}
+    >
+      <FontAwesomeIcon icon={faPencilAlt} />
+    </div>
+  );
 
   return (
     <div className="EntriesTable">
@@ -98,6 +99,14 @@ function EntriesTable(props) {
         </div>
 
         <div className="menuRight">
+          <span className="filterDropdown">
+            <EntriesTableColumnFilterDropdown
+              hideLabel={props.isWindowSmall}
+              columnFilter={columnFilter}
+              onChange={setcolumnFilter}
+            />
+          </span>
+
           <Button
             className="newEntryButton"
             positive
@@ -122,27 +131,35 @@ function EntriesTable(props) {
           >
             <Table.Header>
               <Table.Row>
-                {activeColumns.map((column, index) => (
-                  <Table.HeaderCell
-                    key={index}
-                    sorted={
-                      column.property === sortProperty
-                        ? isSortAscending
-                          ? "ascending"
-                          : "descending"
-                        : null
-                    }
-                    onClick={() => handleSort(column.property)}
-                  >
-                    {column.name}
-                  </Table.HeaderCell>
-                ))}
+                {columnFilter.map((column, index) => {
+                  if (!column.isActive) {
+                    return null;
+                  }
+                  return (
+                    <Table.HeaderCell
+                      key={index}
+                      sorted={
+                        column.property === sortProperty
+                          ? isSortAscending
+                            ? "ascending"
+                            : "descending"
+                          : null
+                      }
+                      onClick={() => handleSort(column.property)}
+                    >
+                      {column.name}
+                    </Table.HeaderCell>
+                  );
+                })}
               </Table.Row>
             </Table.Header>
             <Table.Body>
               {data.map((entry) => (
-                <Table.Row key={entry.id} onClick={() => handleRowClick(entry)}>
-                  {activeColumns.map((column, index) => {
+                <Table.Row key={entry.id}>
+                  {columnFilter.map((column, index) => {
+                    if (!column.isActive) {
+                      return null;
+                    }
                     if (column.property === "color") {
                       return (
                         <Table.Cell key={index} singleLine>
@@ -161,7 +178,7 @@ function EntriesTable(props) {
                     if (column.property === "company") {
                       return (
                         <Table.Cell key={index} singleLine>
-                          <div className="companyCell">
+                          <div className="data companyCell">
                             <img
                               className="logo"
                               src={entry["logo"]}
@@ -169,20 +186,33 @@ function EntriesTable(props) {
                             />{" "}
                             {entry[column.property]}
                           </div>
+                          <EditCellButton
+                            entryId={entry["id"]}
+                            propertyToEdit={column.property}
+                          />
                         </Table.Cell>
                       );
                     }
                     if (column.isDate && entry[column.property]) {
                       return (
                         <Table.Cell key={index} singleLine>
-                          {dateFormat(entry[column.property], "mmm dd, yyyy")}
+                          <div className="data">
+                            {dateFormat(entry[column.property], "mmm dd, yyyy")}
+                          </div>
+                          <EditCellButton
+                            entryId={entry["id"]}
+                            propertyToEdit={column.property}
+                          />
                         </Table.Cell>
                       );
                     }
-
                     return (
                       <Table.Cell key={index}>
-                        {entry[column.property]}
+                        <div className="data">{entry[column.property]}</div>
+                        <EditCellButton
+                          entryId={entry["id"]}
+                          propertyToEdit={column.property}
+                        />
                       </Table.Cell>
                     );
                   })}

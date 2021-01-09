@@ -357,10 +357,16 @@ function Portfolio() {
   const [entries, setEntries] = useState([]);
 
   // Edit Entry Modals
-  const [isNewModalOpen, setIsNewModalOpen] = useState(false);
-  const [newModalInitialValues, setNewModalInitialValues] = useState({});
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editModalInitialValues, setEditModalInitialValues] = useState({});
+  const [newEntryModal, setNewEntryModal] = useState({
+    isOpen: false,
+    initialValues: {},
+    autoFocusProperty: null,
+  });
+  const [editEntryModal, setEditEntryModal] = useState({
+    isOpen: false,
+    initialValues: {},
+    autoFocusProperty: null,
+  });
 
   useEffect(() => {
     // TODO: fetch portfolio entries from db
@@ -387,21 +393,25 @@ function Portfolio() {
   };
 
   const openNewEntry = (initialValues) => {
-    setNewModalInitialValues(initialValues);
-    setIsNewModalOpen(true);
+    setNewEntryModal({
+      isOpen: true,
+      initialValues: initialValues,
+      autoFocusProperty: "company",
+    });
   };
-
   const saveNewEntry = (values) => {
     console.log(values);
     // TODO: add to database, add generated id to values, insert entry into column
     console.log("TODO: Update database");
   };
 
-  const openEditEntry = (initialValues) => {
-    setEditModalInitialValues(initialValues);
-    setIsEditModalOpen(true);
+  const openEditEntry = (entryId, autoFocusProperty = null) => {
+    setEditEntryModal({
+      isOpen: true,
+      initialValues: entries.find((entry) => entry.id === entryId),
+      autoFocusProperty: autoFocusProperty,
+    });
   };
-
   const saveEditEntry = (values) => {
     const updatedEntries = [...entries];
     const index = updatedEntries.findIndex((entry) => entry.id === values.id);
@@ -430,25 +440,38 @@ function Portfolio() {
           onChangeDisplay={setDisplay}
           entries={entries}
           onOpenNewEntry={openNewEntry}
-          onOpenEditEntry={openEditEntry}
+          onOpenEditCell={openEditEntry}
         />
       )}
 
       {/* Used to add new entries */}
       <EditEntryModal
-        open={isNewModalOpen}
-        onClose={() => setIsNewModalOpen(false)}
+        open={newEntryModal.isOpen}
+        onClose={() =>
+          setNewEntryModal({
+            isOpen: false,
+            initialValues: {},
+            autoFocusProperty: null,
+          })
+        }
         heading="New Entry"
-        initialValues={newModalInitialValues}
+        initialValues={newEntryModal.initialValues}
+        autoFocusProperty={newEntryModal.autoFocusProperty}
         onSave={saveNewEntry}
       />
-
       {/* Used to edit existing entries */}
       <EditEntryModal
-        open={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        heading={`${editModalInitialValues.company} - ${editModalInitialValues.jobTitle}`}
-        initialValues={editModalInitialValues}
+        open={editEntryModal.isOpen}
+        onClose={() =>
+          setEditEntryModal({
+            isOpen: false,
+            initialValues: {},
+            autoFocusProperty: null,
+          })
+        }
+        heading={`${editEntryModal.initialValues.company} - ${editEntryModal.initialValues.jobTitle}`}
+        initialValues={editEntryModal.initialValues}
+        autoFocusProperty={editEntryModal.autoFocusProperty}
         onSave={saveEditEntry}
       />
     </div>

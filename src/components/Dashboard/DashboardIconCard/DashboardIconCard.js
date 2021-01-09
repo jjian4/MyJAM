@@ -21,7 +21,7 @@ function DashboardIconCard(props) {
         cardColor ? "DashboardIconCard-colored" : ""
       }`}
       style={{ borderColor: cardColor, opacity: isDragging ? 0.5 : 1 }}
-      onClick={() => props.onOpenEditEntry(props.entry)}
+      onClick={() => props.onOpenEditEntry(props.entry.id)}
     >
       <img className="logo" src={props.entry.logo} alt={props.entry.company} />
     </div>

@@ -77,6 +77,7 @@ function CompanySelector(props) {
           ) : null,
           iconPosition: props.companyObj.logo ? "left" : null,
         }}
+        autoFocus={props.autoFocus}
       />
     </div>
   );

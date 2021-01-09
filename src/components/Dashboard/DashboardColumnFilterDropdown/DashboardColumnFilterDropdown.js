@@ -3,10 +3,10 @@ import { Button, Checkbox } from "semantic-ui-react";
 import { ReactSortable } from "react-sortablejs";
 
 import DropdownButton from "../../DropdownButton/DropdownButton";
-import "./DashboardColumnFilterDropdown.scss";
 import ControlledDropdown from "../../ControlledDropdown/ControlledDropdown";
 import { BOARD_COLUMN_OPTION_ICONS } from "../../../constants";
 import { faGripVertical } from "@fortawesome/free-solid-svg-icons";
+import "./DashboardColumnFilterDropdown.scss";
 
 function DashboardColumnFilterDropdown(props) {
   const dropdownButton = (

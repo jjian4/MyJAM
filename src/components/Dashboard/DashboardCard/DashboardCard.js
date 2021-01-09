@@ -75,7 +75,7 @@ function DashboardCard(props) {
               <FontAwesomeIcon
                 title="Edit"
                 icon={faEdit}
-                onClick={() => props.onOpenEditEntry(props.entry)}
+                onClick={() => props.onOpenEditEntry(props.entry.id)}
               />
             )}
 
@@ -127,7 +127,7 @@ function DashboardCard(props) {
               <div
                 className="cardButton"
                 style={{ backgroundColor: cardColor }}
-                onClick={() => props.onOpenEditEntry(props.entry)}
+                onClick={() => props.onOpenEditEntry(props.entry.id)}
               >
                 Edit
               </div>

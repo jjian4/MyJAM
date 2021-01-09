@@ -1,0 +1,52 @@
+.EntriesTableColumnFilterDropdown {
+  .columnSorter {
+    .dropdownRow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      // Adopts styling from Dropdown.Item
+      padding: 0px 8px 0px 0;
+      &:hover {
+        background-color: whitesmoke;
+      }
+
+      .gripIcon {
+        padding: 10px;
+        margin-right: 2px;
+        color: lightgray;
+        cursor: grab;
+        :active {
+          cursor: grabbing;
+        }
+      }
+
+      .checkbox {
+        padding: 12px 12px 12px 0;
+        cursor: pointer;
+        flex: 1;
+
+        // Makes the toggle button shorter
+        input {
+          width: 2.5rem;
+        }
+        label {
+          padding-left: 3.5rem;
+          &::before {
+            width: 2.5rem;
+          }
+          &::after {
+            left: -0.05rem;
+          }
+        }
+        input:checked ~ label {
+          &::before {
+            background-color: #21ba45 !important;
+          }
+          &::after {
+            left: 1.15rem;
+          }
+        }
+      }
+    }
+  }
+}
