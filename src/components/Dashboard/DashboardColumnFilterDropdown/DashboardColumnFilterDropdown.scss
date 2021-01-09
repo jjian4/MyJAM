@@ -9,20 +9,19 @@
       background-color: whitesmoke;
     }
 
-    cursor: grab;
-    :active {
-      cursor: grabbing;
-    }
-
     .rowLeft {
       flex: 1;
       display: flex;
       align-items: center;
 
       .gripIcon {
-        padding: 0 10px;
+        padding: 10px;
         margin-right: 2px;
         color: lightgray;
+        cursor: grab;
+        :active {
+          cursor: grabbing;
+        }
       }
 
       .checkbox {

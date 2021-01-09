@@ -19,7 +19,7 @@ function DashboardColumn(props) {
       }}
     >
       <div className="content">
-        <div className="heading">
+        <div className="columnHeading">
           <span>
             <span className="status">{props.status.toUpperCase()}</span>
             <span className="numEntries">({props.entries.length})</span>

@@ -16,6 +16,7 @@ import {
   LAST_BOARD_SORT,
 } from "../../settings";
 import "./Dashboard.scss";
+import { ReactSortable } from "react-sortablejs";
 
 function Dashboard(props) {
   const [entriesByStatus, setEntriesByStatus] = useState({});
@@ -132,14 +133,21 @@ function Dashboard(props) {
         </div>
       </div>
 
-      <div className="dashboardColumns">
+      <ReactSortable
+        className="dashboardColumns"
+        list={columnFilter}
+        setList={setcolumnFilter}
+        animation={200}
+        handle=".columnHeading"
+      >
         {columnFilter.map((column, index) => {
           if (!column.isActive) {
-            return null;
+            // Just returns empty div since Sortable doesn't allow null
+            return <div key={column.status} />;
           }
           return (
             <DashboardColumn
-              key={index}
+              key={column.status}
               status={column.status}
               isExpanded={column.isExpanded}
               entries={entriesByStatus[column.status] || []}
@@ -153,13 +161,13 @@ function Dashboard(props) {
               }}
               onHideColumn={() => {
                 const newColumnFilter = [...columnFilter];
-                newColumnFilter.splice(index, 1);
+                newColumnFilter[index].isActive = false;
                 setcolumnFilter(newColumnFilter);
               }}
             />
           );
         })}
-      </div>
+      </ReactSortable>
     </div>
   );
 }

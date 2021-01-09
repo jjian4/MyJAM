@@ -50,13 +50,14 @@ function DashboardColumnFilterDropdown(props) {
         list={props.columnFilter}
         setList={props.onChange}
         animation={200}
+        handle=".gripIcon"
       >
         {props.columnFilter.map((column) => (
           <div className="dropdownRow" key={column.status}>
             <div className="rowLeft">
-              <span className="gripIcon">
+              <div className="gripIcon">
                 <FontAwesomeIcon icon={faGripVertical} />
-              </span>
+              </div>
 
               <Checkbox
                 toggle
