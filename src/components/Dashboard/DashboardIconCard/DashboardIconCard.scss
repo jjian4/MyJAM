@@ -1,6 +1,10 @@
 .DashboardIconCard {
+  display: inline-block;
   border: 3px solid lightgray;
   border-radius: 50%;
+
+  height: 55px;
+  width: 55px;
 
   cursor: pointer;
 

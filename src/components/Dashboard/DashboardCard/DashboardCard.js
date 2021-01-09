@@ -7,15 +7,24 @@ import {
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
+import { useDrag } from "react-dnd";
 
 import { IS_CARD_COLORS_ON } from "../../../settings";
 import "./DashboardCard.scss";
-import { BOARD_DENSITY } from "../../../constants";
+import { BOARD_DENSITY, DRAG_DROP_ITEMS } from "../../../constants";
 
 const maxNotesLength = 100;
 const maxNotesLines = 3;
 
 function DashboardCard(props) {
+  // Used to allow card to be dragged into another column
+  const [{ isDragging }, drag] = useDrag({
+    item: { type: DRAG_DROP_ITEMS.DASHBOARD_CARD, id: props.entry.id },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
+
   let truncatedNotes = props.entry.notes;
   if (truncatedNotes.length > maxNotesLength) {
     truncatedNotes = truncatedNotes.substr(0, maxNotesLength - 1);
@@ -32,8 +41,9 @@ function DashboardCard(props) {
 
   return (
     <div
+      ref={drag}
       className={`DashboardCard ${cardColor ? "DashboardCard-colored" : ""}`}
-      style={{ backgroundColor: cardColor }}
+      style={{ backgroundColor: cardColor, opacity: isDragging ? 0.5 : 1 }}
     >
       {(props.density === BOARD_DENSITY.COMPACT.name ||
         props.density === BOARD_DENSITY.DETAILED.name) && (

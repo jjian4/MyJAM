@@ -68,15 +68,18 @@
         padding: 4px;
         line-height: 0;
       }
-      .entryIconCard-halfWidth {
-        width: 12.5%;
-      }
 
       .entryCard {
         width: 100%;
         padding: 4px;
       }
-      .entryCard-halfWidth {
+    }
+
+    .entriesGrid-expanded {
+      .entryIconCard {
+        width: 12.5%;
+      }
+      .entryCard {
         width: 50%;
       }
     }

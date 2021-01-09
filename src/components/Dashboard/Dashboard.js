@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "semantic-ui-react";
+import { ReactSortable } from "react-sortablejs";
 
 import DashboardColumn from "./DashboardColumn/DashboardColumn";
 import DashboardSortDropdown from "./DashboardSortDropdown/DashboardSortDropdown";
@@ -16,7 +17,6 @@ import {
   LAST_BOARD_SORT,
 } from "../../settings";
 import "./Dashboard.scss";
-import { ReactSortable } from "react-sortablejs";
 
 function Dashboard(props) {
   const [entriesByStatus, setEntriesByStatus] = useState({});
@@ -150,8 +150,9 @@ function Dashboard(props) {
               key={column.status}
               status={column.status}
               isExpanded={column.isExpanded}
-              entries={entriesByStatus[column.status] || []}
               density={density}
+              entries={entriesByStatus[column.status] || []}
+              onUpdateEntryStatus={props.onUpdateEntryStatus}
               onOpenNewEntry={props.onOpenNewEntry}
               onOpenEditEntry={props.onOpenEditEntry}
               onChangeExpanded={(isExpanded) => {

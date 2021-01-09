@@ -377,6 +377,15 @@ function Portfolio() {
     setIsWindowSmall(window.innerWidth <= 991);
   };
 
+  // Called when a card is drag-dropped to a new column in the dashboard
+  const handleUpdateEntryStatus = (entryId, newStatus) => {
+    const updatedEntries = [...entries];
+    updatedEntries.find((entry) => entry.id === entryId).status = newStatus;
+    setEntries(updatedEntries);
+    // TODO
+    console.log("TODO: Update database");
+  };
+
   const openNewEntry = (initialValues) => {
     setNewModalInitialValues(initialValues);
     setIsNewModalOpen(true);
@@ -384,9 +393,8 @@ function Portfolio() {
 
   const saveNewEntry = (values) => {
     console.log(values);
-    console.log("TODO");
-
     // TODO: add to database, add generated id to values, insert entry into column
+    console.log("TODO: Update database");
   };
 
   const openEditEntry = (initialValues) => {
@@ -395,10 +403,12 @@ function Portfolio() {
   };
 
   const saveEditEntry = (values) => {
-    console.log(values);
-    console.log("TODO");
-
+    const updatedEntries = [...entries];
+    const index = updatedEntries.findIndex((entry) => entry.id === values.id);
+    updatedEntries[index] = values;
+    setEntries(updatedEntries);
     // TODO: get values.entryId and update id in database
+    console.log("TODO: Update database");
   };
 
   return (
@@ -408,6 +418,7 @@ function Portfolio() {
           isWindowSmall={isWindowSmall}
           onChangeDisplay={setDisplay}
           entries={entries}
+          onUpdateEntryStatus={handleUpdateEntryStatus}
           onOpenNewEntry={openNewEntry}
           onOpenEditEntry={openEditEntry}
         />

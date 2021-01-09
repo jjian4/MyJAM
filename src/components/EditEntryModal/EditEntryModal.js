@@ -219,11 +219,12 @@ function EditEntryModal(props) {
         <Button onClick={props.onClose}>Cancel</Button>
         <Button
           content="Save"
-          onClick={() =>
+          onClick={() => {
             props.onSave({
               id: props.initialValues.id,
               dateCreated: props.initialValues.dateCreated,
               lastUpdate: Date.now(),
+              color,
               isStarred,
               company: company.trim(),
               domain: domain,
@@ -234,8 +235,9 @@ function EditEntryModal(props) {
               status,
               url: url.trim(),
               notes: notes.trim(),
-            })
-          }
+            });
+            props.onClose();
+          }}
           positive
         />
       </Modal.Actions>
