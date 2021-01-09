@@ -4,37 +4,58 @@
     justify-content: space-between;
     align-items: center;
     // Adopts styling from Dropdown.Item
-    padding: 2px 8px 2px 0;
+    padding: 0px 8px 0px 0;
     &:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-      color: rgba(0, 0, 0, 0.95);
+      background-color: whitesmoke;
     }
 
-    .checkbox {
-      padding: 11px 12px;
-      flex: 1;
-      cursor: pointer;
+    cursor: grab;
+    :active {
+      cursor: grabbing;
+    }
 
-      // Makes the toggle button shorter
-      input {
-        width: 2.5rem;
+    .rowLeft {
+      flex: 1;
+      display: flex;
+      align-items: center;
+
+      .gripIcon {
+        padding: 0 10px;
+        margin-right: 2px;
+        color: lightgray;
       }
-      label {
-        padding-left: 3.5rem;
-        &::before {
+
+      .checkbox {
+        padding: 12px 12px 12px 0;
+        cursor: pointer;
+        flex: 1;
+
+        // Makes the toggle button shorter
+        input {
           width: 2.5rem;
         }
-        &::after {
-          left: -0.05rem;
+        label {
+          padding-left: 3.5rem;
+          &::before {
+            width: 2.5rem;
+          }
+          &::after {
+            left: -0.05rem;
+          }
         }
-      }
-      input:checked ~ label {
-        &::after {
-          left: 1.15rem;
+        input:checked ~ label {
+          &::before {
+            background-color: #21ba45 !important;
+          }
+          &::after {
+            left: 1.15rem;
+          }
         }
       }
     }
+
     .sizeButton {
+      color: lightgray;
       height: 28px;
       width: 28px;
     }

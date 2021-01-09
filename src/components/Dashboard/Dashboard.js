@@ -108,7 +108,7 @@ function Dashboard(props) {
               hideLabel={props.isWindowSmall}
               entriesByStatus={entriesByStatus}
               columnFilter={columnFilter}
-              onChange={(x) => setcolumnFilter(x)}
+              onChange={setcolumnFilter}
             />
           </span>
 
@@ -133,27 +133,32 @@ function Dashboard(props) {
       </div>
 
       <div className="dashboardColumns">
-        {columnFilter.map((column, index) => (
-          <DashboardColumn
-            key={index}
-            status={column.status}
-            isExpanded={column.isExpanded}
-            entries={entriesByStatus[column.status] || []}
-            density={density}
-            onOpenNewEntry={props.onOpenNewEntry}
-            onOpenEditEntry={props.onOpenEditEntry}
-            onChangeExpanded={(isExpanded) => {
-              const newColumnFilter = [...columnFilter];
-              newColumnFilter[index].isExpanded = isExpanded;
-              setcolumnFilter(newColumnFilter);
-            }}
-            onHideColumn={() => {
-              const newColumnFilter = [...columnFilter];
-              newColumnFilter.splice(index, 1);
-              setcolumnFilter(newColumnFilter);
-            }}
-          />
-        ))}
+        {columnFilter.map((column, index) => {
+          if (!column.isActive) {
+            return null;
+          }
+          return (
+            <DashboardColumn
+              key={index}
+              status={column.status}
+              isExpanded={column.isExpanded}
+              entries={entriesByStatus[column.status] || []}
+              density={density}
+              onOpenNewEntry={props.onOpenNewEntry}
+              onOpenEditEntry={props.onOpenEditEntry}
+              onChangeExpanded={(isExpanded) => {
+                const newColumnFilter = [...columnFilter];
+                newColumnFilter[index].isExpanded = isExpanded;
+                setcolumnFilter(newColumnFilter);
+              }}
+              onHideColumn={() => {
+                const newColumnFilter = [...columnFilter];
+                newColumnFilter.splice(index, 1);
+                setcolumnFilter(newColumnFilter);
+              }}
+            />
+          );
+        })}
       </div>
     </div>
   );
