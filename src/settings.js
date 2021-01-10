@@ -391,7 +391,7 @@ export const fakeEntries = [
     company: "React",
     domain: "google.com",
     logo: "https://logo.clearbit.com/reactjs.org",
-    jobTitle: "Software Engineer III",
+    jobTitle: "Software Engineer IV",
     applyDate: "2020-01-01",
     deadlineDate: "2020-11-22",
     status: STATUS.APPLIED,

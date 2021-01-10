@@ -2,32 +2,55 @@ import { useEffect, useState } from "react";
 import { Menu, Dropdown, Image } from "semantic-ui-react";
 
 import Portfolio from "./pages/Portfolio/Portfolio";
-import "./App.scss";
+import EditEntryModal from "./components/EditEntryModal/EditEntryModal";
 import AppContext from "./AppContext";
 import { fakeEntries } from "./settings";
+import "./App.scss";
 
 function App() {
   const [entries, setEntries] = useState([]);
+
+  // Edit Entry Modals
+  const [newEntryModal, setNewEntryModal] = useState({
+    isOpen: false,
+    initialValues: {},
+    autoFocusProperty: null,
+  });
+  const [editEntryModal, setEditEntryModal] = useState({
+    isOpen: false,
+    initialValues: {},
+    autoFocusProperty: null,
+  });
 
   useEffect(() => {
     // TODO: fetch portfolio entries from db
     setEntries(fakeEntries);
   }, []);
 
-  // Used when a card is drag-dropped to a new column in the dashboard
-  const updateEntryStatus = (entryId, newStatus) => {
-    const updatedEntries = [...entries];
-    updatedEntries.find((entry) => entry.id === entryId).status = newStatus;
-    setEntries(updatedEntries);
-    // TODO
-    console.log("TODO: Update database");
+  const openNewEntryModal = (initialValues) => {
+    setNewEntryModal({
+      isOpen: true,
+      initialValues: initialValues,
+      autoFocusProperty: "company",
+    });
+  };
+
+  const openEditEntryModal = (entryId, autoFocusProperty = null) => {
+    setEditEntryModal({
+      isOpen: true,
+      initialValues: entries.find((entry) => entry.id === entryId),
+      autoFocusProperty: autoFocusProperty,
+    });
   };
 
   const updateEntry = (values) => {
-    const updatedEntries = [...entries];
-    const index = updatedEntries.findIndex((entry) => entry.id === values.id);
-    updatedEntries[index] = values;
-    setEntries(updatedEntries);
+    // values only needs to include the properties that changed (but always needs id)
+    const indexToUpdate = entries.findIndex((entry) => entry.id === values.id);
+    setEntries([
+      ...entries.slice(0, indexToUpdate),
+      { ...entries[indexToUpdate], ...values },
+      ...entries.slice(indexToUpdate + 1),
+    ]);
     // TODO: get values.entryId and update id in database
     console.log("TODO: Update database");
   };
@@ -42,7 +65,8 @@ function App() {
     <AppContext.Provider
       value={{
         entries: entries,
-        updateEntryStatus: updateEntryStatus,
+        openNewEntryModal: openNewEntryModal,
+        openEditEntryModal: openEditEntryModal,
         updateEntry: updateEntry,
         saveNewEntry: saveNewEntry,
       }}
@@ -90,6 +114,37 @@ function App() {
         </Menu>
 
         <Portfolio />
+
+        {/* Used to add new entries */}
+        <EditEntryModal
+          open={newEntryModal.isOpen}
+          onClose={() =>
+            setNewEntryModal({
+              isOpen: false,
+              initialValues: {},
+              autoFocusProperty: null,
+            })
+          }
+          heading="New Entry"
+          initialValues={newEntryModal.initialValues}
+          autoFocusProperty={newEntryModal.autoFocusProperty}
+          onSave={saveNewEntry}
+        />
+        {/* Used to edit existing entries */}
+        <EditEntryModal
+          open={editEntryModal.isOpen}
+          onClose={() =>
+            setEditEntryModal({
+              isOpen: false,
+              initialValues: {},
+              autoFocusProperty: null,
+            })
+          }
+          heading={`${editEntryModal.initialValues.company} - ${editEntryModal.initialValues.jobTitle}`}
+          initialValues={editEntryModal.initialValues}
+          autoFocusProperty={editEntryModal.autoFocusProperty}
+          onSave={updateEntry}
+        />
       </div>
     </AppContext.Provider>
   );

@@ -3,7 +3,8 @@ import { createContext } from "react";
 const AppContext = createContext({
   entries: [],
   setEntries: () => {},
-  updateEntryStatus: () => {},
+  openNewEntryModal: () => {},
+  openEditEntryModal: () => {},
   updateEntry: () => {},
   saveNewEntry: () => {},
 });

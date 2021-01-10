@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendar,
@@ -10,6 +11,7 @@ import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import { useDrag } from "react-dnd";
 import TimeAgo from "react-timeago";
 
+import AppContext from "../../../AppContext";
 import { IS_CARD_COLORS_ON } from "../../../settings";
 import "./DashboardCard.scss";
 import { BOARD_DENSITY, DRAG_DROP_ITEMS } from "../../../constants";
@@ -18,6 +20,8 @@ const maxNotesLength = 100;
 const maxNotesLines = 3;
 
 function DashboardCard(props) {
+  const { openEditEntryModal } = useContext(AppContext);
+
   // Used to allow card to be dragged into another column
   const [{ isDragging }, drag] = useDrag({
     item: { type: DRAG_DROP_ITEMS.DASHBOARD_CARD, id: props.entry.id },
@@ -75,7 +79,7 @@ function DashboardCard(props) {
               <FontAwesomeIcon
                 title="Edit"
                 icon={faEdit}
-                onClick={() => props.onOpenEditEntry(props.entry.id)}
+                onClick={() => openEditEntryModal(props.entry.id)}
               />
             )}
 
@@ -127,7 +131,7 @@ function DashboardCard(props) {
               <div
                 className="cardButton"
                 style={{ backgroundColor: cardColor }}
-                onClick={() => props.onOpenEditEntry(props.entry.id)}
+                onClick={() => openEditEntryModal(props.entry.id)}
               >
                 Edit
               </div>

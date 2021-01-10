@@ -17,7 +17,9 @@ import EntriesTableColumnFilterDropdown from "./EntriesTableColumnFilterDropdown
 import "./EntriesTable.scss";
 
 function EntriesTable(props) {
-  const { entries } = useContext(AppContext);
+  const { entries, openNewEntryModal, openEditEntryModal } = useContext(
+    AppContext
+  );
 
   const [data, setData] = useState([]);
 
@@ -60,7 +62,7 @@ function EntriesTable(props) {
   const EditCellButton = ({ entryId, propertyToEdit }) => (
     <div
       className="editCellButton"
-      onClick={() => props.onOpenEditCell(entryId, propertyToEdit)}
+      onClick={() => openEditEntryModal(entryId, propertyToEdit)}
     >
       <FontAwesomeIcon icon={faPencilAlt} />
     </div>
@@ -118,7 +120,7 @@ function EntriesTable(props) {
             size="mini"
             icon="plus"
             content={props.isWindowSmall ? null : "New Entry"}
-            onClick={() => props.onOpenNewEntry({})}
+            onClick={() => openNewEntryModal({})}
           />
         </div>
       </div>

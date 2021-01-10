@@ -17,12 +17,12 @@ const MIN_WIDTH = 280;
 const MAX_WIDTH = 310;
 
 function DashboardColumn(props) {
-  const { updateEntryStatus } = useContext(AppContext);
+  const { openNewEntryModal, updateEntry } = useContext(AppContext);
 
   // Used to receive cards that are drag-dropped from another column
   const handleCardDrop = (item) => {
     if (props.columnEntries.findIndex((entry) => entry.id === item.id) === -1) {
-      updateEntryStatus(item.id, props.status);
+      updateEntry({ id: item.id, status: props.status });
     }
   };
   const [{ isOver, canDrop }, drop] = useDrop({
@@ -63,7 +63,7 @@ function DashboardColumn(props) {
           >
             <Dropdown.Menu>
               <Dropdown.Item
-                onClick={() => props.onOpenNewEntry({ status: props.status })}
+                onClick={() => openNewEntryModal({ status: props.status })}
               >
                 <FontAwesomeIcon
                   className="optionIcon"
@@ -108,20 +108,13 @@ function DashboardColumn(props) {
             if (props.density === BOARD_DENSITY.ICONS.name) {
               return (
                 <div className="entryIconCard" key={entry.id}>
-                  <DashboardIconCard
-                    entry={entry}
-                    onOpenEditEntry={props.onOpenEditEntry}
-                  />
+                  <DashboardIconCard entry={entry} />
                 </div>
               );
             } else {
               return (
                 <div className="entryCard" key={entry.id}>
-                  <DashboardCard
-                    entry={entry}
-                    onOpenEditEntry={props.onOpenEditEntry}
-                    density={props.density}
-                  />
+                  <DashboardCard entry={entry} density={props.density} />
                 </div>
               );
             }

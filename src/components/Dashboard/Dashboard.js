@@ -20,7 +20,7 @@ import {
 import "./Dashboard.scss";
 
 function Dashboard(props) {
-  const { entries } = useContext(AppContext);
+  const { entries, openNewEntryModal } = useContext(AppContext);
 
   const [entriesByStatus, setEntriesByStatus] = useState({});
 
@@ -135,7 +135,7 @@ function Dashboard(props) {
             size="mini"
             icon="plus"
             content={props.isWindowSmall ? null : "New Entry"}
-            onClick={() => props.onOpenNewEntry({})}
+            onClick={() => openNewEntryModal({})}
           />
         </div>
       </div>
@@ -159,8 +159,6 @@ function Dashboard(props) {
               isExpanded={column.isExpanded}
               density={density}
               columnEntries={entriesByStatus[column.status] || []}
-              onOpenNewEntry={props.onOpenNewEntry}
-              onOpenEditEntry={props.onOpenEditEntry}
               onChangeExpanded={(isExpanded) => {
                 const newColumnFilter = [...columnFilter];
                 newColumnFilter[index].isExpanded = isExpanded;
