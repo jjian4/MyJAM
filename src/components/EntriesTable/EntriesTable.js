@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Button, Table } from "semantic-ui-react";
 import dateFormat from "dateformat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
+import AppContext from "../../AppContext";
 import { PORTFOLIO_DISPLAY, TABLE_DENSITY } from "../../constants";
 import {
   LAST_TABLE_COLUMN_FILTER,
@@ -16,6 +17,8 @@ import EntriesTableColumnFilterDropdown from "./EntriesTableColumnFilterDropdown
 import "./EntriesTable.scss";
 
 function EntriesTable(props) {
+  const { entries } = useContext(AppContext);
+
   const [data, setData] = useState([]);
 
   // Menu
@@ -29,12 +32,14 @@ function EntriesTable(props) {
   );
 
   useEffect(() => {
-    if (props.entries) {
-      let entries = [...props.entries];
-      entries.sort((a, b) => (a[sortProperty] > b[sortProperty] ? 1 : -1));
-      setData(isSortAscending ? entries : entries.reverse());
+    if (entries) {
+      let sortedEntries = [...entries];
+      sortedEntries.sort((a, b) =>
+        a[sortProperty] > b[sortProperty] ? 1 : -1
+      );
+      setData(isSortAscending ? sortedEntries : sortedEntries.reverse());
     }
-  }, [props.entries, sortProperty, isSortAscending]);
+  }, [entries, sortProperty, isSortAscending]);
 
   const handleSort = (newSortProperty) => {
     if (newSortProperty === sortProperty) {
@@ -44,11 +49,11 @@ function EntriesTable(props) {
       setSortProperty(newSortProperty);
       setIsSortAscending(true);
 
-      let entries = [...props.entries];
-      entries.sort((a, b) =>
+      let sortedEntries = [...entries];
+      sortedEntries.sort((a, b) =>
         a[newSortProperty] > b[newSortProperty] ? 1 : -1
       );
-      setData(entries);
+      setData(sortedEntries);
     }
   };
 

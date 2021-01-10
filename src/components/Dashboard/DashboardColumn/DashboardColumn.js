@@ -1,13 +1,15 @@
-import DashboardCard from "../DashboardCard/DashboardCard";
+import { useContext } from "react";
 import { Dropdown } from "semantic-ui-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDrop } from "react-dnd";
 
+import AppContext from "../../../AppContext";
 import {
   BOARD_COLUMN_OPTION_ICONS,
   BOARD_DENSITY,
   DRAG_DROP_ITEMS,
 } from "../../../constants";
+import DashboardCard from "../DashboardCard/DashboardCard";
 import DashboardIconCard from "../DashboardIconCard/DashboardIconCard";
 import "./DashboardColumn.scss";
 
@@ -15,10 +17,12 @@ const MIN_WIDTH = 280;
 const MAX_WIDTH = 310;
 
 function DashboardColumn(props) {
+  const { updateEntryStatus } = useContext(AppContext);
+
   // Used to receive cards that are drag-dropped from another column
   const handleCardDrop = (item) => {
-    if (props.entries.findIndex((entry) => entry.id === item.id) === -1) {
-      props.onUpdateEntryStatus(item.id, props.status);
+    if (props.columnEntries.findIndex((entry) => entry.id === item.id) === -1) {
+      updateEntryStatus(item.id, props.status);
     }
   };
   const [{ isOver, canDrop }, drop] = useDrop({
@@ -49,7 +53,7 @@ function DashboardColumn(props) {
         <div className="columnHeading">
           <span>
             <span className="status">{props.status.toUpperCase()}</span>
-            <span className="numEntries">({props.entries.length})</span>
+            <span className="numEntries">({props.columnEntries.length})</span>
           </span>
 
           <Dropdown
@@ -100,7 +104,7 @@ function DashboardColumn(props) {
             props.isExpanded ? "entriesGrid-expanded" : ""
           }`}
         >
-          {props.entries.map((entry) => {
+          {props.columnEntries.map((entry) => {
             if (props.density === BOARD_DENSITY.ICONS.name) {
               return (
                 <div className="entryIconCard" key={entry.id}>

@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Button } from "semantic-ui-react";
 import { ReactSortable } from "react-sortablejs";
 
+import AppContext from "../../AppContext";
 import DashboardColumn from "./DashboardColumn/DashboardColumn";
 import DashboardSortDropdown from "./DashboardSortDropdown/DashboardSortDropdown";
 import DashboardColumnFilterDropdown from "./DashboardColumnFilterDropdown/DashboardColumnFilterDropdown";
@@ -19,6 +20,8 @@ import {
 import "./Dashboard.scss";
 
 function Dashboard(props) {
+  const { entries } = useContext(AppContext);
+
   const [entriesByStatus, setEntriesByStatus] = useState({});
 
   // Menu
@@ -30,13 +33,13 @@ function Dashboard(props) {
   const [columnFilter, setcolumnFilter] = useState(LAST_BOARD_COLUMN_FILTER);
 
   useEffect(() => {
-    if (props.entries) {
+    if (entries) {
       const statusToEntries = {};
       Object.values(STATUS).forEach((status) => {
         statusToEntries[status] = [];
       });
 
-      props.entries.forEach((entry) => {
+      entries.forEach((entry) => {
         statusToEntries[entry.status].push(entry);
       });
 
@@ -63,7 +66,7 @@ function Dashboard(props) {
     } else {
       setEntriesByStatus({});
     }
-  }, [props.entries, sortBy, isSortAscending]);
+  }, [entries, sortBy, isSortAscending]);
 
   const sortDashboardEntries = (sortBy, isSortAscending) => {
     setSortBy(sortBy);
@@ -155,8 +158,7 @@ function Dashboard(props) {
               status={column.status}
               isExpanded={column.isExpanded}
               density={density}
-              entries={entriesByStatus[column.status] || []}
-              onUpdateEntryStatus={props.onUpdateEntryStatus}
+              columnEntries={entriesByStatus[column.status] || []}
               onOpenNewEntry={props.onOpenNewEntry}
               onOpenEditEntry={props.onOpenEditEntry}
               onChangeExpanded={(isExpanded) => {

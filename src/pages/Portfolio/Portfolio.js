@@ -1,360 +1,20 @@
-import { useState, useEffect } from "react";
-import Dashboard from "../../components/Dashboard/Dashboard";
+import { useState, useEffect, useContext } from "react";
 
+import AppContext from "../../AppContext";
+import Dashboard from "../../components/Dashboard/Dashboard";
 import EditEntryModal from "../../components/EditEntryModal/EditEntryModal";
 import EntriesTable from "../../components/EntriesTable/EntriesTable";
-import { PORTFOLIO_DISPLAY, STATUS } from "../../constants";
+import { PORTFOLIO_DISPLAY } from "../../constants";
 import { LAST_PORTFOLIO_DISPLAY } from "../../settings";
 import "./Portfolio.scss";
 
-const fakeEntries3 = [
-  {
-    id: 1,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "darkorchid",
-    isStarred: false,
-    company: "Facebook",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/facebook.com",
-    jobTitle: "Software Engineer",
-    applyDate: "2020-01-01",
-    deadlineDate: "",
-    status: STATUS.APPLIED,
-    url: "",
-    notes: "",
-  },
-  {
-    id: 2,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "chocolate",
-    isStarred: true,
-    company: "Apple",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/apple.com",
-    jobTitle: "Mechanical Engineer Intern - Cupertino, California",
-    applyDate: "2020-05-03",
-    deadlineDate: "2020-01-01",
-    status: STATUS.APPLIED,
-    url: "https://apple.com",
-    notes:
-      "kjdasfnjasnvsa o jsdkfsa\njsdav inus oufjuh oudsofjof sd\nAnother line",
-  },
-  {
-    id: 3,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "navy",
-    isStarred: true,
-    company: "Doordash",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/doordash.com",
-    jobTitle: "Software Engineer Intern",
-    applyDate: "2020-01-01",
-    deadlineDate: "2020-01-01",
-    status: STATUS.INTERVIEW,
-    url: "",
-    notes: "siufha uafoidjiof oufdhsauofdj oqhwfw",
-  },
-  {
-    id: 4,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "seagreen",
-    isStarred: false,
-    company: "Facebook",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/facebook.com",
-    jobTitle: "Software Engineer II",
-    applyDate: "2020-01-01",
-    deadlineDate: "",
-    status: STATUS.APPLIED,
-    url: "",
-    notes: "",
-  },
-  {
-    id: 5,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "darkgreen",
-    isStarred: true,
-    company: "Apple",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/apple.com",
-    jobTitle: "Mechanical Engineer Intern - Cupertino, California",
-    applyDate: "2020-01-01",
-    deadlineDate: "2020-01-01",
-    status: STATUS.APPLIED,
-    url: "https://apple.com",
-    notes: "awiufwb\n\n\n\nsfwsdhbfsi",
-  },
-  {
-    id: 6,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "indianred",
-    isStarred: true,
-    company: "Doordash",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/doordash.com",
-    jobTitle: "Software Engineer Intern",
-    applyDate: "2020-01-01",
-    deadlineDate: "2020-01-01",
-    status: STATUS.OFFER,
-    url: "https://doordash.com",
-    notes: "siufha uafoidjiof oufdhsauofdj oqhwfw",
-  },
-  {
-    id: 7,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "darkcyan",
-    isStarred: false,
-    company: "Facebook",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/facebook.com",
-    jobTitle: "Software Engineer",
-    applyDate: "2020-01-01",
-    deadlineDate: "",
-    status: STATUS.APPLIED,
-    url: "",
-    notes: "sdjk dsaiiuh\nsdui",
-  },
-  {
-    id: 8,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "mediumorchid",
-    isStarred: false,
-    company: "Microsoft",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/microsoft.com",
-    jobTitle: "QA Engineer",
-    applyDate: "2020-01-01",
-    deadlineDate: "",
-    status: STATUS.INTERVIEW,
-    url: "https://microsoft.com",
-    notes: "usf iosoidsoiaoi dsdsoa oiuh iuweq w ef",
-  },
-  {
-    id: 9,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "coral",
-    isStarred: false,
-    company: "Oracle",
-    domain: "oracle.com",
-    logo: "https://logo.clearbit.com/oracle.com",
-    jobTitle: "QA Engineer II",
-    applyDate: "2020-01-01",
-    deadlineDate: "",
-    status: STATUS.OFFER,
-    url: "",
-    notes: "usf sfs wdfs dsef",
-  },
-  {
-    id: 10,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "slateblue",
-    isStarred: true,
-    company: "Salesforce",
-    domain: "salesforce.com",
-    logo: "https://logo.clearbit.com/salesforce.com",
-    jobTitle: "Data Analyst",
-    applyDate: "2020-01-01",
-    deadlineDate: "2020-01-01",
-    status: STATUS.INTERVIEW,
-    url: "https://salesforce.com",
-    notes: "usf sfs wdfs dsef",
-  },
-  {
-    id: 11,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "navy",
-    isStarred: false,
-    company: "React",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/reactjs.org",
-    jobTitle: "Software Engineer III",
-    applyDate: "2020-01-01",
-    deadlineDate: "2020-11-22",
-    status: STATUS.APPLIED,
-    url: "",
-    notes: "",
-  },
-  {
-    id: 12,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "mediumorchid",
-    isStarred: false,
-    company: "Microsoft",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/microsoft.com",
-    jobTitle: "QA Engineer",
-    applyDate: "2020-01-01",
-    deadlineDate: "",
-    status: STATUS.INTERVIEW,
-    url: "https://microsoft.com",
-    notes: "usf iosoidsoiaoi dsdsoa oiuh iuweq w ef",
-  },
-  {
-    id: 13,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "coral",
-    isStarred: false,
-    company: "Oracle",
-    domain: "oracle.com",
-    logo: "https://logo.clearbit.com/oracle.com",
-    jobTitle: "QA Engineer II",
-    applyDate: "2020-01-01",
-    deadlineDate: "",
-    status: STATUS.OFFER,
-    url: "",
-    notes: "usf sfs wdfs dsef",
-  },
-  {
-    id: 14,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "slateblue",
-    isStarred: true,
-    company: "Salesforce",
-    domain: "salesforce.com",
-    logo: "https://logo.clearbit.com/salesforce.com",
-    jobTitle: "Data Analyst",
-    applyDate: "2020-01-01",
-    deadlineDate: "2020-01-01",
-    status: STATUS.INTERVIEW,
-    url: "https://salesforce.com",
-    notes: "usf sfs wdfs dsef",
-  },
-  {
-    id: 15,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "navy",
-    isStarred: false,
-    company: "React",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/reactjs.org",
-    jobTitle: "Software Engineer III",
-    applyDate: "2020-01-01",
-    deadlineDate: "2020-11-22",
-    status: STATUS.APPLIED,
-    url: "",
-    notes: "",
-  },
-  {
-    id: 16,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "slateblue",
-    isStarred: true,
-    company: "Salesforce",
-    domain: "salesforce.com",
-    logo: "https://logo.clearbit.com/salesforce.com",
-    jobTitle: "Data Analyst",
-    applyDate: "2020-01-01",
-    deadlineDate: "2020-01-01",
-    status: STATUS.INTERVIEW,
-    url: "https://salesforce.com",
-    notes: "usf sfs wdfs dsef",
-  },
-  {
-    id: 17,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "navy",
-    isStarred: false,
-    company: "React",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/reactjs.org",
-    jobTitle: "Software Engineer III",
-    applyDate: "2020-01-01",
-    deadlineDate: "2020-11-22",
-    status: STATUS.APPLIED,
-    url: "",
-    notes: "",
-  },
-  {
-    id: 18,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "mediumorchid",
-    isStarred: false,
-    company: "Microsoft",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/microsoft.com",
-    jobTitle: "QA Engineer",
-    applyDate: "2020-01-01",
-    deadlineDate: "",
-    status: STATUS.INTERVIEW,
-    url: "https://microsoft.com",
-    notes: "usf iosoidsoiaoi dsdsoa oiuh iuweq w ef",
-  },
-  {
-    id: 19,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "coral",
-    isStarred: false,
-    company: "Oracle",
-    domain: "oracle.com",
-    logo: "https://logo.clearbit.com/oracle.com",
-    jobTitle: "QA Engineer II",
-    applyDate: "2020-01-01",
-    deadlineDate: "",
-    status: STATUS.OFFER,
-    url: "",
-    notes: "usf sfs wdfs dsef",
-  },
-  {
-    id: 20,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "slateblue",
-    isStarred: true,
-    company: "Salesforce",
-    domain: "salesforce.com",
-    logo: "https://logo.clearbit.com/salesforce.com",
-    jobTitle: "Data Analyst",
-    applyDate: "2020-01-01",
-    deadlineDate: "2020-01-01",
-    status: STATUS.INTERVIEW,
-    url: "https://salesforce.com",
-    notes: "usf sfs wdfs dsef",
-  },
-  {
-    id: 21,
-    dateCreated: Date.now(),
-    lastUpdate: Date.now(),
-    color: "navy",
-    isStarred: false,
-    company: "React",
-    domain: "google.com",
-    logo: "https://logo.clearbit.com/reactjs.org",
-    jobTitle: "Software Engineer III",
-    applyDate: "2020-01-01",
-    deadlineDate: "2020-11-22",
-    status: STATUS.APPLIED,
-    url: "",
-    notes: "",
-  },
-];
-
 function Portfolio() {
+  const { entries, updateEntry, saveNewEntry } = useContext(AppContext);
+
   const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth <= 991);
 
   // Menu options
   const [display, setDisplay] = useState(LAST_PORTFOLIO_DISPLAY);
-
-  // Entries
-  const [entries, setEntries] = useState([]);
 
   // Edit Entry Modals
   const [newEntryModal, setNewEntryModal] = useState({
@@ -369,9 +29,6 @@ function Portfolio() {
   });
 
   useEffect(() => {
-    // TODO: fetch portfolio entries from db
-    setEntries(fakeEntries3);
-
     window.addEventListener("resize", resizeWindow);
     return () => {
       window.removeEventListener("resize", resizeWindow);
@@ -383,26 +40,12 @@ function Portfolio() {
     setIsWindowSmall(window.innerWidth <= 991);
   };
 
-  // Called when a card is drag-dropped to a new column in the dashboard
-  const handleUpdateEntryStatus = (entryId, newStatus) => {
-    const updatedEntries = [...entries];
-    updatedEntries.find((entry) => entry.id === entryId).status = newStatus;
-    setEntries(updatedEntries);
-    // TODO
-    console.log("TODO: Update database");
-  };
-
   const openNewEntry = (initialValues) => {
     setNewEntryModal({
       isOpen: true,
       initialValues: initialValues,
       autoFocusProperty: "company",
     });
-  };
-  const saveNewEntry = (values) => {
-    console.log(values);
-    // TODO: add to database, add generated id to values, insert entry into column
-    console.log("TODO: Update database");
   };
 
   const openEditEntry = (entryId, autoFocusProperty = null) => {
@@ -412,14 +55,6 @@ function Portfolio() {
       autoFocusProperty: autoFocusProperty,
     });
   };
-  const saveEditEntry = (values) => {
-    const updatedEntries = [...entries];
-    const index = updatedEntries.findIndex((entry) => entry.id === values.id);
-    updatedEntries[index] = values;
-    setEntries(updatedEntries);
-    // TODO: get values.entryId and update id in database
-    console.log("TODO: Update database");
-  };
 
   return (
     <div className="Portfolio">
@@ -427,8 +62,6 @@ function Portfolio() {
         <Dashboard
           isWindowSmall={isWindowSmall}
           onChangeDisplay={setDisplay}
-          entries={entries}
-          onUpdateEntryStatus={handleUpdateEntryStatus}
           onOpenNewEntry={openNewEntry}
           onOpenEditEntry={openEditEntry}
         />
@@ -438,7 +71,6 @@ function Portfolio() {
         <EntriesTable
           isWindowSmall={isWindowSmall}
           onChangeDisplay={setDisplay}
-          entries={entries}
           onOpenNewEntry={openNewEntry}
           onOpenEditCell={openEditEntry}
         />
@@ -472,7 +104,7 @@ function Portfolio() {
         heading={`${editEntryModal.initialValues.company} - ${editEntryModal.initialValues.jobTitle}`}
         initialValues={editEntryModal.initialValues}
         autoFocusProperty={editEntryModal.autoFocusProperty}
-        onSave={saveEditEntry}
+        onSave={updateEntry}
       />
     </div>
   );
