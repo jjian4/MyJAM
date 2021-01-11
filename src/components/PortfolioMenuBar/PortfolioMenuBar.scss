@@ -1,0 +1,36 @@
+@import "../../utilities/variables";
+
+.PortfolioMenuBar {
+  height: $portfolio-menu-height;
+  position: sticky;
+  top: $menu-height;
+  left: 0;
+  right: 0;
+  z-index: 4;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: white;
+
+  .buttonLabel {
+    margin-left: 4px;
+  }
+
+  .menuleft {
+    padding: 0 10px;
+    .menuItem {
+      margin-right: 12px;
+    }
+  }
+
+  .menuRight {
+    padding: 0 10px;
+    .menuItem {
+      margin-right: 12px;
+    }
+    .newEntryButton {
+    }
+  }
+}

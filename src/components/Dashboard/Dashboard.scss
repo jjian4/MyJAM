@@ -1,54 +1,6 @@
 @import "../../utilities/variables";
 
 .Dashboard {
-  ::-webkit-scrollbar {
-    display: none;
-    // width: 2px;
-  }
-  // ::-webkit-scrollbar-thumb {
-  // 	background-color: gray;
-  // }
-
-  .dashboardMenuBar {
-    height: $portfolio-menu-height;
-    position: sticky;
-    top: $menu-height;
-    left: 0;
-    right: 0;
-    z-index: 4;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    background-color: white;
-
-    .menuleft {
-      padding: 0 10px;
-      .displayButtons {
-        margin-right: 12px;
-      }
-      .densityButtons {
-      }
-
-      .buttonLabel {
-        margin-left: 4px;
-      }
-    }
-
-    .menuRight {
-      padding: 0 10px;
-      .sortDropdown {
-        margin-right: 12px;
-      }
-      .filterDropdown {
-        margin-right: 12px;
-      }
-      .newEntryButton {
-      }
-    }
-  }
-
   .dashboardColumns {
     display: flex;
     overflow-x: auto;

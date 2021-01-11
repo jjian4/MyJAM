@@ -29,7 +29,7 @@ export const PORTFOLIO_DISPLAY = {
 };
 
 export const STATUS = {
-  Rejected: "Rejected",
+  REJECTED: "Rejected",
   WISHLIST: "Wishlist",
   APPLIED: "Applied",
   PHONE_SCREEN: "Phone Screen",

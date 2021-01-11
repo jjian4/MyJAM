@@ -19,7 +19,6 @@ const AppContext = createContext({
   openNewEntryModal: () => {},
   openEditEntryModal: () => {},
   updateEntry: () => {},
-  saveNewEntry: () => {},
 });
 
 export default AppContext;

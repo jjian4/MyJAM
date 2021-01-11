@@ -1,25 +1,16 @@
 import { useState, useEffect, useContext } from "react";
-import { Button } from "semantic-ui-react";
 import { ReactSortable } from "react-sortablejs";
-
 import AppContext from "../../AppContext";
 import DashboardColumn from "./DashboardColumn/DashboardColumn";
-import DashboardSortDropdown from "./DashboardSortDropdown/DashboardSortDropdown";
-import DashboardColumnFilterDropdown from "./DashboardColumnFilterDropdown/DashboardColumnFilterDropdown";
-import { PORTFOLIO_DISPLAY, BOARD_DENSITY, STATUS } from "../../constants";
+import { STATUS } from "../../constants";
 import "./Dashboard.scss";
 
 function Dashboard() {
-  const {
-    isWindowSmall,
-    portfolioSettings,
-    updatePortfolioSettings,
-    entries,
-    openNewEntryModal,
-  } = useContext(AppContext);
+  const { portfolioSettings, updatePortfolioSettings, entries } = useContext(
+    AppContext
+  );
 
   const {
-    boardDensity,
     boardColumnFilter,
     boardSortProperty,
     boardIsSortAscending,
@@ -62,66 +53,6 @@ function Dashboard() {
 
   return (
     <div className="Dashboard">
-      <div className="dashboardMenuBar">
-        <div className="menuleft">
-          <Button.Group className="displayButtons" basic size="mini">
-            {Object.values(PORTFOLIO_DISPLAY).map((item, index) => (
-              <Button
-                key={index}
-                icon
-                active={item.name === PORTFOLIO_DISPLAY.BOARD.name}
-                onClick={() => updatePortfolioSettings({ display: item.name })}
-              >
-                {item.icon}
-                {!isWindowSmall && (
-                  <span className="buttonLabel">{item.name}</span>
-                )}
-              </Button>
-            ))}
-          </Button.Group>
-
-          <Button.Group className="densityButtons" basic size="mini">
-            {Object.values(BOARD_DENSITY).map((item, index) => (
-              <Button
-                key={index}
-                icon
-                active={boardDensity === item.name}
-                onClick={() =>
-                  updatePortfolioSettings({ boardDensity: item.name })
-                }
-              >
-                {item.icon}
-                {!isWindowSmall && (
-                  <span className="buttonLabel">{item.name}</span>
-                )}
-              </Button>
-            ))}
-          </Button.Group>
-        </div>
-
-        <div className="menuRight">
-          <span className="filterDropdown">
-            <DashboardColumnFilterDropdown
-              hideLabel={isWindowSmall}
-              entriesByStatus={entriesByStatus}
-            />
-          </span>
-
-          <span className="sortDropdown">
-            <DashboardSortDropdown hideLabel={isWindowSmall} />
-          </span>
-
-          <Button
-            className="newEntryButton"
-            positive
-            size="mini"
-            icon="plus"
-            content={isWindowSmall ? null : "New Entry"}
-            onClick={() => openNewEntryModal({})}
-          />
-        </div>
-      </div>
-
       <ReactSortable
         className="dashboardColumns"
         list={boardColumnFilter}

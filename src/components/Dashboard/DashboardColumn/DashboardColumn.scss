@@ -1,6 +1,10 @@
 @import "../../../utilities/variables";
 
 .DashboardColumn {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
   position: relative;
   display: inline-block;
   padding-right: 8px;

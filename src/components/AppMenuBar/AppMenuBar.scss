@@ -1,0 +1,17 @@
+@import "../../utilities/variables";
+
+.AppMenuBar {
+  height: $menu-height;
+  .appLogo {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  .appName {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .portfolioSelector {
+  }
+}

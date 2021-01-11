@@ -10,7 +10,9 @@ import { faGripVertical } from "@fortawesome/free-solid-svg-icons";
 import "./DashboardColumnFilterDropdown.scss";
 
 function DashboardColumnFilterDropdown(props) {
-  const { portfolioSettings, updatePortfolioSettings } = useContext(AppContext);
+  const { portfolioSettings, updatePortfolioSettings, entries } = useContext(
+    AppContext
+  );
   const { boardColumnFilter } = portfolioSettings;
 
   const dropdownButton = (
@@ -37,6 +39,15 @@ function DashboardColumnFilterDropdown(props) {
     updatePortfolioSettings({ boardColumnFilter: newSettings });
   };
 
+  const statusCounts = {};
+  entries.forEach(({ status }) => {
+    if (status in statusCounts) {
+      ++statusCounts[status];
+    } else {
+      statusCounts[status] = 1;
+    }
+  });
+
   return (
     // Using custom dropdown (the default one closes on checkbox selection)
     <ControlledDropdown
@@ -62,8 +73,8 @@ function DashboardColumnFilterDropdown(props) {
                 toggle
                 className="checkbox"
                 label={`${column.status}${
-                  props.entriesByStatus[column.status]?.length
-                    ? ` (${props.entriesByStatus[column.status].length})`
+                  statusCounts[column.status]
+                    ? ` (${statusCounts[column.status]})`
                     : ""
                 }`}
                 value={column.status}

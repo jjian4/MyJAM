@@ -114,7 +114,7 @@ function DashboardColumn(props) {
               <Dropdown.Item
                 onClick={() => {
                   const newColumnFilter = [...boardColumnFilter];
-                  newColumnFilter[index].isActive = false;
+                  newColumnFilter[props.index].isActive = false;
                   updatePortfolioSettings({
                     boardColumnFilter: newColumnFilter,
                   });
