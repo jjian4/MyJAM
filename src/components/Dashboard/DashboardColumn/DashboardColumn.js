@@ -17,7 +17,14 @@ const MIN_WIDTH = 280;
 const MAX_WIDTH = 310;
 
 function DashboardColumn(props) {
-  const { openNewEntryModal, updateEntry } = useContext(AppContext);
+  const {
+    portfolioSettings,
+    updatePortfolioSettings,
+    openNewEntryModal,
+    updateEntry,
+  } = useContext(AppContext);
+
+  const { boardDensity, boardColumnFilter } = portfolioSettings;
 
   // Used to receive cards that are drag-dropped from another column
   const handleCardDrop = (item) => {
@@ -72,7 +79,15 @@ function DashboardColumn(props) {
                 Add an Entry
               </Dropdown.Item>
               {props.isExpanded ? (
-                <Dropdown.Item onClick={() => props.onChangeExpanded(false)}>
+                <Dropdown.Item
+                  onClick={() => {
+                    const newColumnFilter = [...boardColumnFilter];
+                    newColumnFilter[props.index].isExpanded = false;
+                    updatePortfolioSettings({
+                      boardColumnFilter: newColumnFilter,
+                    });
+                  }}
+                >
                   <FontAwesomeIcon
                     className="optionIcon"
                     icon={BOARD_COLUMN_OPTION_ICONS.COMPRESS}
@@ -80,7 +95,15 @@ function DashboardColumn(props) {
                   Compress View
                 </Dropdown.Item>
               ) : (
-                <Dropdown.Item onClick={() => props.onChangeExpanded(true)}>
+                <Dropdown.Item
+                  onClick={() => {
+                    const newColumnFilter = [...boardColumnFilter];
+                    newColumnFilter[props.index].isExpanded = true;
+                    updatePortfolioSettings({
+                      boardColumnFilter: newColumnFilter,
+                    });
+                  }}
+                >
                   <FontAwesomeIcon
                     className="optionIcon"
                     icon={BOARD_COLUMN_OPTION_ICONS.EXPAND}
@@ -88,7 +111,15 @@ function DashboardColumn(props) {
                   Expand View
                 </Dropdown.Item>
               )}
-              <Dropdown.Item onClick={props.onHideColumn}>
+              <Dropdown.Item
+                onClick={() => {
+                  const newColumnFilter = [...boardColumnFilter];
+                  newColumnFilter[index].isActive = false;
+                  updatePortfolioSettings({
+                    boardColumnFilter: newColumnFilter,
+                  });
+                }}
+              >
                 <FontAwesomeIcon
                   className="optionIcon"
                   icon={BOARD_COLUMN_OPTION_ICONS.HIDE_COLUMN}
@@ -105,7 +136,7 @@ function DashboardColumn(props) {
           }`}
         >
           {props.columnEntries.map((entry) => {
-            if (props.density === BOARD_DENSITY.ICONS.name) {
+            if (boardDensity === BOARD_DENSITY.ICONS.name) {
               return (
                 <div className="entryIconCard" key={entry.id}>
                   <DashboardIconCard entry={entry} />
@@ -114,7 +145,7 @@ function DashboardColumn(props) {
             } else {
               return (
                 <div className="entryCard" key={entry.id}>
-                  <DashboardCard entry={entry} density={props.density} />
+                  <DashboardCard entry={entry} />
                 </div>
               );
             }

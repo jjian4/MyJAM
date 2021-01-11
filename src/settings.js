@@ -8,7 +8,7 @@ import {
 
 // Hard-coded for now
 
-export const LAST_PORTFOLIO_DISPLAY = PORTFOLIO_DISPLAY.TABLE.name;
+export const LAST_PORTFOLIO_DISPLAY = PORTFOLIO_DISPLAY.BOARD.name;
 
 // Dashboard
 export const IS_CARD_COLORS_ON = true;
@@ -21,7 +21,9 @@ export const LAST_BOARD_COLUMN_FILTER = [
   { status: "Interview", isActive: true, isExpanded: false },
   { status: "Offer", isActive: true, isExpanded: false },
 ];
-export const LAST_BOARD_SORT = BOARD_SORT_BY.LAST_UPDATE;
+export const LAST_BOARD_SORT_PROPERTY = BOARD_SORT_BY.LAST_UPDATE.property;
+export const LAST_BOARD_IS_SORT_ASCENDING =
+  BOARD_SORT_BY.LAST_UPDATE.isDefaultAscending;
 
 // Table
 export const LAST_TABLE_DENSITY = TABLE_DENSITY.COMFORTABLE.name;

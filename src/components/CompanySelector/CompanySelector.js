@@ -26,7 +26,7 @@ function CompanySelector(props) {
     // Parent updates value
     props.onNewValue({ name: data.value, domain: "", logo: "" });
 
-    // Used to get dropdown results, not relevant to parent
+    // Get dropdown results
     timeoutRef.current = setTimeout(async () => {
       if (data.value.trim().length === 0) {
         setLoading(false);

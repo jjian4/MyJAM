@@ -62,32 +62,32 @@ export const BOARD_COLUMN_OPTION_ICONS = {
 export const BOARD_SORT_BY = {
   LAST_UPDATE: {
     name: "Last Update",
-    entryProperty: "lastUpdate",
+    property: "lastUpdate",
     isDefaultAscending: false,
   },
   DEADLINE_DATE: {
     name: "Interview/Deadline",
-    entryProperty: "deadlineDate",
+    property: "deadlineDate",
     isDefaultAscending: true,
   },
   COMPANY: {
     name: "Company",
-    entryProperty: "company",
+    property: "company",
     isDefaultAscending: true,
   },
   JOB_TITLE: {
     name: "Job Title",
-    entryProperty: "jobTitle",
+    property: "jobTitle",
     isDefaultAscending: true,
   },
   APPLICATION_DATE: {
     name: "Application Date",
-    entryProperty: "applyDate",
+    property: "applyDate",
     isDefaultAscending: false,
   },
   DATE_CREATED: {
     name: "Date Created",
-    entryProperty: "dateCreated",
+    property: "dateCreated",
     isDefaultAscending: false,
   },
 };

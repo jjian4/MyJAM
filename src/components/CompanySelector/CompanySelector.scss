@@ -1,6 +1,7 @@
 .CompanySelector {
   .searchBar {
     .selectedCompanyLogo {
+      opacity: 1 !important; // Semantic lowers opacity when input is not focused
       padding: 5px;
       display: flex;
       align-items: center;

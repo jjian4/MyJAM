@@ -2,11 +2,10 @@ import { useContext } from "react";
 import { useDrag } from "react-dnd";
 import AppContext from "../../../AppContext";
 import { DRAG_DROP_ITEMS } from "../../../constants";
-import { IS_CARD_COLORS_ON } from "../../../settings";
 import "./DashboardIconCard.scss";
 
 function DashboardIconCard(props) {
-  const { openEditEntryModal } = useContext(AppContext);
+  const { portfolioSettings, openEditEntryModal } = useContext(AppContext);
 
   // Used to allow card to be dragged into another column
   const [{ isDragging }, drag] = useDrag({
@@ -16,7 +15,7 @@ function DashboardIconCard(props) {
     }),
   });
 
-  const cardColor = IS_CARD_COLORS_ON ? props.entry.color : null;
+  const cardColor = portfolioSettings.isCardColorOn ? props.entry.color : null;
 
   return (
     <div

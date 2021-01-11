@@ -6,50 +6,48 @@ import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 import AppContext from "../../AppContext";
 import { PORTFOLIO_DISPLAY, TABLE_DENSITY } from "../../constants";
-import {
-  LAST_TABLE_COLUMN_FILTER,
-  LAST_TABLE_DENSITY,
-  LAST_TABLE_IS_SORT_ASCENDING,
-  LAST_TABLE_SORT_PROPERTY,
-} from "../../settings";
 import EntriesTableColumnFilterDropdown from "./EntriesTableColumnFilterDropdown/EntriesTableColumnFilterDropdown";
 
 import "./EntriesTable.scss";
 
-function EntriesTable(props) {
-  const { entries, openNewEntryModal, openEditEntryModal } = useContext(
-    AppContext
-  );
+function EntriesTable() {
+  const {
+    isWindowSmall,
+    portfolioSettings,
+    updatePortfolioSettings,
+    entries,
+    openNewEntryModal,
+    openEditEntryModal,
+  } = useContext(AppContext);
+
+  const {
+    tableDensity,
+    tableColumnFilter,
+    tableSortProperty,
+    tableIsSortAscending,
+  } = portfolioSettings;
 
   const [data, setData] = useState([]);
-
-  // Menu
-  const [density, setDensity] = useState(LAST_TABLE_DENSITY);
-  const [columnFilter, setcolumnFilter] = useState(LAST_TABLE_COLUMN_FILTER);
-
-  // Sorting
-  const [sortProperty, setSortProperty] = useState(LAST_TABLE_SORT_PROPERTY);
-  const [isSortAscending, setIsSortAscending] = useState(
-    LAST_TABLE_IS_SORT_ASCENDING
-  );
 
   useEffect(() => {
     if (entries) {
       let sortedEntries = [...entries];
       sortedEntries.sort((a, b) =>
-        a[sortProperty] > b[sortProperty] ? 1 : -1
+        a[tableSortProperty] > b[tableSortProperty] ? 1 : -1
       );
-      setData(isSortAscending ? sortedEntries : sortedEntries.reverse());
+      setData(tableIsSortAscending ? sortedEntries : sortedEntries.reverse());
     }
-  }, [entries, sortProperty, isSortAscending]);
+  }, [entries, tableSortProperty, tableIsSortAscending]);
 
   const handleSort = (newSortProperty) => {
-    if (newSortProperty === sortProperty) {
-      setIsSortAscending(!isSortAscending);
+    if (newSortProperty === tableSortProperty) {
+      updatePortfolioSettings({ tableIsSortAscending: !tableIsSortAscending });
       setData(data.reverse());
     } else {
-      setSortProperty(newSortProperty);
-      setIsSortAscending(true);
+      updatePortfolioSettings({
+        tableSortProperty: newSortProperty,
+        tableIsSortAscending: true,
+      });
 
       let sortedEntries = [...entries];
       sortedEntries.sort((a, b) =>
@@ -78,10 +76,10 @@ function EntriesTable(props) {
                 key={index}
                 icon
                 active={item.name === PORTFOLIO_DISPLAY.TABLE.name}
-                onClick={() => props.onChangeDisplay(item.name)}
+                onClick={() => updatePortfolioSettings({ display: item.name })}
               >
                 {item.icon}
-                {!props.isWindowSmall && (
+                {!isWindowSmall && (
                   <span className="buttonLabel">{item.name}</span>
                 )}
               </Button>
@@ -93,11 +91,13 @@ function EntriesTable(props) {
               <Button
                 key={index}
                 icon
-                active={density === item.name}
-                onClick={() => setDensity(item.name)}
+                active={tableDensity === item.name}
+                onClick={() =>
+                  updatePortfolioSettings({ tableDensity: item.name })
+                }
               >
                 {item.icon}
-                {!props.isWindowSmall && (
+                {!isWindowSmall && (
                   <span className="buttonLabel">{item.name}</span>
                 )}
               </Button>
@@ -107,11 +107,7 @@ function EntriesTable(props) {
 
         <div className="menuRight">
           <span className="filterDropdown">
-            <EntriesTableColumnFilterDropdown
-              hideLabel={props.isWindowSmall}
-              columnFilter={columnFilter}
-              onChange={setcolumnFilter}
-            />
+            <EntriesTableColumnFilterDropdown hideLabel={isWindowSmall} />
           </span>
 
           <Button
@@ -119,7 +115,7 @@ function EntriesTable(props) {
             positive
             size="mini"
             icon="plus"
-            content={props.isWindowSmall ? null : "New Entry"}
+            content={isWindowSmall ? null : "New Entry"}
             onClick={() => openNewEntryModal({})}
           />
         </div>
@@ -131,14 +127,16 @@ function EntriesTable(props) {
             className="dataTable"
             celled
             selectable
-            compact={density === TABLE_DENSITY.COMPACT.name ? "very" : false}
+            compact={
+              tableDensity === TABLE_DENSITY.COMPACT.name ? "very" : false
+            }
             size="small"
             sortable
             unstackable
           >
             <Table.Header>
               <Table.Row>
-                {columnFilter.map((column, index) => {
+                {tableColumnFilter.map((column, index) => {
                   if (!column.isActive) {
                     return null;
                   }
@@ -146,8 +144,8 @@ function EntriesTable(props) {
                     <Table.HeaderCell
                       key={index}
                       sorted={
-                        column.property === sortProperty
-                          ? isSortAscending
+                        column.property === tableSortProperty
+                          ? tableIsSortAscending
                             ? "ascending"
                             : "descending"
                           : null
@@ -163,7 +161,7 @@ function EntriesTable(props) {
             <Table.Body>
               {data.map((entry) => (
                 <Table.Row key={entry.id}>
-                  {columnFilter.map((column, index) => {
+                  {tableColumnFilter.map((column, index) => {
                     if (!column.isActive) {
                       return null;
                     }

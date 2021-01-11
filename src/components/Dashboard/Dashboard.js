@@ -6,31 +6,26 @@ import AppContext from "../../AppContext";
 import DashboardColumn from "./DashboardColumn/DashboardColumn";
 import DashboardSortDropdown from "./DashboardSortDropdown/DashboardSortDropdown";
 import DashboardColumnFilterDropdown from "./DashboardColumnFilterDropdown/DashboardColumnFilterDropdown";
-import {
-  PORTFOLIO_DISPLAY,
-  BOARD_DENSITY,
-  STATUS,
-  BOARD_SORT_BY,
-} from "../../constants";
-import {
-  LAST_BOARD_DENSITY,
-  LAST_BOARD_COLUMN_FILTER,
-  LAST_BOARD_SORT,
-} from "../../settings";
+import { PORTFOLIO_DISPLAY, BOARD_DENSITY, STATUS } from "../../constants";
 import "./Dashboard.scss";
 
-function Dashboard(props) {
-  const { entries, openNewEntryModal } = useContext(AppContext);
+function Dashboard() {
+  const {
+    isWindowSmall,
+    portfolioSettings,
+    updatePortfolioSettings,
+    entries,
+    openNewEntryModal,
+  } = useContext(AppContext);
+
+  const {
+    boardDensity,
+    boardColumnFilter,
+    boardSortProperty,
+    boardIsSortAscending,
+  } = portfolioSettings;
 
   const [entriesByStatus, setEntriesByStatus] = useState({});
-
-  // Menu
-  const [density, setDensity] = useState(LAST_BOARD_DENSITY);
-  const [sortBy, setSortBy] = useState(LAST_BOARD_SORT.name);
-  const [isSortAscending, setIsSortAscending] = useState(
-    LAST_BOARD_SORT.isDefaultAscending
-  );
-  const [columnFilter, setcolumnFilter] = useState(LAST_BOARD_COLUMN_FILTER);
 
   useEffect(() => {
     if (entries) {
@@ -43,21 +38,18 @@ function Dashboard(props) {
         statusToEntries[entry.status].push(entry);
       });
 
-      const entryProperty = Object.values(BOARD_SORT_BY).find(
-        (x) => x.name === sortBy
-      ).entryProperty;
       Object.values(statusToEntries).forEach((entries) => {
-        if (isSortAscending) {
+        if (boardIsSortAscending) {
           entries.sort((a, b) => {
             // Show the cards that have a value first, even though empty string technically comes first
-            if (!(a[entryProperty] && b[entryProperty])) {
-              return !a[entryProperty] ? 1 : -1;
+            if (!(a[boardSortProperty] && b[boardSortProperty])) {
+              return !a[boardSortProperty] ? 1 : -1;
             }
-            return a[entryProperty] > b[entryProperty] ? 1 : -1;
+            return a[boardSortProperty] > b[boardSortProperty] ? 1 : -1;
           });
         } else {
           entries.sort((a, b) =>
-            a[entryProperty] < b[entryProperty] ? 1 : -1
+            a[boardSortProperty] < b[boardSortProperty] ? 1 : -1
           );
         }
       });
@@ -66,12 +58,7 @@ function Dashboard(props) {
     } else {
       setEntriesByStatus({});
     }
-  }, [entries, sortBy, isSortAscending]);
-
-  const sortDashboardEntries = (sortBy, isSortAscending) => {
-    setSortBy(sortBy);
-    setIsSortAscending(isSortAscending);
-  };
+  }, [entries, boardSortProperty, boardIsSortAscending]);
 
   return (
     <div className="Dashboard">
@@ -83,10 +70,10 @@ function Dashboard(props) {
                 key={index}
                 icon
                 active={item.name === PORTFOLIO_DISPLAY.BOARD.name}
-                onClick={() => props.onChangeDisplay(item.name)}
+                onClick={() => updatePortfolioSettings({ display: item.name })}
               >
                 {item.icon}
-                {!props.isWindowSmall && (
+                {!isWindowSmall && (
                   <span className="buttonLabel">{item.name}</span>
                 )}
               </Button>
@@ -98,11 +85,13 @@ function Dashboard(props) {
               <Button
                 key={index}
                 icon
-                active={density === item.name}
-                onClick={() => setDensity(item.name)}
+                active={boardDensity === item.name}
+                onClick={() =>
+                  updatePortfolioSettings({ boardDensity: item.name })
+                }
               >
                 {item.icon}
-                {!props.isWindowSmall && (
+                {!isWindowSmall && (
                   <span className="buttonLabel">{item.name}</span>
                 )}
               </Button>
@@ -113,20 +102,13 @@ function Dashboard(props) {
         <div className="menuRight">
           <span className="filterDropdown">
             <DashboardColumnFilterDropdown
-              hideLabel={props.isWindowSmall}
+              hideLabel={isWindowSmall}
               entriesByStatus={entriesByStatus}
-              columnFilter={columnFilter}
-              onChange={setcolumnFilter}
             />
           </span>
 
           <span className="sortDropdown">
-            <DashboardSortDropdown
-              hideLabel={props.isWindowSmall}
-              value={sortBy}
-              isSortAscending={isSortAscending}
-              onSelect={sortDashboardEntries}
-            />
+            <DashboardSortDropdown hideLabel={isWindowSmall} />
           </span>
 
           <Button
@@ -134,7 +116,7 @@ function Dashboard(props) {
             positive
             size="mini"
             icon="plus"
-            content={props.isWindowSmall ? null : "New Entry"}
+            content={isWindowSmall ? null : "New Entry"}
             onClick={() => openNewEntryModal({})}
           />
         </div>
@@ -142,12 +124,12 @@ function Dashboard(props) {
 
       <ReactSortable
         className="dashboardColumns"
-        list={columnFilter}
-        setList={setcolumnFilter}
+        list={boardColumnFilter}
+        setList={(x) => updatePortfolioSettings({ boardColumnFilter: x })}
         animation={200}
         handle=".columnHeading"
       >
-        {columnFilter.map((column, index) => {
+        {boardColumnFilter.map((column, index) => {
           if (!column.isActive) {
             // Just returns empty div since Sortable doesn't allow null
             return <div key={column.status} />;
@@ -155,20 +137,10 @@ function Dashboard(props) {
           return (
             <DashboardColumn
               key={column.status}
+              index={index}
               status={column.status}
               isExpanded={column.isExpanded}
-              density={density}
               columnEntries={entriesByStatus[column.status] || []}
-              onChangeExpanded={(isExpanded) => {
-                const newColumnFilter = [...columnFilter];
-                newColumnFilter[index].isExpanded = isExpanded;
-                setcolumnFilter(newColumnFilter);
-              }}
-              onHideColumn={() => {
-                const newColumnFilter = [...columnFilter];
-                newColumnFilter[index].isActive = false;
-                setcolumnFilter(newColumnFilter);
-              }}
             />
           );
         })}

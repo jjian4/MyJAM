@@ -12,7 +12,6 @@ import { useDrag } from "react-dnd";
 import TimeAgo from "react-timeago";
 
 import AppContext from "../../../AppContext";
-import { IS_CARD_COLORS_ON } from "../../../settings";
 import "./DashboardCard.scss";
 import { BOARD_DENSITY, DRAG_DROP_ITEMS } from "../../../constants";
 
@@ -20,7 +19,8 @@ const maxNotesLength = 100;
 const maxNotesLines = 3;
 
 function DashboardCard(props) {
-  const { openEditEntryModal } = useContext(AppContext);
+  const { portfolioSettings, openEditEntryModal } = useContext(AppContext);
+  const { boardDensity, isCardColorOn } = portfolioSettings;
 
   // Used to allow card to be dragged into another column
   const [{ isDragging }, drag] = useDrag({
@@ -42,7 +42,7 @@ function DashboardCard(props) {
     truncatedNotes += "\u2026";
   }
 
-  const cardColor = IS_CARD_COLORS_ON ? props.entry.color : null;
+  const cardColor = isCardColorOn ? props.entry.color : null;
 
   return (
     <div
@@ -50,11 +50,11 @@ function DashboardCard(props) {
       className={`DashboardCard ${cardColor ? "DashboardCard-colored" : ""}`}
       style={{ backgroundColor: cardColor, opacity: isDragging ? 0.5 : 1 }}
     >
-      {(props.density === BOARD_DENSITY.COMPACT.name ||
-        props.density === BOARD_DENSITY.DETAILED.name) && (
+      {(boardDensity === BOARD_DENSITY.COMPACT.name ||
+        boardDensity === BOARD_DENSITY.DETAILED.name) && (
         <div
           className={`cardTop ${
-            props.density === BOARD_DENSITY.COMPACT.name ? "compactCardTop" : ""
+            boardDensity === BOARD_DENSITY.COMPACT.name ? "compactCardTop" : ""
           }`}
         >
           <a
@@ -69,13 +69,13 @@ function DashboardCard(props) {
             <div className="jobTitle">{props.entry.jobTitle}</div>
           </div>
           <div className="cardOptions">
-            {props.density === BOARD_DENSITY.COMPACT.name && props.entry.url && (
+            {boardDensity === BOARD_DENSITY.COMPACT.name && props.entry.url && (
               <a href={props.entry.url} target="_blank" rel="noreferrer">
                 <FontAwesomeIcon title="URL" icon={faLink} />
               </a>
             )}
 
-            {props.density === BOARD_DENSITY.COMPACT.name && (
+            {boardDensity === BOARD_DENSITY.COMPACT.name && (
               <FontAwesomeIcon
                 title="Edit"
                 icon={faEdit}
@@ -93,7 +93,7 @@ function DashboardCard(props) {
         </div>
       )}
 
-      {props.density === BOARD_DENSITY.DETAILED.name && (
+      {boardDensity === BOARD_DENSITY.DETAILED.name && (
         <>
           <div className="cardMid">{truncatedNotes}</div>
 

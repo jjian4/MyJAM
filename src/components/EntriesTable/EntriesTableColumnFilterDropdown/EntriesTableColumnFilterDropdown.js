@@ -1,13 +1,17 @@
+import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Checkbox } from "semantic-ui-react";
 import { ReactSortable } from "react-sortablejs";
-
+import AppContext from "../../../AppContext";
 import ControlledDropdown from "../../ControlledDropdown/ControlledDropdown";
 import { faGripVertical } from "@fortawesome/free-solid-svg-icons";
 import DropdownButton from "../../DropdownButton/DropdownButton";
 import "./EntriesTableColumnFilterDropdown.scss";
 
 function EntriesTableColumnFilterDropdown(props) {
+  const { portfolioSettings, updatePortfolioSettings } = useContext(AppContext);
+  const { tableColumnFilter } = portfolioSettings;
+
   const dropdownButton = (
     <DropdownButton
       size="mini"
@@ -18,14 +22,14 @@ function EntriesTableColumnFilterDropdown(props) {
   );
 
   const handleCheckboxToggle = (e, { value }) => {
-    const newSettings = [...props.columnFilter];
+    const newSettings = [...tableColumnFilter];
     const columnName = value;
 
     const index = newSettings.findIndex((column) => column.name === columnName);
 
     newSettings[index].isActive = !newSettings[index].isActive;
 
-    props.onChange(newSettings);
+    updatePortfolioSettings({ tableColumnFilter: newSettings });
   };
 
   return (
@@ -38,12 +42,12 @@ function EntriesTableColumnFilterDropdown(props) {
     >
       <ReactSortable
         className="columnSorter"
-        list={props.columnFilter}
-        setList={props.onChange}
+        list={tableColumnFilter}
+        setList={(x) => updatePortfolioSettings({ tableColumnFilter: x })}
         animation={200}
         handle=".gripIcon"
       >
-        {props.columnFilter.map((column) => (
+        {tableColumnFilter.map((column) => (
           <div className="dropdownRow" key={column.property}>
             <div className="gripIcon">
               <FontAwesomeIcon icon={faGripVertical} />

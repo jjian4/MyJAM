@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   Form,
   Button,
@@ -12,13 +12,14 @@ import dateFormat from "dateformat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
-
+import AppContext from "../../AppContext";
 import CompanySelector from "../CompanySelector/CompanySelector";
 import { CARD_COLORS, STATUS } from "../../constants";
 import "./EditEntryModal.scss";
-import { IS_CARD_COLORS_ON } from "../../settings";
 
 function EditEntryModal(props) {
+  const { portfolioSettings } = useContext(AppContext);
+
   const [color, setColor] = useState("");
   const [isStarred, setIsStarred] = useState(false);
 
@@ -90,7 +91,7 @@ function EditEntryModal(props) {
           <div>{props.heading}</div>
 
           <div className="headerRight">
-            {IS_CARD_COLORS_ON && (
+            {portfolioSettings.isCardColorOn && (
               <Dropdown
                 className="colorDropdown"
                 trigger={

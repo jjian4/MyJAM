@@ -1,21 +1,33 @@
+import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLongArrowAltDown,
   faLongArrowAltUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "semantic-ui-react";
-
+import AppContext from "../../../AppContext";
 import { BOARD_SORT_BY } from "../../../constants";
 import "./DashboardSortDropdown.scss";
 import DropdownButton from "../../DropdownButton/DropdownButton";
 
 function DashboardSortDropdown(props) {
+  const { portfolioSettings, updatePortfolioSettings } = useContext(AppContext);
+  const { boardSortProperty, boardIsSortAscending } = portfolioSettings;
+
   const dropdownButton = (
     <DropdownButton
       size="mini"
       basic
-      icon={props.isSortAscending ? "sort amount up" : "sort amount down"}
-      text={props.hideLabel ? null : `Sort by ${props.value}`}
+      icon={boardIsSortAscending ? "sort amount up" : "sort amount down"}
+      text={
+        props.hideLabel
+          ? null
+          : `Sort by ${
+              Object.values(BOARD_SORT_BY).find(
+                (x) => x.property === boardSortProperty
+              ).name
+            }`
+      }
     />
   );
 
@@ -31,12 +43,13 @@ function DashboardSortDropdown(props) {
           <Dropdown.Item
             key={option.name}
             onClick={() =>
-              props.onSelect(
-                option.name,
-                props.value === option.name
-                  ? !props.isSortAscending
-                  : option.isDefaultAscending
-              )
+              updatePortfolioSettings({
+                boardSortProperty: option.property,
+                boardIsSortAscending:
+                  boardSortProperty === option.property
+                    ? !boardIsSortAscending
+                    : option.isDefaultAscending,
+              })
             }
           >
             <div className="itemContent">
@@ -44,12 +57,12 @@ function DashboardSortDropdown(props) {
               <div>
                 <FontAwesomeIcon
                   className={`menuIcon ${
-                    props.value !== option.name ? "menuIcon-hidden" : ""
+                    boardSortProperty !== option.property
+                      ? "menuIcon-hidden"
+                      : ""
                   }`}
                   icon={
-                    props.isSortAscending
-                      ? faLongArrowAltDown
-                      : faLongArrowAltUp
+                    boardIsSortAscending ? faLongArrowAltDown : faLongArrowAltUp
                   }
                 />
               </div>

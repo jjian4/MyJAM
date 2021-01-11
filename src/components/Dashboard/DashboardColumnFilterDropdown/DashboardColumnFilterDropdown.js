@@ -1,7 +1,8 @@
+import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Checkbox } from "semantic-ui-react";
 import { ReactSortable } from "react-sortablejs";
-
+import AppContext from "../../../AppContext";
 import DropdownButton from "../../DropdownButton/DropdownButton";
 import ControlledDropdown from "../../ControlledDropdown/ControlledDropdown";
 import { BOARD_COLUMN_OPTION_ICONS } from "../../../constants";
@@ -9,6 +10,9 @@ import { faGripVertical } from "@fortawesome/free-solid-svg-icons";
 import "./DashboardColumnFilterDropdown.scss";
 
 function DashboardColumnFilterDropdown(props) {
+  const { portfolioSettings, updatePortfolioSettings } = useContext(AppContext);
+  const { boardColumnFilter } = portfolioSettings;
+
   const dropdownButton = (
     <DropdownButton
       size="mini"
@@ -19,23 +23,18 @@ function DashboardColumnFilterDropdown(props) {
   );
 
   const handleCheckboxToggle = (e, { value }) => {
-    const newSettings = [...props.columnFilter];
+    const newSettings = [...boardColumnFilter];
     const status = value;
-
     const index = newSettings.findIndex((column) => column.status === status);
-
     newSettings[index].isActive = !newSettings[index].isActive;
-
-    props.onChange(newSettings);
+    updatePortfolioSettings({ boardColumnFilter: newSettings });
   };
 
   const handleSizeToggle = (status) => {
-    const newSettings = [...props.columnFilter];
-
+    const newSettings = [...boardColumnFilter];
     const index = newSettings.findIndex((column) => column.status === status);
-
     newSettings[index].isExpanded = !newSettings[index].isExpanded;
-    props.onChange(newSettings);
+    updatePortfolioSettings({ boardColumnFilter: newSettings });
   };
 
   return (
@@ -47,12 +46,12 @@ function DashboardColumnFilterDropdown(props) {
       dropdownButton={dropdownButton}
     >
       <ReactSortable
-        list={props.columnFilter}
-        setList={props.onChange}
+        list={boardColumnFilter}
+        setList={(x) => updatePortfolioSettings({ boardColumnFilter: x })}
         animation={200}
         handle=".gripIcon"
       >
-        {props.columnFilter.map((column) => (
+        {boardColumnFilter.map((column) => (
           <div className="dropdownRow" key={column.status}>
             <div className="rowLeft">
               <div className="gripIcon">
