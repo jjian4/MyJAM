@@ -6,11 +6,12 @@ import {
   Dropdown,
   TextArea,
   Input,
+  Popup,
 } from "semantic-ui-react";
 import { DateInput } from "semantic-ui-calendar-react";
 import dateFormat from "dateformat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import AppContext from "../../AppContext";
 import CompanySelector from "../CompanySelector/CompanySelector";
@@ -22,24 +23,17 @@ function EditEntryModal(props) {
 
   const [color, setColor] = useState("");
   const [isStarred, setIsStarred] = useState(false);
-
   const [company, setCompany] = useState("");
   const [domain, setDomain] = useState("");
   const [logo, setLogo] = useState("");
   const [jobTitle, setJobTitle] = useState("");
-
   const [applyDate, setApplyDate] = useState("");
   const [deadlineDate, setDeadlineDate] = useState("");
   const [status, setStatus] = useState(STATUS.APPLIED);
-
   const [url, setUrl] = useState("");
-
   const [notes, setNotes] = useState("");
 
-  const statusOptions = Object.values(STATUS).map((status) => ({
-    text: status,
-    value: status,
-  }));
+  const [isSaveClicked, setIsSaveClicked] = useState(false);
 
   useEffect(() => {
     // Initialize values everytime modal reopens
@@ -60,6 +54,7 @@ function EditEntryModal(props) {
       setStatus(props.initialValues.status || STATUS.APPLIED);
       setUrl(props.initialValues.url || "");
       setNotes(props.initialValues.notes || "");
+      setIsSaveClicked(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.open]);
@@ -76,6 +71,31 @@ function EditEntryModal(props) {
     }
 
     return true;
+  };
+
+  const handleSave = () => {
+    setIsSaveClicked(true);
+    if (!company.trim() || !jobTitle.trim() || !status) {
+      return;
+    }
+
+    props.onSave({
+      id: props.initialValues.id,
+      dateCreated: props.initialValues.dateCreated,
+      lastUpdate: Date.now(),
+      color,
+      isStarred,
+      company: company.trim(),
+      domain: domain,
+      logo: logo,
+      jobTitle: jobTitle.trim(),
+      applyDate,
+      deadlineDate,
+      status,
+      url: url.trim(),
+      notes: notes.trim(),
+    });
+    props.onClose();
   };
 
   return (
@@ -137,8 +157,28 @@ function EditEntryModal(props) {
       <Modal.Content>
         <Form>
           <Form.Group widths="equal">
-            <Form.Field>
-              <label>Company</label>
+            <Form.Field error={isSaveClicked && !company}>
+              <label className="companyLabel">
+                <span>Company *</span>
+                <span className="clearbitLink">
+                  <Popup
+                    trigger={<FontAwesomeIcon icon={faInfoCircle} />}
+                    hoverable
+                    position="right center"
+                    size="small"
+                  >
+                    Powered by{" "}
+                    <a
+                      href="https://clearbit.com"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Clearbit
+                    </a>{" "}
+                    Logo API
+                  </Popup>
+                </span>
+              </label>
               <CompanySelector
                 companyObj={{ name: company, domain: domain, logo: logo }}
                 onNewValue={({ name, domain, logo }) => {
@@ -150,8 +190,8 @@ function EditEntryModal(props) {
               />
             </Form.Field>
 
-            <Form.Field>
-              <label>Job Title</label>
+            <Form.Field error={isSaveClicked && !jobTitle}>
+              <label>Job Title *</label>
               <Input
                 value={jobTitle}
                 onChange={(e) => setJobTitle(e.target.value)}
@@ -191,12 +231,15 @@ function EditEntryModal(props) {
               />
             </Form.Field>
 
-            <Form.Field>
-              <label>Status</label>
+            <Form.Field error={isSaveClicked && !status}>
+              <label>Status *</label>
               <Dropdown
                 fluid
                 selection
-                options={statusOptions}
+                options={Object.values(STATUS).map((status) => ({
+                  text: status,
+                  value: status,
+                }))}
                 value={status}
                 onChange={(e, { name, value }) => setStatus(value)}
                 defaultOpen={props.autoFocusProperty === "status"}
@@ -231,29 +274,7 @@ function EditEntryModal(props) {
       </Modal.Content>
       <Modal.Actions>
         <Button onClick={props.onClose}>Cancel</Button>
-        <Button
-          content="Save"
-          onClick={() => {
-            props.onSave({
-              id: props.initialValues.id,
-              dateCreated: props.initialValues.dateCreated,
-              lastUpdate: Date.now(),
-              color,
-              isStarred,
-              company: company.trim(),
-              domain: domain,
-              logo: logo,
-              jobTitle: jobTitle.trim(),
-              applyDate,
-              deadlineDate,
-              status,
-              url: url.trim(),
-              notes: notes.trim(),
-            });
-            props.onClose();
-          }}
-          positive
-        />
+        <Button content="Save" onClick={handleSave} positive />
       </Modal.Actions>
     </Modal>
   );
