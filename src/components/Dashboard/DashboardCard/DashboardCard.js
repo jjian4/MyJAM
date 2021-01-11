@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import { useDrag } from "react-dnd";
+import prependHttp from "prepend-http";
 import TimeAgo from "react-timeago";
 
 import AppContext from "../../../AppContext";
@@ -32,7 +33,7 @@ function DashboardCard(props) {
 
   let truncatedNotes = props.entry.notes;
   if (truncatedNotes.length > maxNotesLength) {
-    truncatedNotes = truncatedNotes.substr(0, maxNotesLength - 1);
+    truncatedNotes = truncatedNotes.substr(0, maxNotesLength);
   }
   truncatedNotes = truncatedNotes.substr(
     0,
@@ -57,13 +58,15 @@ function DashboardCard(props) {
             boardDensity === BOARD_DENSITY.COMPACT.name ? "compactCardTop" : ""
           }`}
         >
-          <a
-            href={props.entry.domain ? `https://${props.entry.domain}` : null}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <img className="logo" src={props.entry.logo} alt="logo" />
-          </a>
+          {props.entry.logo && (
+            <a
+              href={props.entry.domain ? prependHttp(props.entry.domain) : null}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img className="logo" src={props.entry.logo} alt="logo" />
+            </a>
+          )}
           <div>
             <div className="company">{props.entry.company}</div>
             <div className="jobTitle">{props.entry.jobTitle}</div>

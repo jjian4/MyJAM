@@ -8,7 +8,7 @@ import {
 
 // Hard-coded for now
 
-export const LAST_PORTFOLIO_DISPLAY = PORTFOLIO_DISPLAY.BOARD.name;
+export const LAST_PORTFOLIO_DISPLAY = PORTFOLIO_DISPLAY.TABLE.name;
 
 // Dashboard
 export const IS_CARD_COLORS_ON = true;
@@ -44,6 +44,7 @@ export const LAST_TABLE_COLUMN_FILTER = [
   { name: "Company", property: "company", isActive: true },
   { name: "Job Title", property: "jobTitle", isActive: true },
   { name: "Status", property: "status", isActive: true },
+  { name: "URL", property: "url", isActive: true },
   { name: "Notes", property: "notes", isActive: false },
   {
     name: "Interview/Deadline",
@@ -57,7 +58,6 @@ export const LAST_TABLE_COLUMN_FILTER = [
     isDate: true,
     isActive: false,
   },
-  { name: "URL", property: "url", isActive: false },
 ];
 export const LAST_TABLE_SORT_PROPERTY = "company";
 export const LAST_TABLE_IS_SORT_ASCENDING = true;

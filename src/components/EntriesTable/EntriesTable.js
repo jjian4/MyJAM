@@ -3,9 +3,12 @@ import { Table } from "semantic-ui-react";
 import dateFormat from "dateformat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import prependHttp from "prepend-http";
 import AppContext from "../../AppContext";
 import { TABLE_DENSITY } from "../../constants";
 import "./EntriesTable.scss";
+
+const maxUrlLength = 50;
 
 function EntriesTable() {
   const {
@@ -123,13 +126,44 @@ function EntriesTable() {
                     return (
                       <Table.Cell key={index} singleLine>
                         <div className="data companyCell">
-                          <img
-                            className="logo"
-                            src={entry["logo"]}
-                            alt="logo"
-                          />{" "}
+                          <a
+                            href={
+                              entry.domain ? prependHttp(entry.domain) : null
+                            }
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <img
+                              className="logo"
+                              src={entry["logo"]}
+                              alt="logo"
+                            />
+                          </a>{" "}
                           {entry[column.property]}
                         </div>
+                        <EditCellButton
+                          entryId={entry["id"]}
+                          propertyToEdit={column.property}
+                        />
+                      </Table.Cell>
+                    );
+                  }
+                  if (column.property === "url") {
+                    let truncatedUrl = entry[column.property];
+                    if (truncatedUrl.length > maxUrlLength) {
+                      truncatedUrl =
+                        truncatedUrl.substr(0, maxUrlLength) + "\u2026";
+                    }
+                    return (
+                      <Table.Cell key={index} singleLine>
+                        <a
+                          className="data urlCell"
+                          href={prependHttp(entry[column.property])}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {truncatedUrl}
+                        </a>
                         <EditCellButton
                           entryId={entry["id"]}
                           propertyToEdit={column.property}

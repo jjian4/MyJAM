@@ -16,7 +16,7 @@
           th {
             position: sticky;
             top: 0;
-            background-color: whitesmoke;
+            background-color: #f5f5f5 !important;
             z-index: 3;
           }
         }
@@ -26,9 +26,39 @@
         tr {
           td {
             position: relative;
+            white-space: pre-line; // Otherwise, newlines are ignored
 
             .data {
               margin-right: 14px;
+            }
+
+            .colorCell {
+              text-align: center;
+              .color {
+                display: inline-block;
+                width: 1.2em;
+                height: 1.2em;
+                border-radius: 50%;
+              }
+            }
+
+            .companyCell {
+              display: flex;
+              align-items: center;
+              .logo {
+                width: 1.8em;
+                height: 1.8em;
+                margin-right: 8px;
+                border-radius: 50%;
+                border: 1px solid lightgray;
+              }
+            }
+
+            .urlCell {
+              color: #4183c4;
+              &:hover {
+                text-decoration: underline;
+              }
             }
 
             .editCellButton {
@@ -63,30 +93,6 @@
               }
             }
           }
-        }
-      }
-
-      white-space: pre-line; // Otherwise, newlines are ignored
-
-      .colorCell {
-        text-align: center;
-        .color {
-          display: inline-block;
-          width: 1.2em;
-          height: 1.2em;
-          border-radius: 50%;
-        }
-      }
-
-      .companyCell {
-        display: flex;
-        align-items: center;
-        .logo {
-          width: 1.8em;
-          height: 1.8em;
-          margin-right: 8px;
-          border-radius: 50%;
-          border: 1px solid lightgray;
         }
       }
     }
