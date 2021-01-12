@@ -44,9 +44,12 @@
         font-size: 22px;
         padding: 4px;
       }
-      .starIcon {
-        display: inline-block; // Star icon is always visible, even when not hovering
-        color: gold;
+
+      .starToggle-active {
+        .starIcon {
+          display: inline-block; // Star icon is always visible, even when not hovering
+          color: gold;
+        }
       }
     }
   }
@@ -94,6 +97,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        color: white;
         &:hover {
           background-color: darken(whitesmoke, 3%);
         }
@@ -139,9 +143,6 @@
     .cardOptions {
       svg {
         color: whitesmoke;
-      }
-      .starIcon {
-        color: gold;
       }
     }
   }

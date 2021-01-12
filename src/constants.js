@@ -104,6 +104,7 @@ export const TABLE_DENSITY = {
 };
 
 export const TABLE_COLUMNS = {
+  IS_STARRED: { name: "Star", property: "isStarred" },
   COLOR: { name: "Color", property: "color" },
   COMPANY: { name: "Company", property: "company" },
   JOB_TITLE: { name: "Job Title", property: "jobTitle" },

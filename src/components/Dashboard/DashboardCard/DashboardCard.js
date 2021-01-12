@@ -5,22 +5,22 @@ import {
   faCalendarTimes,
   faEdit,
   faLink,
-  faStar,
 } from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import { useDrag } from "react-dnd";
 import prependHttp from "prepend-http";
 import TimeAgo from "react-timeago";
-
 import AppContext from "../../../AppContext";
-import "./DashboardCard.scss";
 import { BOARD_DENSITY, DRAG_DROP_ITEMS } from "../../../constants";
+import StarButton from "../../StarButton/StarButton";
+import "./DashboardCard.scss";
 
 const maxNotesLength = 100;
 const maxNotesLines = 3;
 
 function DashboardCard(props) {
-  const { portfolioSettings, openEditEntryModal } = useContext(AppContext);
+  const { portfolioSettings, openEditEntryModal, updateEntry } = useContext(
+    AppContext
+  );
   const { boardDensity, isCardColorOn } = portfolioSettings;
 
   // Used to allow card to be dragged into another column
@@ -86,12 +86,34 @@ function DashboardCard(props) {
               />
             )}
 
-            <FontAwesomeIcon
+            <span
+              className={`starToggle ${
+                props.entry.isStarred ? "starToggle-active" : ""
+              }`}
+            >
+              <StarButton
+                isStarred={props.entry.isStarred}
+                onClick={() =>
+                  updateEntry({
+                    id: props.entry.id,
+                    isStarred: !props.entry.isStarred,
+                  })
+                }
+              />
+            </span>
+
+            {/* <FontAwesomeIcon
               className={props.entry.isStarred ? "starIcon" : "starOutlineIcon"}
-              title="Favorite"
-              onClick={() => console.log("TODO")}
+              tabIndex={0}
+              title="Star"
+              onClick={() =>
+                updateEntry({
+                  id: props.entry.id,
+                  isStarred: !props.entry.isStarred,
+                })
+              }
               icon={props.entry.isStarred ? faStar : faStarOutline}
-            />
+            /> */}
           </div>
         </div>
       )}

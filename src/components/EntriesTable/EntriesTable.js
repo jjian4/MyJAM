@@ -6,6 +6,7 @@ import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import prependHttp from "prepend-http";
 import AppContext from "../../AppContext";
 import { TABLE_DENSITY } from "../../constants";
+import StarButton from "../StarButton/StarButton";
 import "./EntriesTable.scss";
 
 const maxUrlLength = 50;
@@ -16,6 +17,7 @@ function EntriesTable() {
     updatePortfolioSettings,
     entries,
     openEditEntryModal,
+    updateEntry,
   } = useContext(AppContext);
 
   const {
@@ -106,6 +108,29 @@ function EntriesTable() {
                 {tableColumnFilter.map((column, index) => {
                   if (!column.isActive) {
                     return null;
+                  }
+                  if (column.property === "isStarred") {
+                    return (
+                      <Table.Cell key={index} singleLine>
+                        <div className="starCell">
+                          <span
+                            className={
+                              entry[column.property] ? "" : "unselectedStar"
+                            }
+                          >
+                            <StarButton
+                              isStarred={entry[column.property]}
+                              onClick={() =>
+                                updateEntry({
+                                  id: entry.id,
+                                  isStarred: !entry[column.property],
+                                })
+                              }
+                            />
+                          </span>
+                        </div>
+                      </Table.Cell>
+                    );
                   }
                   if (column.property === "color") {
                     return (

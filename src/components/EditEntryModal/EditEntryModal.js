@@ -11,11 +11,11 @@ import {
 import { DateInput } from "semantic-ui-calendar-react";
 import dateFormat from "dateformat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle, faStar } from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import AppContext from "../../AppContext";
 import CompanySelector from "../CompanySelector/CompanySelector";
 import { CARD_COLORS, STATUS } from "../../constants";
+import StarButton from "../StarButton/StarButton";
 import "./EditEntryModal.scss";
 
 function EditEntryModal(props) {
@@ -143,13 +143,12 @@ function EditEntryModal(props) {
               </Dropdown>
             )}
 
-            <FontAwesomeIcon
-              className={isStarred ? "starButton" : "starOutlineButton"}
-              tabIndex={0}
-              title="Favorite"
-              icon={isStarred ? faStar : faStarOutline}
-              onClick={() => setIsStarred(!isStarred)}
-            />
+            <div className="starToggle">
+              <StarButton
+                isStarred={isStarred}
+                onClick={() => setIsStarred(!isStarred)}
+              />
+            </div>
           </div>
         </div>
       </Modal.Header>

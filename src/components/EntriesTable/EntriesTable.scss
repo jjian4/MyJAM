@@ -24,12 +24,30 @@
 
       tbody {
         tr {
+          &:hover {
+            .unselectedStar {
+              visibility: visible !important;
+            }
+          }
+
           td {
             position: relative;
             white-space: pre-line; // Otherwise, newlines are ignored
 
             .data {
               margin-right: 14px;
+            }
+
+            .starCell {
+              text-align: center;
+              .unselectedStar {
+                visibility: hidden; // Is visible when table row is hovered
+                color: gray;
+              }
+              .starIcon {
+                font-size: 20px;
+                padding: 2px;
+              }
             }
 
             .colorCell {
@@ -55,7 +73,6 @@
             }
 
             .urlCell {
-              color: #4183c4;
               &:hover {
                 text-decoration: underline;
               }

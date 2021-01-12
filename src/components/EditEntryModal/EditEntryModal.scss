@@ -1,3 +1,5 @@
+@import "../../utilities/variables";
+
 .ui {
   .EditEntryModal {
     // Fix semantic modal unbalanced padding
@@ -69,18 +71,13 @@
         }
       }
 
-      .starButton {
-        width: 26px;
-        height: 26px;
-        cursor: pointer;
-        color: gold;
-      }
-
-      .starOutlineButton {
-        width: 26px;
-        height: 26px;
-        cursor: pointer;
+      .starToggle {
+        display: inline-block;
+        font-size: 24px;
         color: gray;
+        .starIcon {
+          padding: 2px;
+        }
       }
     }
   }
