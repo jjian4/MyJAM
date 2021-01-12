@@ -25,8 +25,8 @@
       align-items: center;
 
       .colorDropdown {
-        height: 26px;
-        width: 26px;
+        height: 24px;
+        width: 24px;
         margin-right: 14px;
 
         .colorDropdownButton {
@@ -44,7 +44,7 @@
           margin-top: 2px;
 
           .colorsGrid {
-            width: 200px;
+            width: 230px;
             display: flex;
             flex-wrap: wrap;
 
@@ -53,19 +53,33 @@
               align-items: center;
               justify-content: center;
               width: 20%;
-              height: 35px;
-            }
+              height: 40px;
 
-            .colorOption {
-              display: inline-block;
-              width: 28px;
-              height: 28px;
-              border-radius: 50%;
-              cursor: pointer;
-              border: 2px solid white;
-            }
-            .colorOption-selected {
-              border: 2px solid black;
+              .colorOption {
+                position: relative;
+                display: inline-block;
+                width: 34px;
+                height: 34px;
+                border-radius: 50%;
+                cursor: pointer;
+                border: 2px solid white;
+
+                .colorCheckMark {
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  font-size: 12px;
+                  color: white;
+                }
+
+                &:hover {
+                  transition: transform 0.2s;
+                  transform: scale(1.2);
+                }
+              }
+              .colorOption-selected {
+              }
             }
           }
         }

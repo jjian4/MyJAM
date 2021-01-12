@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Search, Image, Icon } from "semantic-ui-react";
 import axios from "axios";
 
@@ -19,11 +19,11 @@ function CompanySelector(props) {
   const [searchResults, setSearchResults] = useState([]);
 
   const timeoutRef = useRef();
-  const handleSearchChange = useCallback((e, data) => {
+  const handleSearchChange = (e, data) => {
     clearTimeout(timeoutRef.current);
     setLoading(true);
 
-    // Parent updates value
+    // Parent updates input value
     props.onNewValue({ name: data.value, domain: "", logo: "" });
 
     // Get dropdown results
@@ -48,7 +48,7 @@ function CompanySelector(props) {
       setSearchResults(results);
     }, 300);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   useEffect(() => {
     return () => {

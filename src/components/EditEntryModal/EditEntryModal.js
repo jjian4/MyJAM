@@ -11,7 +11,7 @@ import {
 import { DateInput } from "semantic-ui-calendar-react";
 import dateFormat from "dateformat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import AppContext from "../../AppContext";
 import CompanySelector from "../CompanySelector/CompanySelector";
 import { CARD_COLORS, STATUS } from "../../constants";
@@ -135,7 +135,14 @@ function EditEntryModal(props) {
                           title={colorOption}
                           style={{ backgroundColor: colorOption }}
                           onClick={() => setColor(colorOption)}
-                        />
+                        >
+                          {colorOption === color && (
+                            <FontAwesomeIcon
+                              className="colorCheckMark"
+                              icon={faCheck}
+                            />
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>

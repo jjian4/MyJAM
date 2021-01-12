@@ -12,7 +12,7 @@ function Portfolio() {
 
   return (
     <div className="Portfolio">
-      <PortfolioMenuBar display={portfolioSettings.display} />
+      <PortfolioMenuBar />
 
       {portfolioSettings.display === PORTFOLIO_DISPLAY.BOARD.name && (
         <Dashboard />

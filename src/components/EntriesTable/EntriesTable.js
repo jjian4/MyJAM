@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import prependHttp from "prepend-http";
 import AppContext from "../../AppContext";
-import { TABLE_DENSITY } from "../../constants";
+import { ENTRY_SEARCH_PROPERTIES, TABLE_DENSITY } from "../../constants";
 import StarButton from "../StarButton/StarButton";
 import "./EntriesTable.scss";
 
@@ -16,6 +16,7 @@ function EntriesTable() {
     portfolioSettings,
     updatePortfolioSettings,
     entries,
+    searchValue,
     openEditEntryModal,
     updateEntry,
   } = useContext(AppContext);
@@ -66,6 +67,21 @@ function EntriesTable() {
     </div>
   );
 
+  const passesEntrySearch = (entry) => {
+    if (!searchValue) {
+      return true;
+    }
+    const trimmedValue = searchValue.trim().toLowerCase();
+
+    for (const property of ENTRY_SEARCH_PROPERTIES) {
+      if (entry[property].toLowerCase().includes(trimmedValue)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   return (
     <div className="EntriesTable">
       <div className="tableContainer">
@@ -103,124 +119,129 @@ function EntriesTable() {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {data.map((entry) => (
-              <Table.Row key={entry.id}>
-                {tableColumnFilter.map((column, index) => {
-                  if (!column.isActive) {
-                    return null;
-                  }
-                  if (column.property === "isStarred") {
-                    return (
-                      <Table.Cell key={index} singleLine>
-                        <div className="starCell">
-                          <span
-                            className={
-                              entry[column.property] ? "" : "unselectedStar"
-                            }
-                          >
-                            <StarButton
-                              isStarred={entry[column.property]}
-                              onClick={() =>
-                                updateEntry({
-                                  id: entry.id,
-                                  isStarred: !entry[column.property],
-                                })
+            {data.map((entry) => {
+              if (!passesEntrySearch(entry)) {
+                return null;
+              }
+              return (
+                <Table.Row key={entry.id}>
+                  {tableColumnFilter.map((column, index) => {
+                    if (!column.isActive) {
+                      return null;
+                    }
+                    if (column.property === "isStarred") {
+                      return (
+                        <Table.Cell key={index} singleLine>
+                          <div className="starCell">
+                            <span
+                              className={
+                                entry[column.property] ? "" : "unselectedStar"
                               }
+                            >
+                              <StarButton
+                                isStarred={entry[column.property]}
+                                onClick={() =>
+                                  updateEntry({
+                                    id: entry.id,
+                                    isStarred: !entry[column.property],
+                                  })
+                                }
+                              />
+                            </span>
+                          </div>
+                        </Table.Cell>
+                      );
+                    }
+                    if (column.property === "color") {
+                      return (
+                        <Table.Cell key={index} singleLine>
+                          <div className="colorCell">
+                            <div
+                              className="color"
+                              style={{
+                                backgroundColor: entry[column.property],
+                              }}
+                              title={entry[column.property]}
                             />
-                          </span>
-                        </div>
-                      </Table.Cell>
-                    );
-                  }
-                  if (column.property === "color") {
-                    return (
-                      <Table.Cell key={index} singleLine>
-                        <div className="colorCell">
-                          <div
-                            className="color"
-                            style={{
-                              backgroundColor: entry[column.property],
-                            }}
-                            title={entry[column.property]}
+                          </div>
+                        </Table.Cell>
+                      );
+                    }
+                    if (column.property === "company") {
+                      return (
+                        <Table.Cell key={index} singleLine>
+                          <div className="data companyCell">
+                            <a
+                              href={
+                                entry.domain ? prependHttp(entry.domain) : null
+                              }
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <img
+                                className="logo"
+                                src={entry["logo"]}
+                                alt="logo"
+                              />
+                            </a>{" "}
+                            {entry[column.property]}
+                          </div>
+                          <EditCellButton
+                            entryId={entry["id"]}
+                            propertyToEdit={column.property}
                           />
-                        </div>
-                      </Table.Cell>
-                    );
-                  }
-                  if (column.property === "company") {
-                    return (
-                      <Table.Cell key={index} singleLine>
-                        <div className="data companyCell">
+                        </Table.Cell>
+                      );
+                    }
+                    if (column.property === "url") {
+                      let truncatedUrl = entry[column.property];
+                      if (truncatedUrl.length > maxUrlLength) {
+                        truncatedUrl =
+                          truncatedUrl.substr(0, maxUrlLength) + "\u2026";
+                      }
+                      return (
+                        <Table.Cell key={index} singleLine>
                           <a
-                            href={
-                              entry.domain ? prependHttp(entry.domain) : null
-                            }
+                            className="data urlCell"
+                            href={prependHttp(entry[column.property])}
                             target="_blank"
                             rel="noreferrer"
                           >
-                            <img
-                              className="logo"
-                              src={entry["logo"]}
-                              alt="logo"
-                            />
-                          </a>{" "}
-                          {entry[column.property]}
-                        </div>
-                        <EditCellButton
-                          entryId={entry["id"]}
-                          propertyToEdit={column.property}
-                        />
-                      </Table.Cell>
-                    );
-                  }
-                  if (column.property === "url") {
-                    let truncatedUrl = entry[column.property];
-                    if (truncatedUrl.length > maxUrlLength) {
-                      truncatedUrl =
-                        truncatedUrl.substr(0, maxUrlLength) + "\u2026";
+                            {truncatedUrl}
+                          </a>
+                          <EditCellButton
+                            entryId={entry["id"]}
+                            propertyToEdit={column.property}
+                          />
+                        </Table.Cell>
+                      );
+                    }
+                    if (column.isDate && entry[column.property]) {
+                      return (
+                        <Table.Cell key={index} singleLine>
+                          <div className="data">
+                            {dateFormat(entry[column.property], "mmm dd, yyyy")}
+                          </div>
+                          <EditCellButton
+                            entryId={entry["id"]}
+                            propertyToEdit={column.property}
+                          />
+                        </Table.Cell>
+                      );
                     }
                     return (
-                      <Table.Cell key={index} singleLine>
-                        <a
-                          className="data urlCell"
-                          href={prependHttp(entry[column.property])}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {truncatedUrl}
-                        </a>
+                      <Table.Cell key={index}>
+                        <div className="data">{entry[column.property]}</div>
                         <EditCellButton
                           entryId={entry["id"]}
                           propertyToEdit={column.property}
                         />
                       </Table.Cell>
                     );
-                  }
-                  if (column.isDate && entry[column.property]) {
-                    return (
-                      <Table.Cell key={index} singleLine>
-                        <div className="data">
-                          {dateFormat(entry[column.property], "mmm dd, yyyy")}
-                        </div>
-                        <EditCellButton
-                          entryId={entry["id"]}
-                          propertyToEdit={column.property}
-                        />
-                      </Table.Cell>
-                    );
-                  }
-                  return (
-                    <Table.Cell key={index}>
-                      <div className="data">{entry[column.property]}</div>
-                      <EditCellButton
-                        entryId={entry["id"]}
-                        propertyToEdit={column.property}
-                      />
-                    </Table.Cell>
-                  );
-                })}
-              </Table.Row>
-            ))}
+                  })}
+                </Table.Row>
+              );
+            })}
           </Table.Body>
         </Table>
       </div>

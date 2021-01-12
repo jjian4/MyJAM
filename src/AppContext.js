@@ -16,6 +16,8 @@ const AppContext = createContext({
   },
   updatePortfolioSettings: () => {},
   entries: [],
+  searchValue: "",
+  setSearchValue: () => {},
   openNewEntryModal: () => {},
   openEditEntryModal: () => {},
   updateEntry: () => {},

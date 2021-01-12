@@ -20,13 +20,12 @@ function DashboardSortDropdown(props) {
       basic
       icon={boardIsSortAscending ? "sort amount up" : "sort amount down"}
       text={
-        props.hideLabel
-          ? null
-          : `Sort by ${
-              Object.values(BOARD_SORT_BY).find(
-                (x) => x.property === boardSortProperty
-              ).name
-            }`
+        props.hideLabel ? null : "Sort"
+        // : `Sort by ${
+        //     Object.values(BOARD_SORT_BY).find(
+        //       (x) => x.property === boardSortProperty
+        //     ).name
+        //   }`
       }
     />
   );
@@ -42,6 +41,7 @@ function DashboardSortDropdown(props) {
         {Object.values(BOARD_SORT_BY).map((option) => (
           <Dropdown.Item
             key={option.name}
+            selected={boardSortProperty === option.property}
             onClick={() =>
               updatePortfolioSettings({
                 boardSortProperty: option.property,

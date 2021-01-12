@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { Dropdown } from "semantic-ui-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDrop } from "react-dnd";
-
 import AppContext from "../../../AppContext";
 import {
+  ENTRY_SEARCH_PROPERTIES,
   BOARD_COLUMN_OPTION_ICONS,
   BOARD_DENSITY,
   DRAG_DROP_ITEMS,
@@ -20,6 +20,7 @@ function DashboardColumn(props) {
   const {
     portfolioSettings,
     updatePortfolioSettings,
+    searchValue,
     openNewEntryModal,
     updateEntry,
   } = useContext(AppContext);
@@ -40,6 +41,21 @@ function DashboardColumn(props) {
       canDrop: !!monitor.canDrop(),
     }),
   });
+
+  const passesEntrySearch = (entry) => {
+    if (!searchValue) {
+      return true;
+    }
+    const trimmedValue = searchValue.trim().toLowerCase();
+
+    for (const property of ENTRY_SEARCH_PROPERTIES) {
+      if (entry[property].toLowerCase().includes(trimmedValue)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
 
   return (
     <div
@@ -136,6 +152,10 @@ function DashboardColumn(props) {
           }`}
         >
           {props.columnEntries.map((entry) => {
+            if (!passesEntrySearch(entry)) {
+              return null;
+            }
+
             if (boardDensity === BOARD_DENSITY.ICONS.name) {
               return (
                 <div className="entryIconCard" key={entry.id}>

@@ -1,10 +1,14 @@
 .DropdownButton {
   display: inline-block;
   .label {
-    padding-right: 6px;
+    padding-right: 8px;
   }
   .caretIcon {
     position: absolute;
     right: 14px;
+  }
+
+  button {
+    margin: 0 !important;
   }
 }

@@ -37,6 +37,9 @@ export const STATUS = {
   OFFER: "Offer",
 };
 
+// Which entry properties to consider when searching portfolio
+export const ENTRY_SEARCH_PROPERTIES = ["company", "jobTitle", "url", "notes"];
+
 export const BOARD_DENSITY = {
   ICONS: {
     name: "Icons",
@@ -60,16 +63,6 @@ export const BOARD_COLUMN_OPTION_ICONS = {
 };
 
 export const BOARD_SORT_BY = {
-  LAST_UPDATE: {
-    name: "Last Update",
-    property: "lastUpdate",
-    isDefaultAscending: false,
-  },
-  DEADLINE_DATE: {
-    name: "Interview/Deadline",
-    property: "deadlineDate",
-    isDefaultAscending: true,
-  },
   COMPANY: {
     name: "Company",
     property: "company",
@@ -80,14 +73,24 @@ export const BOARD_SORT_BY = {
     property: "jobTitle",
     isDefaultAscending: true,
   },
+  DATE_CREATED: {
+    name: "Date Created",
+    property: "dateCreated",
+    isDefaultAscending: false,
+  },
   APPLICATION_DATE: {
     name: "Application Date",
     property: "applyDate",
     isDefaultAscending: false,
   },
-  DATE_CREATED: {
-    name: "Date Created",
-    property: "dateCreated",
+  DEADLINE_DATE: {
+    name: "Interview/Deadline",
+    property: "deadlineDate",
+    isDefaultAscending: true,
+  },
+  LAST_UPDATE: {
+    name: "Last Update",
+    property: "lastUpdate",
     isDefaultAscending: false,
   },
 };

@@ -23,6 +23,7 @@ function App() {
   const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth <= 991);
   const [portfolioSettings, setPortfolioSettings] = useState({});
   const [entries, setEntries] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
   const [newEntryModal, setNewEntryModal] = useState({
     isOpen: false,
     initialValues: {},
@@ -112,6 +113,8 @@ function App() {
         portfolioSettings: portfolioSettings,
         updatePortfolioSettings: updatePortfolioSettings,
         entries: entries,
+        searchValue: searchValue,
+        setSearchValue: setSearchValue,
         openNewEntryModal: openNewEntryModal,
         openEditEntryModal: openEditEntryModal,
         updateEntry: updateEntry,
