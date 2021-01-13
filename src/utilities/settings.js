@@ -8,6 +8,8 @@ import {
 
 // Hard-coded for now
 
+export const IS_USER_LOGGED_IN = false;
+
 export const LAST_PORTFOLIO_DISPLAY = PORTFOLIO_DISPLAY.BOARD.name;
 
 // Dashboard

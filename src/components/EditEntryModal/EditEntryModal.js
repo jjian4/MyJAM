@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import AppContext from "../../AppContext";
 import CompanySelector from "../CompanySelector/CompanySelector";
-import { CARD_COLORS, STATUS } from "../../constants";
+import { CARD_COLORS, STATUS } from "../../utilities/constants";
 import StarButton from "../StarButton/StarButton";
 import "./EditEntryModal.scss";
 

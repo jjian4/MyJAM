@@ -8,7 +8,7 @@ import {
   BOARD_COLUMN_OPTION_ICONS,
   BOARD_DENSITY,
   DRAG_DROP_ITEMS,
-} from "../../../constants";
+} from "../../../utilities/constants";
 import DashboardCard from "../DashboardCard/DashboardCard";
 import DashboardIconCard from "../DashboardIconCard/DashboardIconCard";
 import "./DashboardColumn.scss";

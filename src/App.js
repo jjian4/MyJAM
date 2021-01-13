@@ -16,11 +16,15 @@ import {
   LAST_TABLE_DENSITY,
   LAST_TABLE_SORT_PROPERTY,
   LAST_TABLE_IS_SORT_ASCENDING,
-} from "./settings";
+  IS_USER_LOGGED_IN,
+} from "./utilities/settings";
+import { PAGE } from "./utilities/constants";
+import About from "./pages/About/About";
 import "./App.scss";
 
 function App() {
   const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth <= 991);
+  const [page, setPage] = useState("");
   const [portfolioSettings, setPortfolioSettings] = useState({});
   const [entries, setEntries] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -36,25 +40,32 @@ function App() {
   });
 
   useEffect(() => {
-    // TODO: fetch user's portfolio settings from db
-    setPortfolioSettings({
-      display: LAST_PORTFOLIO_DISPLAY,
-      // Dashboard
-      isCardColorOn: IS_CARD_COLORS_ON,
-      boardDensity: LAST_BOARD_DENSITY,
-      boardColumnFilter: LAST_BOARD_COLUMN_FILTER,
-      boardSortProperty: LAST_BOARD_SORT_PROPERTY,
-      boardIsSortAscending: LAST_BOARD_IS_SORT_ASCENDING,
+    // TODO: Check if user is logged in
+    if (IS_USER_LOGGED_IN) {
+      setPage(PAGE.PORTFOLIO);
 
-      // TABLE
-      tableDensity: LAST_TABLE_DENSITY,
-      tableColumnFilter: LAST_TABLE_COLUMN_FILTER,
-      tableSortProperty: LAST_TABLE_SORT_PROPERTY,
-      tableIsSortAscending: LAST_TABLE_IS_SORT_ASCENDING,
-    });
+      // TODO: fetch user's portfolio settings from db
+      setPortfolioSettings({
+        display: LAST_PORTFOLIO_DISPLAY,
+        // Dashboard
+        isCardColorOn: IS_CARD_COLORS_ON,
+        boardDensity: LAST_BOARD_DENSITY,
+        boardColumnFilter: LAST_BOARD_COLUMN_FILTER,
+        boardSortProperty: LAST_BOARD_SORT_PROPERTY,
+        boardIsSortAscending: LAST_BOARD_IS_SORT_ASCENDING,
 
-    // TODO: fetch portfolio entries from db
-    setEntries(fakeEntries);
+        // TABLE
+        tableDensity: LAST_TABLE_DENSITY,
+        tableColumnFilter: LAST_TABLE_COLUMN_FILTER,
+        tableSortProperty: LAST_TABLE_SORT_PROPERTY,
+        tableIsSortAscending: LAST_TABLE_IS_SORT_ASCENDING,
+      });
+
+      // TODO: fetch portfolio entries from db
+      setEntries(fakeEntries);
+    } else {
+      setPage(PAGE.ABOUT);
+    }
 
     window.addEventListener("resize", resizeWindow);
     return () => {
@@ -123,38 +134,44 @@ function App() {
       <div className="App">
         <AppMenuBar />
 
-        <Portfolio />
+        {page === PAGE.ABOUT && <About />}
 
-        {/* Used to add new entries */}
-        <EditEntryModal
-          open={newEntryModal.isOpen}
-          onClose={() =>
-            setNewEntryModal({
-              isOpen: false,
-              initialValues: {},
-              autoFocusProperty: null,
-            })
-          }
-          heading="New Entry"
-          initialValues={newEntryModal.initialValues}
-          autoFocusProperty={newEntryModal.autoFocusProperty}
-          onSave={saveNewEntry}
-        />
-        {/* Used to edit existing entries */}
-        <EditEntryModal
-          open={editEntryModal.isOpen}
-          onClose={() =>
-            setEditEntryModal({
-              isOpen: false,
-              initialValues: {},
-              autoFocusProperty: null,
-            })
-          }
-          heading={`${editEntryModal.initialValues.company} - ${editEntryModal.initialValues.jobTitle}`}
-          initialValues={editEntryModal.initialValues}
-          autoFocusProperty={editEntryModal.autoFocusProperty}
-          onSave={updateEntry}
-        />
+        {page === PAGE.PORTFOLIO && (
+          <>
+            <Portfolio />
+
+            {/* Used to add new entries */}
+            <EditEntryModal
+              open={newEntryModal.isOpen}
+              onClose={() =>
+                setNewEntryModal({
+                  isOpen: false,
+                  initialValues: {},
+                  autoFocusProperty: null,
+                })
+              }
+              heading="New Entry"
+              initialValues={newEntryModal.initialValues}
+              autoFocusProperty={newEntryModal.autoFocusProperty}
+              onSave={saveNewEntry}
+            />
+            {/* Used to edit existing entries */}
+            <EditEntryModal
+              open={editEntryModal.isOpen}
+              onClose={() =>
+                setEditEntryModal({
+                  isOpen: false,
+                  initialValues: {},
+                  autoFocusProperty: null,
+                })
+              }
+              heading={`${editEntryModal.initialValues.company} - ${editEntryModal.initialValues.jobTitle}`}
+              initialValues={editEntryModal.initialValues}
+              autoFocusProperty={editEntryModal.autoFocusProperty}
+              onSave={updateEntry}
+            />
+          </>
+        )}
       </div>
     </AppContext.Provider>
   );

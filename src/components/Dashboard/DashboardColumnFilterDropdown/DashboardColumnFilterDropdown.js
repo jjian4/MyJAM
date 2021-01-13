@@ -5,7 +5,7 @@ import { ReactSortable } from "react-sortablejs";
 import AppContext from "../../../AppContext";
 import DropdownButton from "../../DropdownButton/DropdownButton";
 import ControlledDropdown from "../../ControlledDropdown/ControlledDropdown";
-import { BOARD_COLUMN_OPTION_ICONS } from "../../../constants";
+import { BOARD_COLUMN_OPTION_ICONS } from "../../../utilities/constants";
 import { faGripVertical } from "@fortawesome/free-solid-svg-icons";
 import "./DashboardColumnFilterDropdown.scss";
 

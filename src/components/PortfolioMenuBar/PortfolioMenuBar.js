@@ -8,7 +8,7 @@ import {
   BOARD_DENSITY,
   PORTFOLIO_DISPLAY,
   TABLE_DENSITY,
-} from "../../constants";
+} from "../../utilities/constants";
 import "./PortfolioMenuBar.scss";
 
 function PortfolioMenuBar() {

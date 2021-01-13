@@ -5,7 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import prependHttp from "prepend-http";
 import AppContext from "../../AppContext";
-import { ENTRY_SEARCH_PROPERTIES, TABLE_DENSITY } from "../../constants";
+import {
+  ENTRY_SEARCH_PROPERTIES,
+  TABLE_DENSITY,
+} from "../../utilities/constants";
 import StarButton from "../StarButton/StarButton";
 import "./EntriesTable.scss";
 

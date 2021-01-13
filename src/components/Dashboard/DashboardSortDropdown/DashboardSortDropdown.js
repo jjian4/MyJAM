@@ -6,9 +6,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "semantic-ui-react";
 import AppContext from "../../../AppContext";
-import { BOARD_SORT_BY } from "../../../constants";
-import "./DashboardSortDropdown.scss";
+import { BOARD_SORT_BY } from "../../../utilities/constants";
 import DropdownButton from "../../DropdownButton/DropdownButton";
+import "./DashboardSortDropdown.scss";
 
 function DashboardSortDropdown(props) {
   const { portfolioSettings, updatePortfolioSettings } = useContext(AppContext);

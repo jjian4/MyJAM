@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { ReactSortable } from "react-sortablejs";
 import AppContext from "../../AppContext";
 import DashboardColumn from "./DashboardColumn/DashboardColumn";
-import { STATUS } from "../../constants";
+import { STATUS } from "../../utilities/constants";
 import "./Dashboard.scss";
 
 function Dashboard() {

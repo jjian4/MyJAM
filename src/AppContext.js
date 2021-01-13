@@ -2,6 +2,7 @@ import { createContext } from "react";
 
 const AppContext = createContext({
   isWindowSmall: false,
+  page: "",
   portfolioSettings: {
     display: "",
     isCardColorOn: false,

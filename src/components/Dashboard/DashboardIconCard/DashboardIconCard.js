@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useDrag } from "react-dnd";
 import AppContext from "../../../AppContext";
-import { DRAG_DROP_ITEMS } from "../../../constants";
+import { DRAG_DROP_ITEMS } from "../../../utilities/constants";
 import "./DashboardIconCard.scss";
 
 function DashboardIconCard(props) {

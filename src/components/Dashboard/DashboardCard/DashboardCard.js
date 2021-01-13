@@ -10,7 +10,7 @@ import { useDrag } from "react-dnd";
 import prependHttp from "prepend-http";
 import TimeAgo from "react-timeago";
 import AppContext from "../../../AppContext";
-import { BOARD_DENSITY, DRAG_DROP_ITEMS } from "../../../constants";
+import { BOARD_DENSITY, DRAG_DROP_ITEMS } from "../../../utilities/constants";
 import StarButton from "../../StarButton/StarButton";
 import "./DashboardCard.scss";
 
