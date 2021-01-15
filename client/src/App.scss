@@ -8,4 +8,14 @@ body {
 
 .App {
   padding-top: $menu-height;
+
+  .loadingPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    .loadingText {
+      font-size: 30px;
+    }
+  }
 }

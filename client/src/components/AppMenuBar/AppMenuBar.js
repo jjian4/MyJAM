@@ -1,7 +1,12 @@
-import { Menu, Dropdown, Image } from "semantic-ui-react";
+import { useContext } from "react";
+import { Menu, Dropdown, Image, Button } from "semantic-ui-react";
+import AppContext from "../../AppContext";
+import { PAGE } from "../../utilities/constants";
 import "./AppMenuBar.scss";
 
 function AppMenuBar() {
+  const { user, logoutUser, setPage } = useContext(AppContext);
+
   return (
     <Menu className="AppMenuBar" fixed="top" borderless inverted>
       <Menu.Item as="a">
@@ -23,16 +28,34 @@ function AppMenuBar() {
       </Dropdown>
 
       <Menu.Menu position="right">
-        <Menu.Item as="a">Find More Jobs</Menu.Item>
+        <Menu.Item as="a" onClick={() => console.log(user)}>
+          USER
+        </Menu.Item>
+        <Menu.Item as="a" onClick={() => setPage(PAGE.PORTFOLIO)}>
+          PORTFOLIO
+        </Menu.Item>
+        <Menu.Item as="a" onClick={() => setPage(PAGE.ABOUT)}>
+          ABOUT
+        </Menu.Item>
 
-        <Dropdown text="Username" pointing className="link item" icon={false}>
-          <Dropdown.Menu>
-            {/* <Dropdown.Item>List Item</Dropdown.Item>
-          <Dropdown.Item>List Item</Dropdown.Item>
-          <Dropdown.Divider /> */}
-            <Dropdown.Item>Logout</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+        {user ? (
+          <Dropdown text="Username" pointing className="link item" icon={false}>
+            <Dropdown.Menu>
+              <Dropdown.Item>Portfolios</Dropdown.Item>
+              <Dropdown.Item>Settings</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item onClick={logoutUser}>Logout</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : (
+          <Menu.Item>
+            <a href="/auth/google">
+              <Button basic circular inverted>
+                Sign in with Google
+              </Button>
+            </a>
+          </Menu.Item>
+        )}
       </Menu.Menu>
     </Menu>
   );

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 import AppMenuBar from "./components/AppMenuBar/AppMenuBar";
 import Portfolio from "./pages/Portfolio/Portfolio";
@@ -23,6 +24,9 @@ import About from "./pages/About/About";
 import "./App.scss";
 
 function App() {
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+
   const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth <= 991);
   const [page, setPage] = useState("");
   const [portfolioSettings, setPortfolioSettings] = useState({});
@@ -40,32 +44,21 @@ function App() {
   });
 
   useEffect(() => {
-    // TODO: Check if user is logged in
-    if (IS_USER_LOGGED_IN) {
-      setPage(PAGE.PORTFOLIO);
+    const getCurrentUser = async () => {
+      setLoading(true);
 
-      // TODO: fetch user's portfolio settings from db
-      setPortfolioSettings({
-        display: LAST_PORTFOLIO_DISPLAY,
-        // Dashboard
-        isCardColorOn: IS_CARD_COLORS_ON,
-        boardDensity: LAST_BOARD_DENSITY,
-        boardColumnFilter: LAST_BOARD_COLUMN_FILTER,
-        boardSortProperty: LAST_BOARD_SORT_PROPERTY,
-        boardIsSortAscending: LAST_BOARD_IS_SORT_ASCENDING,
+      const response = await axios.get("/api/current_user");
+      const currentUser = response.data;
+      if (currentUser) {
+        setPage(PAGE.PORTFOLIO);
+        loginUser(currentUser);
+      } else {
+        setPage(PAGE.ABOUT);
+      }
+      setLoading(false);
+    };
 
-        // TABLE
-        tableDensity: LAST_TABLE_DENSITY,
-        tableColumnFilter: LAST_TABLE_COLUMN_FILTER,
-        tableSortProperty: LAST_TABLE_SORT_PROPERTY,
-        tableIsSortAscending: LAST_TABLE_IS_SORT_ASCENDING,
-      });
-
-      // TODO: fetch portfolio entries from db
-      setEntries(fakeEntries);
-    } else {
-      setPage(PAGE.ABOUT);
-    }
+    getCurrentUser();
 
     window.addEventListener("resize", resizeWindow);
     return () => {
@@ -76,6 +69,39 @@ function App() {
   // Resize portfolio menu items when window gets too small
   const resizeWindow = () => {
     setIsWindowSmall(window.innerWidth <= 991);
+  };
+
+  const loginUser = (currentUser) => {
+    // TODO: if new user, give default values
+    setUser(currentUser);
+
+    // TODO: fetch user's portfolio settings from db
+    setPortfolioSettings({
+      display: LAST_PORTFOLIO_DISPLAY,
+      // Dashboard
+      isCardColorOn: IS_CARD_COLORS_ON,
+      boardDensity: LAST_BOARD_DENSITY,
+      boardColumnFilter: LAST_BOARD_COLUMN_FILTER,
+      boardSortProperty: LAST_BOARD_SORT_PROPERTY,
+      boardIsSortAscending: LAST_BOARD_IS_SORT_ASCENDING,
+
+      // TABLE
+      tableDensity: LAST_TABLE_DENSITY,
+      tableColumnFilter: LAST_TABLE_COLUMN_FILTER,
+      tableSortProperty: LAST_TABLE_SORT_PROPERTY,
+      tableIsSortAscending: LAST_TABLE_IS_SORT_ASCENDING,
+    });
+
+    // TODO: fetch portfolio entries from db
+    setEntries(fakeEntries);
+  };
+
+  const logoutUser = async () => {
+    await axios.get("/api/logout");
+    setUser(null);
+    setPortfolioSettings({});
+    setEntries([]);
+    setPage(PAGE.ABOUT);
   };
 
   const updatePortfolioSettings = (settingsChange) => {
@@ -120,7 +146,12 @@ function App() {
   return (
     <AppContext.Provider
       value={{
+        user: user,
+        loginUser: loginUser,
+        logoutUser: logoutUser,
         isWindowSmall: isWindowSmall,
+        page: page,
+        setPage: setPage,
         portfolioSettings: portfolioSettings,
         updatePortfolioSettings: updatePortfolioSettings,
         entries: entries,
@@ -133,6 +164,12 @@ function App() {
     >
       <div className="App">
         <AppMenuBar />
+
+        {loading && (
+          <div className="loadingPage">
+            <div className="loadingText">Loading...</div>
+          </div>
+        )}
 
         {page === PAGE.ABOUT && <About />}
 

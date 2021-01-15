@@ -10,12 +10,8 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (e) {
-    console.log(e);
-  }
+  const user = await User.findById(id);
+  done(null, user);
 });
 
 passport.use(
@@ -28,17 +24,13 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       // The only time we will use googleId instead of mongodb-generated user id
-      try {
-        const existingUser = await User.findOne({ googleId: profile.id });
-        if (existingUser) {
-          done(null, existingUser);
-        } else {
-          const newUser = await new User({ googleId: profile.id }).save();
-          done(null, newUser);
-        }
-      } catch (e) {
-        console.log(e);
+      const existingUser = await User.findOne({ googleId: profile.id });
+      if (existingUser) {
+        return done(null, existingUser);
       }
+
+      const newUser = await new User({ googleId: profile.id }).save();
+      done(null, newUser);
     }
   )
 );

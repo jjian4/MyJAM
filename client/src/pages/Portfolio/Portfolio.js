@@ -8,11 +8,11 @@ import { PORTFOLIO_DISPLAY } from "../../utilities/constants";
 import "./Portfolio.scss";
 
 function Portfolio() {
-  const { portfolioSettings } = useContext(AppContext);
+  const { user, portfolioSettings } = useContext(AppContext);
 
   return (
     <div className="Portfolio">
-      <PortfolioMenuBar />
+      {user && <PortfolioMenuBar />}
 
       {portfolioSettings.display === PORTFOLIO_DISPLAY.BOARD.name && (
         <Dashboard />
