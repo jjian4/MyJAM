@@ -26,7 +26,7 @@ app.use(passport.session());
 
 authRoutes(app);
 
-if (process.env.NOVE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   // In deployed version, serve prod assets like main.js and main.css
   app.use(express.static("client/build"));
 
