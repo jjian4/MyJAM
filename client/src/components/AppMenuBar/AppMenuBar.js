@@ -39,7 +39,12 @@ function AppMenuBar() {
         </Menu.Item>
 
         {user ? (
-          <Dropdown text="Username" pointing className="link item" icon={false}>
+          <Dropdown
+            text={user.displayName || user.givenName}
+            pointing
+            className="link item"
+            icon={false}
+          >
             <Dropdown.Menu>
               <Dropdown.Item>Portfolios</Dropdown.Item>
               <Dropdown.Item>Settings</Dropdown.Item>

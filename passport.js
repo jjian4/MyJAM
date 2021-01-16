@@ -25,11 +25,19 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       // The only time we will use googleId instead of mongodb-generated user id
       const existingUser = await User.findOne({ googleId: profile.id });
+
       if (existingUser) {
         return done(null, existingUser);
       }
 
-      const newUser = await new User({ googleId: profile.id }).save();
+      const newUser = await new User({
+        googleId: profile.id,
+        displayName: profile.displayName,
+        familyName: profile.name.familyName,
+        givenName: profile.name.givenName,
+        portfolios: [],
+        portfolioSettings: {},
+      }).save();
       done(null, newUser);
     }
   )

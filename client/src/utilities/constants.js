@@ -22,6 +22,15 @@ export const DRAG_DROP_ITEMS = {
   DASHBOARD_CARD: "DashboardCard",
 };
 
+export const STATUS = {
+  REJECTED: "Rejected",
+  WISHLIST: "Wishlist",
+  APPLIED: "Applied",
+  PHONE_SCREEN: "Phone Screen",
+  INTERVIEW: "Interview",
+  OFFER: "Offer",
+};
+
 export const PORTFOLIO_DISPLAY = {
   BOARD: {
     name: "Board",
@@ -31,15 +40,6 @@ export const PORTFOLIO_DISPLAY = {
     name: "Table",
     icon: <FontAwesomeIcon icon={faListAlt} />,
   },
-};
-
-export const STATUS = {
-  REJECTED: "Rejected",
-  WISHLIST: "Wishlist",
-  APPLIED: "Applied",
-  PHONE_SCREEN: "Phone Screen",
-  INTERVIEW: "Interview",
-  OFFER: "Offer",
 };
 
 // Which entry properties to consider when searching portfolio
@@ -59,6 +59,15 @@ export const BOARD_DENSITY = {
     icon: <FontAwesomeIcon icon={faStickyNote} />,
   },
 };
+
+export const DEFAULT_BOARD_COLUMN_FILTER = [
+  { status: STATUS.REJECTED, isActive: false, isExpanded: false },
+  { status: STATUS.WISHLIST, isActive: false, isExpanded: false },
+  { status: STATUS.APPLIED, isActive: true, isExpanded: false },
+  { status: STATUS.PHONE_SCREEN, isActive: false, isExpanded: false },
+  { status: STATUS.INTERVIEW, isActive: true, isExpanded: false },
+  { status: STATUS.OFFER, isActive: true, isExpanded: false },
+];
 
 export const BOARD_COLUMN_OPTION_ICONS = {
   COMPRESS: faCompress,
@@ -112,12 +121,13 @@ export const TABLE_DENSITY = {
 };
 
 export const TABLE_COLUMNS = {
-  IS_STARRED: { name: "Star", property: "isStarred" },
-  COLOR: { name: "Color", property: "color" },
-  COMPANY: { name: "Company", property: "company" },
-  JOB_TITLE: { name: "Job Title", property: "jobTitle" },
-  STATUS: { name: "Status", property: "status" },
-  NOTES: { name: "Notes", property: "notes" },
+  IS_STARRED: { name: "Star", property: "isStarred", isDate: false },
+  COLOR: { name: "Color", property: "color", isDate: false },
+  COMPANY: { name: "Company", property: "company", isDate: false },
+  JOB_TITLE: { name: "Job Title", property: "jobTitle", isDate: false },
+  STATUS: { name: "Status", property: "status", isDate: false },
+  URL: { name: "URL", property: "url", isDate: false },
+  NOTES: { name: "Notes", property: "notes", isDate: false },
   DATE_CREATED: { name: "Date Created", property: "dateCreated", isDate: true },
   LAST_UPDATE: { name: "Last Update", property: "lastUpdate", isDate: true },
   APPLY_DATE: { name: "Application Date", property: "applyDate", isDate: true },
@@ -127,6 +137,32 @@ export const TABLE_COLUMNS = {
     isDate: true,
   },
 };
+
+export const DEFAULT_TABLE_COLUMN_FILTER = [
+  { ...TABLE_COLUMNS.IS_STARRED, isActive: true },
+  { ...TABLE_COLUMNS.COLOR, isActive: false },
+  {
+    ...TABLE_COLUMNS.DATE_CREATED,
+    isActive: false,
+  },
+  {
+    ...TABLE_COLUMNS.APPLY_DATE,
+    isActive: true,
+  },
+  { ...TABLE_COLUMNS.COMPANY, isActive: true },
+  { ...TABLE_COLUMNS.JOB_TITLE, isActive: true },
+  { ...TABLE_COLUMNS.STATUS, isActive: true },
+  { ...TABLE_COLUMNS.URL, isActive: true },
+  { ...TABLE_COLUMNS.NOTES, isActive: false },
+  {
+    ...TABLE_COLUMNS.DEADLINE_DATE,
+    isActive: true,
+  },
+  {
+    ...TABLE_COLUMNS.LAST_UPDATE,
+    isActive: false,
+  },
+];
 
 export const CARD_COLORS = [
   //red

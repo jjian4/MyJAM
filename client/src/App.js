@@ -5,21 +5,17 @@ import AppMenuBar from "./components/AppMenuBar/AppMenuBar";
 import Portfolio from "./pages/Portfolio/Portfolio";
 import EditEntryModal from "./components/EditEntryModal/EditEntryModal";
 import AppContext from "./AppContext";
+import { fakeEntries } from "./utilities/settings";
 import {
-  fakeEntries,
-  IS_CARD_COLORS_ON,
-  LAST_BOARD_COLUMN_FILTER,
-  LAST_BOARD_DENSITY,
-  LAST_BOARD_SORT_PROPERTY,
-  LAST_BOARD_IS_SORT_ASCENDING,
-  LAST_PORTFOLIO_DISPLAY,
-  LAST_TABLE_COLUMN_FILTER,
-  LAST_TABLE_DENSITY,
-  LAST_TABLE_SORT_PROPERTY,
-  LAST_TABLE_IS_SORT_ASCENDING,
-  IS_USER_LOGGED_IN,
-} from "./utilities/settings";
-import { PAGE } from "./utilities/constants";
+  PORTFOLIO_DISPLAY,
+  BOARD_DENSITY,
+  TABLE_DENSITY,
+  BOARD_SORT_BY,
+  PAGE,
+  TABLE_COLUMNS,
+  DEFAULT_BOARD_COLUMN_FILTER,
+  DEFAULT_TABLE_COLUMN_FILTER,
+} from "./utilities/constants";
 import About from "./pages/About/About";
 import "./App.scss";
 
@@ -50,6 +46,7 @@ function App() {
       const response = await axios.get("/api/current_user");
       const currentUser = response.data;
       if (currentUser) {
+        console.log(currentUser);
         setPage(PAGE.PORTFOLIO);
         loginUser(currentUser);
       } else {
@@ -75,21 +72,41 @@ function App() {
     // TODO: if new user, give default values
     setUser(currentUser);
 
-    // TODO: fetch user's portfolio settings from db
-    setPortfolioSettings({
-      display: LAST_PORTFOLIO_DISPLAY,
-      // Dashboard
-      isCardColorOn: IS_CARD_COLORS_ON,
-      boardDensity: LAST_BOARD_DENSITY,
-      boardColumnFilter: LAST_BOARD_COLUMN_FILTER,
-      boardSortProperty: LAST_BOARD_SORT_PROPERTY,
-      boardIsSortAscending: LAST_BOARD_IS_SORT_ASCENDING,
+    const {
+      display,
+      isCardColorOn,
+      boardDensity,
+      boardColumnFilter,
+      boardSortProperty,
+      boardIsSortAscending,
+      tableDensity,
+      tableColumnFilter,
+      tableSortProperty,
+      tableIsSortAscending,
+    } = currentUser.portfolioSettings;
 
+    // Use default setting if one isn't already set in database
+    setPortfolioSettings({
+      display: display || PORTFOLIO_DISPLAY.BOARD.name,
+      isCardColorOn: isCardColorOn || true,
+      // Dashboard
+      boardDensity: boardDensity || BOARD_DENSITY.COMPACT.name,
+      boardColumnFilter:
+        boardColumnFilter.length === 0
+          ? DEFAULT_BOARD_COLUMN_FILTER
+          : boardColumnFilter,
+      boardSortProperty:
+        boardSortProperty || BOARD_SORT_BY.LAST_UPDATE.property,
+      boardIsSortAscending:
+        boardIsSortAscending || BOARD_SORT_BY.LAST_UPDATE.isDefaultAscending,
       // TABLE
-      tableDensity: LAST_TABLE_DENSITY,
-      tableColumnFilter: LAST_TABLE_COLUMN_FILTER,
-      tableSortProperty: LAST_TABLE_SORT_PROPERTY,
-      tableIsSortAscending: LAST_TABLE_IS_SORT_ASCENDING,
+      tableDensity: tableDensity || TABLE_DENSITY.COMFORTABLE.name,
+      tableColumnFilter:
+        tableColumnFilter.length === 0
+          ? DEFAULT_TABLE_COLUMN_FILTER
+          : tableColumnFilter,
+      tableSortProperty: tableSortProperty || TABLE_COLUMNS.COMPANY.property,
+      tableIsSortAscending: tableIsSortAscending || true,
     });
 
     // TODO: fetch portfolio entries from db
@@ -107,6 +124,8 @@ function App() {
   const updatePortfolioSettings = (settingsChange) => {
     setPortfolioSettings({ ...portfolioSettings, ...settingsChange });
     // TODO: update db
+
+    // TODO: use a timer to limit number of api calls / db changes
   };
 
   const openNewEntryModal = (initialValues) => {
@@ -171,9 +190,9 @@ function App() {
           </div>
         )}
 
-        {page === PAGE.ABOUT && <About />}
+        {!loading && page === PAGE.ABOUT && <About />}
 
-        {page === PAGE.PORTFOLIO && (
+        {!loading && page === PAGE.PORTFOLIO && (
           <>
             <Portfolio />
 
