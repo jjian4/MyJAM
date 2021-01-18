@@ -22,7 +22,7 @@ passport.use(
       callbackURL: "/auth/google/callback",
       proxy: true,
     },
-    async (accessToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       // The only time we will use googleId instead of mongodb-generated user id
       const existingUser = await User.findOne({ googleId: profile.id });
 
