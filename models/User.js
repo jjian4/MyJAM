@@ -9,6 +9,7 @@ const userSchema = new Schema({
   givenName: String,
   portfolios: [{ portfolioId: mongoose.ObjectId, portfolioName: String }],
   portfolioSettings: {
+    portfolioId: mongoose.ObjectId,
     display: String,
     isCardColorOn: Boolean,
     // Dashboard settings

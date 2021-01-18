@@ -13,11 +13,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const PAGE = {
-  ABOUT: "About",
-  PORTFOLIO: "Portfolio",
-};
-
 export const DRAG_DROP_ITEMS = {
   DASHBOARD_CARD: "DashboardCard",
 };

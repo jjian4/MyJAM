@@ -1,17 +1,19 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { Menu, Dropdown, Image, Button } from "semantic-ui-react";
 import AppContext from "../../AppContext";
-import { PAGE } from "../../utilities/constants";
 import "./AppMenuBar.scss";
 
 function AppMenuBar() {
-  const { user, logoutUser, setPage } = useContext(AppContext);
+  const { user } = useContext(AppContext);
 
   return (
     <Menu className="AppMenuBar" fixed="top" borderless inverted>
-      <Menu.Item as="a">
+      <Menu.Item>
         <Image className="appLogo" src="https://logo.clearbit.com/umich.edu" />
-        <span className="appName">Website Name</span>
+        <Link className="appName" to={user ? "/portfolio" : "/"}>
+          Job App Tool
+        </Link>
       </Menu.Item>
 
       <Dropdown
@@ -31,11 +33,12 @@ function AppMenuBar() {
         <Menu.Item as="a" onClick={() => console.log(user)}>
           USER
         </Menu.Item>
-        <Menu.Item as="a" onClick={() => setPage(PAGE.PORTFOLIO)}>
-          PORTFOLIO
+        <Menu.Item>
+          <Link to="/portfolio">PORTFOLIO</Link>
         </Menu.Item>
-        <Menu.Item as="a" onClick={() => setPage(PAGE.ABOUT)}>
-          ABOUT
+
+        <Menu.Item>
+          <Link to="/">ABOUT</Link>
         </Menu.Item>
 
         {user ? (
@@ -49,7 +52,9 @@ function AppMenuBar() {
               <Dropdown.Item>Portfolios</Dropdown.Item>
               <Dropdown.Item>Settings</Dropdown.Item>
               <Dropdown.Divider />
-              <Dropdown.Item onClick={logoutUser}>Logout</Dropdown.Item>
+              <Dropdown.Item as="a" href="/api/logout">
+                Logout
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         ) : (

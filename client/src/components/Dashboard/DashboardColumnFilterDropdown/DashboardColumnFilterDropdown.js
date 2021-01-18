@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Checkbox } from "semantic-ui-react";
 import { ReactSortable } from "react-sortablejs";
+import _ from "lodash";
 import AppContext from "../../../AppContext";
 import DropdownButton from "../../DropdownButton/DropdownButton";
 import ControlledDropdown from "../../ControlledDropdown/ControlledDropdown";
@@ -25,7 +26,7 @@ function DashboardColumnFilterDropdown(props) {
   );
 
   const handleCheckboxToggle = (e, { value }) => {
-    const newSettings = [...boardColumnFilter];
+    const newSettings = _.cloneDeep(boardColumnFilter);
     const status = value;
     const index = newSettings.findIndex((column) => column.status === status);
     newSettings[index].isActive = !newSettings[index].isActive;
@@ -33,7 +34,7 @@ function DashboardColumnFilterDropdown(props) {
   };
 
   const handleSizeToggle = (status) => {
-    const newSettings = [...boardColumnFilter];
+    const newSettings = _.cloneDeep(boardColumnFilter);
     const index = newSettings.findIndex((column) => column.status === status);
     newSettings[index].isExpanded = !newSettings[index].isExpanded;
     updatePortfolioSettings({ boardColumnFilter: newSettings });
@@ -58,7 +59,13 @@ function DashboardColumnFilterDropdown(props) {
     >
       <ReactSortable
         list={boardColumnFilter}
-        setList={(x) => updatePortfolioSettings({ boardColumnFilter: x })}
+        setList={(x) => {
+          x.forEach((item) => {
+            delete item.selected;
+            delete item.chosen;
+          });
+          updatePortfolioSettings({ boardColumnFilter: x });
+        }}
         animation={200}
         handle=".gripIcon"
       >

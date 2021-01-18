@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
 import axios from "axios";
-
+import _ from "lodash";
 import AppMenuBar from "./components/AppMenuBar/AppMenuBar";
 import Portfolio from "./pages/Portfolio/Portfolio";
+import About from "./pages/About/About";
 import EditEntryModal from "./components/EditEntryModal/EditEntryModal";
 import AppContext from "./AppContext";
 import { fakeEntries } from "./utilities/settings";
@@ -11,12 +13,10 @@ import {
   BOARD_DENSITY,
   TABLE_DENSITY,
   BOARD_SORT_BY,
-  PAGE,
   TABLE_COLUMNS,
   DEFAULT_BOARD_COLUMN_FILTER,
   DEFAULT_TABLE_COLUMN_FILTER,
 } from "./utilities/constants";
-import About from "./pages/About/About";
 import "./App.scss";
 
 function App() {
@@ -24,7 +24,6 @@ function App() {
   const [user, setUser] = useState(null);
 
   const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth <= 991);
-  const [page, setPage] = useState("");
   const [portfolioSettings, setPortfolioSettings] = useState({});
   const [entries, setEntries] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -47,10 +46,7 @@ function App() {
       const currentUser = response.data;
       if (currentUser) {
         console.log(currentUser);
-        setPage(PAGE.PORTFOLIO);
         loginUser(currentUser);
-      } else {
-        setPage(PAGE.ABOUT);
       }
       setLoading(false);
     };
@@ -63,16 +59,36 @@ function App() {
     };
   }, []);
 
+  // Using a timer to update db every few seconds in chunks, instead of many small changes
+  const updatePortfolioSettingsTimeoutRef = useRef();
+  useEffect(() => {
+    clearTimeout(updatePortfolioSettingsTimeoutRef.current);
+
+    updatePortfolioSettingsTimeoutRef.current = setTimeout(async () => {
+      if (!user) {
+        return;
+      }
+      try {
+        await axios.put("/api/portfolio_settings", {
+          userId: user._id,
+          newPortfolioSettings: portfolioSettings,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }, 5000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [portfolioSettings]);
+
   // Resize portfolio menu items when window gets too small
   const resizeWindow = () => {
     setIsWindowSmall(window.innerWidth <= 991);
   };
 
   const loginUser = (currentUser) => {
-    // TODO: if new user, give default values
     setUser(currentUser);
-
     const {
+      portfolioId,
       display,
       isCardColorOn,
       boardDensity,
@@ -85,8 +101,13 @@ function App() {
       tableIsSortAscending,
     } = currentUser.portfolioSettings;
 
-    // Use default setting if one isn't already set in database
+    // Set default settings if field isn't already set in database
     setPortfolioSettings({
+      portfolioId: currentUser.portfolios.find(
+        (x) => x.portfolioId === portfolioId
+      )
+        ? portfolioId
+        : currentUser.portfolios[0]?.portfolioId,
       display: display || PORTFOLIO_DISPLAY.BOARD.name,
       isCardColorOn: isCardColorOn || true,
       // Dashboard
@@ -113,19 +134,14 @@ function App() {
     setEntries(fakeEntries);
   };
 
-  const logoutUser = async () => {
-    await axios.get("/api/logout");
-    setUser(null);
-    setPortfolioSettings({});
-    setEntries([]);
-    setPage(PAGE.ABOUT);
-  };
-
-  const updatePortfolioSettings = (settingsChange) => {
-    setPortfolioSettings({ ...portfolioSettings, ...settingsChange });
-    // TODO: update db
-
-    // TODO: use a timer to limit number of api calls / db changes
+  const updatePortfolioSettings = async (settingsChange) => {
+    for (const property in settingsChange) {
+      // Ignore if nothing changed
+      if (!_.isEqual(settingsChange[property], portfolioSettings[property])) {
+        setPortfolioSettings({ ...portfolioSettings, ...settingsChange });
+        return;
+      }
+    }
   };
 
   const openNewEntryModal = (initialValues) => {
@@ -166,11 +182,7 @@ function App() {
     <AppContext.Provider
       value={{
         user: user,
-        loginUser: loginUser,
-        logoutUser: logoutUser,
         isWindowSmall: isWindowSmall,
-        page: page,
-        setPage: setPage,
         portfolioSettings: portfolioSettings,
         updatePortfolioSettings: updatePortfolioSettings,
         entries: entries,
@@ -181,54 +193,56 @@ function App() {
         updateEntry: updateEntry,
       }}
     >
-      <div className="App">
-        <AppMenuBar />
+      <BrowserRouter>
+        <div className="App">
+          <AppMenuBar />
 
-        {loading && (
-          <div className="loadingPage">
-            <div className="loadingText">Loading...</div>
-          </div>
-        )}
+          {loading && (
+            <div className="loadingPage">
+              <div className="loadingText">Loading...</div>
+            </div>
+          )}
 
-        {!loading && page === PAGE.ABOUT && <About />}
+          {!loading && <Route exact path="/" component={About} />}
 
-        {!loading && page === PAGE.PORTFOLIO && (
-          <>
-            <Portfolio />
+          {!loading && user && (
+            <>
+              <Route exact path="/portfolio" component={Portfolio} />
+            </>
+          )}
 
-            {/* Used to add new entries */}
-            <EditEntryModal
-              open={newEntryModal.isOpen}
-              onClose={() =>
-                setNewEntryModal({
-                  isOpen: false,
-                  initialValues: {},
-                  autoFocusProperty: null,
-                })
-              }
-              heading="New Entry"
-              initialValues={newEntryModal.initialValues}
-              autoFocusProperty={newEntryModal.autoFocusProperty}
-              onSave={saveNewEntry}
-            />
-            {/* Used to edit existing entries */}
-            <EditEntryModal
-              open={editEntryModal.isOpen}
-              onClose={() =>
-                setEditEntryModal({
-                  isOpen: false,
-                  initialValues: {},
-                  autoFocusProperty: null,
-                })
-              }
-              heading={`${editEntryModal.initialValues.company} - ${editEntryModal.initialValues.jobTitle}`}
-              initialValues={editEntryModal.initialValues}
-              autoFocusProperty={editEntryModal.autoFocusProperty}
-              onSave={updateEntry}
-            />
-          </>
-        )}
-      </div>
+          {/* Used to add new entries */}
+          <EditEntryModal
+            open={newEntryModal.isOpen}
+            onClose={() =>
+              setNewEntryModal({
+                isOpen: false,
+                initialValues: {},
+                autoFocusProperty: null,
+              })
+            }
+            heading="New Entry"
+            initialValues={newEntryModal.initialValues}
+            autoFocusProperty={newEntryModal.autoFocusProperty}
+            onSave={saveNewEntry}
+          />
+          {/* Used to edit existing entries */}
+          <EditEntryModal
+            open={editEntryModal.isOpen}
+            onClose={() =>
+              setEditEntryModal({
+                isOpen: false,
+                initialValues: {},
+                autoFocusProperty: null,
+              })
+            }
+            heading={`${editEntryModal.initialValues.company} - ${editEntryModal.initialValues.jobTitle}`}
+            initialValues={editEntryModal.initialValues}
+            autoFocusProperty={editEntryModal.autoFocusProperty}
+            onSave={updateEntry}
+          />
+        </div>
+      </BrowserRouter>
     </AppContext.Provider>
   );
 }

@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Dropdown } from "semantic-ui-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDrop } from "react-dnd";
+import _ from "lodash";
 import AppContext from "../../../AppContext";
 import {
   ENTRY_SEARCH_PROPERTIES,
@@ -97,7 +98,7 @@ function DashboardColumn(props) {
               {props.isExpanded ? (
                 <Dropdown.Item
                   onClick={() => {
-                    const newColumnFilter = [...boardColumnFilter];
+                    const newColumnFilter = _.cloneDeep(boardColumnFilter);
                     newColumnFilter[props.index].isExpanded = false;
                     updatePortfolioSettings({
                       boardColumnFilter: newColumnFilter,
@@ -113,7 +114,7 @@ function DashboardColumn(props) {
               ) : (
                 <Dropdown.Item
                   onClick={() => {
-                    const newColumnFilter = [...boardColumnFilter];
+                    const newColumnFilter = _.cloneDeep(boardColumnFilter);
                     newColumnFilter[props.index].isExpanded = true;
                     updatePortfolioSettings({
                       boardColumnFilter: newColumnFilter,
@@ -129,7 +130,7 @@ function DashboardColumn(props) {
               )}
               <Dropdown.Item
                 onClick={() => {
-                  const newColumnFilter = [...boardColumnFilter];
+                  const newColumnFilter = _.cloneDeep(boardColumnFilter);
                   newColumnFilter[props.index].isActive = false;
                   updatePortfolioSettings({
                     boardColumnFilter: newColumnFilter,

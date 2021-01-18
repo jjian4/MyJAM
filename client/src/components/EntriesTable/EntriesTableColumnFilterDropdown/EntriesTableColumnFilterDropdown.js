@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Checkbox } from "semantic-ui-react";
 import { ReactSortable } from "react-sortablejs";
+import _ from "lodash";
 import AppContext from "../../../AppContext";
 import ControlledDropdown from "../../ControlledDropdown/ControlledDropdown";
 import { faGripVertical } from "@fortawesome/free-solid-svg-icons";
@@ -22,7 +23,7 @@ function EntriesTableColumnFilterDropdown(props) {
   );
 
   const handleCheckboxToggle = (e, { value }) => {
-    const newSettings = [...tableColumnFilter];
+    const newSettings = _.cloneDeep(tableColumnFilter);
     const columnName = value;
 
     const index = newSettings.findIndex((column) => column.name === columnName);
@@ -43,7 +44,13 @@ function EntriesTableColumnFilterDropdown(props) {
       <ReactSortable
         className="columnSorter"
         list={tableColumnFilter}
-        setList={(x) => updatePortfolioSettings({ tableColumnFilter: x })}
+        setList={(x) => {
+          x.forEach((item) => {
+            delete item.selected;
+            delete item.chosen;
+          });
+          updatePortfolioSettings({ tableColumnFilter: x });
+        }}
         animation={200}
         handle=".gripIcon"
       >

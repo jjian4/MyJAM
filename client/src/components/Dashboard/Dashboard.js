@@ -56,7 +56,13 @@ function Dashboard() {
       <ReactSortable
         className="dashboardColumns"
         list={boardColumnFilter}
-        setList={(x) => updatePortfolioSettings({ boardColumnFilter: x })}
+        setList={(x) => {
+          x.forEach((item) => {
+            delete item.selected;
+            delete item.chosen;
+          });
+          updatePortfolioSettings({ boardColumnFilter: x });
+        }}
         animation={200}
         handle=".columnHeading"
       >
