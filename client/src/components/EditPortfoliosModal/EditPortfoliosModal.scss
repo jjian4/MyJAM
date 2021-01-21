@@ -1,0 +1,55 @@
+.EditPortfoliosModal {
+  .header {
+  }
+
+  .portfolios {
+    .portfolioRow {
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .rowLeft {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding-right: 40px;
+        .gripIcon {
+          padding: 10px;
+          margin-right: 2px;
+          color: gray;
+          cursor: grab;
+          :active {
+            cursor: grabbing;
+          }
+        }
+        .nameInput {
+          flex: 1;
+        }
+        .numEntries {
+          color: gray;
+          padding-left: 10px;
+        }
+      }
+      .rowRight {
+        .optionsDropdown {
+          cursor: pointer;
+          padding: 10px;
+          color: gray;
+          visibility: hidden;
+        }
+      }
+
+      &:hover {
+        background-color: whitesmoke;
+        .optionsDropdown {
+          visibility: visible;
+        }
+      }
+    }
+  }
+
+  .addPortfolioRow {
+    margin-top: 20px;
+    text-align: center;
+  }
+}

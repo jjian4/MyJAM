@@ -5,7 +5,7 @@ import AppContext from "../../AppContext";
 import "./AppMenuBar.scss";
 
 function AppMenuBar() {
-  const { user } = useContext(AppContext);
+  const { user, openPortfoliosModal } = useContext(AppContext);
 
   return (
     <Menu className="AppMenuBar" fixed="top" borderless inverted>
@@ -25,7 +25,9 @@ function AppMenuBar() {
           <Dropdown.Item>Summer Internships 2019</Dropdown.Item>
           <Dropdown.Item>Summer 2018</Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item>Edit Portfolios</Dropdown.Item>
+          <Dropdown.Item onClick={openPortfoliosModal}>
+            Edit Portfolios
+          </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
 

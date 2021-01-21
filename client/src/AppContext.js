@@ -1,13 +1,15 @@
 import { createContext } from "react";
 
 const AppContext = createContext({
-  user: null, // includes displayName, givenName, portfolios [{portfolioId, portfolioName}], portfolioSettings {}
+  user: null, // includes displayName, givenName, portfolioIds [], portfolioSettings {}
   isWindowSmall: false,
   portfolioSettings: {},
   updatePortfolioSettings: () => {},
-  entries: [],
+  portfoliosList: [],
+  openPortfoliosModal: () => {},
   searchValue: "",
   setSearchValue: () => {},
+  entries: [],
   openNewEntryModal: () => {},
   openEditEntryModal: () => {},
   updateEntry: () => {},

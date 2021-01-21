@@ -7,6 +7,7 @@ import {
   TextArea,
   Input,
   Popup,
+  Message,
 } from "semantic-ui-react";
 import { DateInput } from "semantic-ui-calendar-react";
 import dateFormat from "dateformat";
@@ -34,6 +35,7 @@ function EditEntryModal(props) {
   const [notes, setNotes] = useState("");
 
   const [isSaveClicked, setIsSaveClicked] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     // Initialize values everytime modal reopens
@@ -54,7 +56,9 @@ function EditEntryModal(props) {
       setStatus(props.initialValues.status || STATUS.APPLIED);
       setUrl(props.initialValues.url || "");
       setNotes(props.initialValues.notes || "");
+
       setIsSaveClicked(false);
+      setErrorMessage("");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.open]);
@@ -76,6 +80,7 @@ function EditEntryModal(props) {
   const handleSave = () => {
     setIsSaveClicked(true);
     if (!company.trim() || !jobTitle.trim() || !status) {
+      setErrorMessage("At least one required field is empty.");
       return;
     }
 
@@ -161,6 +166,12 @@ function EditEntryModal(props) {
       </Modal.Header>
 
       <Modal.Content>
+        {errorMessage && (
+          <Message negative size="tiny" onDismiss={() => setErrorMessage("")}>
+            <Message.Header>{errorMessage}</Message.Header>
+          </Message>
+        )}
+
         <Form>
           <Form.Group widths="equal">
             <Form.Field error={isSaveClicked && !company}>

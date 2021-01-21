@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -7,9 +6,8 @@ const userSchema = new Schema({
   displayName: String,
   familyName: String,
   givenName: String,
-  portfolios: [{ portfolioId: mongoose.ObjectId, portfolioName: String }],
+  portfolioIds: [mongoose.ObjectId],
   portfolioSettings: {
-    portfolioId: mongoose.ObjectId,
     display: String,
     isCardColorOn: Boolean,
     // Dashboard settings

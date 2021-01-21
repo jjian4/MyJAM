@@ -5,6 +5,7 @@ import _ from "lodash";
 import AppMenuBar from "./components/AppMenuBar/AppMenuBar";
 import Portfolio from "./pages/Portfolio/Portfolio";
 import About from "./pages/About/About";
+import EditPortfoliosModal from "./components/EditPortfoliosModal/EditPortfoliosModal";
 import EditEntryModal from "./components/EditEntryModal/EditEntryModal";
 import AppContext from "./AppContext";
 import { fakeEntries } from "./utilities/settings";
@@ -25,8 +26,10 @@ function App() {
 
   const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth <= 991);
   const [portfolioSettings, setPortfolioSettings] = useState({});
-  const [entries, setEntries] = useState([]);
+  const [portfoliosList, setPortfoliosList] = useState([]);
+  const [isPortfoliosModalOpen, setIsPortfoliosModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [entries, setEntries] = useState([]);
   const [newEntryModal, setNewEntryModal] = useState({
     isOpen: false,
     initialValues: {},
@@ -46,12 +49,14 @@ function App() {
       const currentUser = response.data;
       if (currentUser) {
         console.log(currentUser);
-        loginUser(currentUser);
+        await loginUser(currentUser);
       }
       setLoading(false);
     };
 
     getCurrentUser();
+
+    // TODO: GET PORTFOLIOS AND ENTRIES
 
     window.addEventListener("resize", resizeWindow);
     return () => {
@@ -85,10 +90,11 @@ function App() {
     setIsWindowSmall(window.innerWidth <= 991);
   };
 
-  const loginUser = (currentUser) => {
+  const loginUser = async (currentUser) => {
     setUser(currentUser);
+
+    // Initialize portfolio settingss
     const {
-      portfolioId,
       display,
       isCardColorOn,
       boardDensity,
@@ -100,14 +106,8 @@ function App() {
       tableSortProperty,
       tableIsSortAscending,
     } = currentUser.portfolioSettings;
-
     // Set default settings if field isn't already set in database
     setPortfolioSettings({
-      portfolioId: currentUser.portfolios.find(
-        (x) => x.portfolioId === portfolioId
-      )
-        ? portfolioId
-        : currentUser.portfolios[0]?.portfolioId,
       display: display || PORTFOLIO_DISPLAY.BOARD.name,
       isCardColorOn: isCardColorOn || true,
       // Dashboard
@@ -130,6 +130,10 @@ function App() {
       tableIsSortAscending: tableIsSortAscending || true,
     });
 
+    // Initialize portfolios
+    const response = await axios.get("/api/portfolios");
+    setPortfoliosList(response.data);
+
     // TODO: fetch portfolio entries from db
     setEntries(fakeEntries);
   };
@@ -142,6 +146,24 @@ function App() {
         return;
       }
     }
+  };
+
+  const openPortfoliosModal = () => {
+    setIsPortfoliosModalOpen(true);
+  };
+
+  const updatePortfoliosList = async (newPortfoliosList) => {
+    // Save to db first to get newly generated ids for new portfolios
+    try {
+      const response = await axios.put("/api/portfolios", {
+        newPortfoliosList: newPortfoliosList,
+      });
+      setPortfoliosList(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+
+    // TODO: update current portfolio if there was initially no portfolio
   };
 
   const openNewEntryModal = (initialValues) => {
@@ -185,9 +207,11 @@ function App() {
         isWindowSmall: isWindowSmall,
         portfolioSettings: portfolioSettings,
         updatePortfolioSettings: updatePortfolioSettings,
-        entries: entries,
+        portfoliosList: portfoliosList,
+        openPortfoliosModal: openPortfoliosModal,
         searchValue: searchValue,
         setSearchValue: setSearchValue,
+        entries: entries,
         openNewEntryModal: openNewEntryModal,
         openEditEntryModal: openEditEntryModal,
         updateEntry: updateEntry,
@@ -207,10 +231,20 @@ function App() {
 
           {!loading && user && (
             <>
-              <Route exact path="/portfolio" component={Portfolio} />
+              <Route
+                exact
+                path={["/portfolio", "/portfolio/:id"]}
+                component={Portfolio}
+              />
             </>
           )}
 
+          {/* Used to edit and reorder portfolios */}
+          <EditPortfoliosModal
+            open={isPortfoliosModalOpen}
+            onClose={() => setIsPortfoliosModalOpen(false)}
+            onSave={updatePortfoliosList}
+          />
           {/* Used to add new entries */}
           <EditEntryModal
             open={newEntryModal.isOpen}
