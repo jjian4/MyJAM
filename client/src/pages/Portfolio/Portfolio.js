@@ -10,7 +10,6 @@ import "./Portfolio.scss";
 
 function Portfolio(props) {
   const {
-    user,
     portfolioSettings,
     portfoliosList,
     openPortfoliosModal,
@@ -42,8 +41,6 @@ function Portfolio(props) {
 
   return (
     <div className="Portfolio">
-      {user && <PortfolioMenuBar />}
-
       {portfoliosList.length === 0 && (
         <div className="makePortfolioPrompt">
           <div>You do not have any portfolios.</div>
@@ -58,13 +55,15 @@ function Portfolio(props) {
         </div>
       )}
 
+      {currentPortfolioId && <PortfolioMenuBar />}
+
       <div className="content">
-        {portfoliosList.length > 0 &&
+        {currentPortfolioId &&
           portfolioSettings.display === PORTFOLIO_DISPLAY.BOARD.name && (
             <Dashboard />
           )}
 
-        {portfoliosList.length > 0 &&
+        {currentPortfolioId &&
           portfolioSettings.display === PORTFOLIO_DISPLAY.TABLE.name && (
             <EntriesTable />
           )}

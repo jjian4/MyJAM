@@ -1,11 +1,22 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Menu, Dropdown, Image, Button } from "semantic-ui-react";
 import AppContext from "../../AppContext";
 import "./AppMenuBar.scss";
 
 function AppMenuBar() {
-  const { user, openPortfoliosModal } = useContext(AppContext);
+  const history = useHistory();
+
+  const {
+    user,
+    portfoliosList,
+    openPortfoliosModal,
+    currentPortfolioId,
+  } = useContext(AppContext);
+
+  const currentPortfolio = portfoliosList.find(
+    (x) => x.id === currentPortfolioId
+  );
 
   return (
     <Menu className="AppMenuBar" fixed="top" borderless inverted>
@@ -16,20 +27,32 @@ function AppMenuBar() {
         </Link>
       </Menu.Item>
 
-      <Dropdown
-        className="portfolioSelector link item"
-        text="Summer Internships 2019"
-        pointing
-      >
-        <Dropdown.Menu>
-          <Dropdown.Item>Summer Internships 2019</Dropdown.Item>
-          <Dropdown.Item>Summer 2018</Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item onClick={openPortfoliosModal}>
-            Edit Portfolios
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+      {currentPortfolio && (
+        <Dropdown
+          className="portfolioSelector link item"
+          text={currentPortfolio.name}
+          pointing
+        >
+          <Dropdown.Menu>
+            {portfoliosList.map((portfolio, index) => (
+              <Dropdown.Item
+                key={index}
+                active={portfolio.id === currentPortfolioId}
+                onClick={() => history.push(`/portfolio/${portfolio.id}`)}
+              >
+                <div className="dropdownRow">
+                  <span className="portfolioName">{portfolio.name}</span>
+                  <span className="numEntries">({portfolio.numEntries})</span>
+                </div>
+              </Dropdown.Item>
+            ))}
+            <Dropdown.Divider />
+            <Dropdown.Item onClick={openPortfoliosModal}>
+              Edit Portfolios
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      )}
 
       <Menu.Menu position="right">
         <Menu.Item as="a" onClick={() => console.log(user)}>

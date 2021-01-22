@@ -41,7 +41,7 @@ function DashboardSortDropdown(props) {
         {Object.values(BOARD_SORT_BY).map((option) => (
           <Dropdown.Item
             key={option.name}
-            selected={boardSortProperty === option.property}
+            active={boardSortProperty === option.property}
             onClick={() =>
               updatePortfolioSettings({
                 boardSortProperty: option.property,

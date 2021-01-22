@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { Route, useHistory } from "react-router-dom";
 import axios from "axios";
 import _ from "lodash";
 import AppMenuBar from "./components/AppMenuBar/AppMenuBar";
@@ -20,7 +20,9 @@ import {
 import "./App.scss";
 
 function App() {
-  const [loading, setLoading] = useState(false);
+  const [isUserLoading, setIsUserLoading] = useState(false);
+  const [isPortfolioLoading, setIsPortfolioLoading] = useState(false);
+
   const [user, setUser] = useState(null);
 
   const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth <= 991);
@@ -41,9 +43,11 @@ function App() {
     autoFocusProperty: null,
   });
 
+  const history = useHistory();
+
   useEffect(() => {
     const getCurrentUser = async () => {
-      setLoading(true);
+      setIsUserLoading(true);
 
       const response = await axios.get("/api/current_user");
       const currentUser = response.data;
@@ -51,12 +55,10 @@ function App() {
         console.log(currentUser);
         await loginUser(currentUser);
       }
-      setLoading(false);
+      setIsUserLoading(false);
     };
 
     getCurrentUser();
-
-    // TODO: GET PORTFOLIOS AND ENTRIES
 
     window.addEventListener("resize", resizeWindow);
     return () => {
@@ -151,24 +153,33 @@ function App() {
   const updatePortfoliosList = async (newPortfoliosList) => {
     // Save to db first to get newly generated ids for new portfolios
     try {
-      setLoading(true);
+      setIsPortfolioLoading(true);
       const response = await axios.put("/api/portfolios", {
         newPortfoliosList: newPortfoliosList,
       });
       setPortfoliosList(response.data);
-      setLoading(false);
+
+      // Update current portfolio if it is no longer valid
+      if (
+        response.data.length > 0 &&
+        !response.data.find((x) => x.id === currentPortfolioId)
+      ) {
+        history.push(`/portfolio/${response.data[0].id}`);
+      }
+
+      setIsPortfolioLoading(false);
     } catch (e) {
       console.log(e);
     }
-
-    // TODO: update current portfolio if there was initially no portfolio
   };
 
-  const handlePortfolioChange = async (id) => {
+  const changeCurrentPortfolio = async (id) => {
     try {
+      setIsPortfolioLoading(true);
       const response = await axios.get(`/api/entries/${id}`);
       setEntries(response.data);
       setCurrentPortfolioId(id);
+      setIsPortfolioLoading(false);
     } catch (e) {
       console.log(e);
     }
@@ -203,14 +214,12 @@ function App() {
   };
 
   const saveNewEntry = async (values) => {
-    console.log(values);
     // Save to db first to get newly generated ids for new entry
     try {
       const response = await axios.post(`/api/entry`, {
         portfolioId: currentPortfolioId,
         entry: values,
       });
-      console.log(response.data);
       // Add entry on frontend as well
       setEntries([...entries, response.data]);
       // Update numEntries in portfolio list
@@ -230,6 +239,8 @@ function App() {
     }
   };
 
+  const loading = isUserLoading || isPortfolioLoading;
+
   return (
     <AppContext.Provider
       value={{
@@ -248,71 +259,69 @@ function App() {
         updateEntry: updateEntry,
       }}
     >
-      <BrowserRouter>
-        <div className="App">
-          <AppMenuBar />
+      <div className="App">
+        <AppMenuBar />
 
-          {loading && (
-            <div className="loadingPage">
-              <div className="loadingText">Loading...</div>
-            </div>
-          )}
+        {loading && (
+          <div className="loadingPage">
+            <div className="loadingText">Loading...</div>
+          </div>
+        )}
 
-          {!loading && <Route exact path="/" component={About} />}
+        {!loading && <Route exact path="/" component={About} />}
 
-          {!loading && user && (
-            <>
-              <Route
-                exact
-                path={["/portfolio", "/portfolio/:id"]}
-                render={(props) => (
-                  <Portfolio
-                    {...props}
-                    onPortfolioChange={handlePortfolioChange}
-                  />
-                )}
-              />
-            </>
-          )}
+        {!loading && user && (
+          <>
+            <Route
+              exact
+              path={["/portfolio", "/portfolio/:id"]}
+              render={(props) => (
+                <Portfolio
+                  {...props}
+                  onPortfolioChange={changeCurrentPortfolio}
+                />
+              )}
+            />
+          </>
+        )}
 
-          {/* Used to edit and reorder portfolios */}
-          <EditPortfoliosModal
-            open={isPortfoliosModalOpen}
-            onClose={() => setIsPortfoliosModalOpen(false)}
-            onSave={updatePortfoliosList}
-          />
-          {/* Used to add new entries */}
-          <EditEntryModal
-            open={newEntryModal.isOpen}
-            onClose={() =>
-              setNewEntryModal({
-                isOpen: false,
-                initialValues: {},
-                autoFocusProperty: null,
-              })
-            }
-            heading="New Entry"
-            initialValues={newEntryModal.initialValues}
-            autoFocusProperty={newEntryModal.autoFocusProperty}
-            onSave={saveNewEntry}
-          />
-          {/* Used to edit existing entries */}
-          <EditEntryModal
-            open={editEntryModal.isOpen}
-            onClose={() =>
-              setEditEntryModal({
-                isOpen: false,
-                initialValues: {},
-                autoFocusProperty: null,
-              })
-            }
-            heading={`${editEntryModal.initialValues.company} - ${editEntryModal.initialValues.jobTitle}`}
-            initialValues={editEntryModal.initialValues}
-            autoFocusProperty={editEntryModal.autoFocusProperty}
-            onSave={updateEntry}
-          />
-        </div>
-      </BrowserRouter>
+        {/* Used to edit and reorder portfolios */}
+        <EditPortfoliosModal
+          open={isPortfoliosModalOpen}
+          onClose={() => setIsPortfoliosModalOpen(false)}
+          onSave={updatePortfoliosList}
+        />
+        {/* Used to add new entries */}
+        <EditEntryModal
+          open={newEntryModal.isOpen}
+          onClose={() =>
+            setNewEntryModal({
+              isOpen: false,
+              initialValues: {},
+              autoFocusProperty: null,
+            })
+          }
+          heading="New Entry"
+          initialValues={newEntryModal.initialValues}
+          autoFocusProperty={newEntryModal.autoFocusProperty}
+          onSave={saveNewEntry}
+        />
+        {/* Used to edit existing entries */}
+        <EditEntryModal
+          open={editEntryModal.isOpen}
+          onClose={() =>
+            setEditEntryModal({
+              isOpen: false,
+              initialValues: {},
+              autoFocusProperty: null,
+            })
+          }
+          heading={`${editEntryModal.initialValues.company} - ${editEntryModal.initialValues.jobTitle}`}
+          initialValues={editEntryModal.initialValues}
+          autoFocusProperty={editEntryModal.autoFocusProperty}
+          onSave={updateEntry}
+        />
+      </div>
     </AppContext.Provider>
   );
 }

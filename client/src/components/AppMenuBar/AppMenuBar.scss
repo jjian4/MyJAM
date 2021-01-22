@@ -13,5 +13,17 @@
   }
 
   .portfolioSelector {
+    .dropdownRow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .portfolioName {
+        margin-right: 20px;
+      }
+      .numEntries {
+        color: gray;
+      }
+    }
   }
 }
