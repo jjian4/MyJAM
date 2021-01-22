@@ -5,10 +5,11 @@ const AppContext = createContext({
   isWindowSmall: false,
   portfolioSettings: {},
   updatePortfolioSettings: () => {},
-  portfoliosList: [],
+  portfoliosList: [], // includes id, name, numEntries
   openPortfoliosModal: () => {},
   searchValue: "",
   setSearchValue: () => {},
+  currentPortfolioId: "",
   entries: [],
   openNewEntryModal: () => {},
   openEditEntryModal: () => {},

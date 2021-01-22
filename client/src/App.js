@@ -8,7 +8,6 @@ import About from "./pages/About/About";
 import EditPortfoliosModal from "./components/EditPortfoliosModal/EditPortfoliosModal";
 import EditEntryModal from "./components/EditEntryModal/EditEntryModal";
 import AppContext from "./AppContext";
-import { fakeEntries } from "./utilities/settings";
 import {
   PORTFOLIO_DISPLAY,
   BOARD_DENSITY,
@@ -29,6 +28,7 @@ function App() {
   const [portfoliosList, setPortfoliosList] = useState([]);
   const [isPortfoliosModalOpen, setIsPortfoliosModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [currentPortfolioId, setCurrentPortfolioId] = useState("");
   const [entries, setEntries] = useState([]);
   const [newEntryModal, setNewEntryModal] = useState({
     isOpen: false,
@@ -75,7 +75,6 @@ function App() {
       }
       try {
         await axios.put("/api/portfolio_settings", {
-          userId: user._id,
           newPortfolioSettings: portfolioSettings,
         });
       } catch (e) {
@@ -133,9 +132,6 @@ function App() {
     // Initialize portfolios
     const response = await axios.get("/api/portfolios");
     setPortfoliosList(response.data);
-
-    // TODO: fetch portfolio entries from db
-    setEntries(fakeEntries);
   };
 
   const updatePortfolioSettings = async (settingsChange) => {
@@ -155,15 +151,27 @@ function App() {
   const updatePortfoliosList = async (newPortfoliosList) => {
     // Save to db first to get newly generated ids for new portfolios
     try {
+      setLoading(true);
       const response = await axios.put("/api/portfolios", {
         newPortfoliosList: newPortfoliosList,
       });
       setPortfoliosList(response.data);
+      setLoading(false);
     } catch (e) {
       console.log(e);
     }
 
     // TODO: update current portfolio if there was initially no portfolio
+  };
+
+  const handlePortfolioChange = async (id) => {
+    try {
+      const response = await axios.get(`/api/entries/${id}`);
+      setEntries(response.data);
+      setCurrentPortfolioId(id);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const openNewEntryModal = (initialValues) => {
@@ -194,10 +202,32 @@ function App() {
     console.log("TODO: Update database");
   };
 
-  const saveNewEntry = (values) => {
+  const saveNewEntry = async (values) => {
     console.log(values);
-    // TODO: add to database, add generated id to values, insert entry into column
-    console.log("TODO: Update database");
+    // Save to db first to get newly generated ids for new entry
+    try {
+      const response = await axios.post(`/api/entry`, {
+        portfolioId: currentPortfolioId,
+        entry: values,
+      });
+      console.log(response.data);
+      // Add entry on frontend as well
+      setEntries([...entries, response.data]);
+      // Update numEntries in portfolio list
+      const portfolioIndex = portfoliosList.findIndex(
+        (x) => x.id === currentPortfolioId
+      );
+      setPortfoliosList([
+        ...portfoliosList.slice(0, portfolioIndex),
+        {
+          ...portfoliosList[portfolioIndex],
+          numEntries: portfoliosList[portfolioIndex].numEntries + 1,
+        },
+        ...portfoliosList.slice(portfolioIndex + 1),
+      ]);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -211,6 +241,7 @@ function App() {
         openPortfoliosModal: openPortfoliosModal,
         searchValue: searchValue,
         setSearchValue: setSearchValue,
+        currentPortfolioId: currentPortfolioId,
         entries: entries,
         openNewEntryModal: openNewEntryModal,
         openEditEntryModal: openEditEntryModal,
@@ -234,7 +265,12 @@ function App() {
               <Route
                 exact
                 path={["/portfolio", "/portfolio/:id"]}
-                component={Portfolio}
+                render={(props) => (
+                  <Portfolio
+                    {...props}
+                    onPortfolioChange={handlePortfolioChange}
+                  />
+                )}
               />
             </>
           )}

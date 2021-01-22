@@ -3,12 +3,13 @@ const requireLogin = require("../middleware/requireLogin");
 
 const User = mongoose.model("users");
 const Portfolio = mongoose.model("portfolios");
+const Entry = mongoose.model("entries");
 
 module.exports = (app) => {
   app.put("/api/portfolio_settings", requireLogin, async (req, res) => {
-    const { userId, newPortfolioSettings } = req.body;
+    const { newPortfolioSettings } = req.body;
     try {
-      const user = await User.findById(userId);
+      const user = await User.findById(req.user.id);
       user.portfolioSettings = newPortfolioSettings;
       await user.save();
       res.send(user.portfolioSettings);
@@ -17,6 +18,7 @@ module.exports = (app) => {
     }
   });
 
+  // Gets a summary of all of the user's portfolios
   app.get("/api/portfolios", requireLogin, async (req, res) => {
     try {
       const user = await User.findById(req.user.id);
@@ -34,7 +36,7 @@ module.exports = (app) => {
           portfolios.push({
             id: id,
             name: portfolio.name,
-            numEntries: portfolio.entries.length,
+            numEntries: portfolio.entryIds.length,
           });
         }
       }
@@ -73,8 +75,49 @@ module.exports = (app) => {
       user.portfolioIds = newPortfoliosList.map((item) => item.id);
       user.save();
 
-      // Return new portfolio list (now with generated ids)
       res.send(newPortfoliosList);
+    } catch (e) {
+      res.status(500).send(e.message);
+    }
+  });
+
+  // Gets all entries in a specific portfolio
+  app.get("/api/entries/:portfolioId", requireLogin, async (req, res) => {
+    const { portfolioId } = req.params;
+    try {
+      const user = await User.findById(req.user.id);
+      const { portfolioIds } = user;
+      if (!portfolioIds.includes(portfolioId)) {
+        res.status(401).send("User does not have access to this portfolio.");
+      }
+      const portfolio = await Portfolio.findById(portfolioId);
+
+      const entries = [];
+      for (entryId of portfolio.entryIds) {
+        const entry = await Entry.findById(entryId);
+        entries.push(entry);
+      }
+
+      res.send(entries);
+    } catch (e) {
+      res.status(500).send(e.message);
+    }
+  });
+
+  // Save a new portfolio entry
+  app.post("/api/entry", requireLogin, async (req, res) => {
+    const { portfolioId, entry } = req.body;
+    try {
+      const user = await User.findById(req.user.id);
+      const { portfolioIds } = user;
+      if (!portfolioIds.includes(portfolioId)) {
+        res.status(401).send("User does not have access to this portfolio.");
+      }
+      const portfolio = await Portfolio.findById(portfolioId);
+      const newEntry = await new Entry(entry).save();
+      portfolio.entryIds.push(newEntry.id);
+      portfolio.save();
+      res.send(newEntry);
     } catch (e) {
       res.status(500).send(e.message);
     }

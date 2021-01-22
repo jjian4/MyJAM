@@ -4,23 +4,7 @@ const { Schema } = mongoose;
 const portfolioSchema = new Schema({
   name: String,
   ownerId: mongoose.ObjectId,
-  entries: [
-    {
-      dateCreated: Date,
-      lastUpdate: Date,
-      color: String,
-      isStarred: Boolean,
-      company: String,
-      domain: String,
-      logo: String,
-      jobTitle: String,
-      applyDate: String,
-      deadlineDate: String,
-      status: String,
-      url: String,
-      notes: String,
-    },
-  ],
+  entryIds: [mongoose.ObjectId],
 });
 
 mongoose.model("portfolios", portfolioSchema);

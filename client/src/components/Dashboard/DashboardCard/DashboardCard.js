@@ -101,19 +101,6 @@ function DashboardCard(props) {
                 }
               />
             </span>
-
-            {/* <FontAwesomeIcon
-              className={props.entry.isStarred ? "starIcon" : "starOutlineIcon"}
-              tabIndex={0}
-              title="Star"
-              onClick={() =>
-                updateEntry({
-                  id: props.entry.id,
-                  isStarred: !props.entry.isStarred,
-                })
-              }
-              icon={props.entry.isStarred ? faStar : faStarOutline}
-            /> */}
           </div>
         </div>
       )}

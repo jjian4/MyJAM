@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { Button } from "semantic-ui-react";
 import AppContext from "../../AppContext";
@@ -8,22 +8,37 @@ import PortfolioMenuBar from "../../components/PortfolioMenuBar/PortfolioMenuBar
 import { PORTFOLIO_DISPLAY } from "../../utilities/constants";
 import "./Portfolio.scss";
 
-function Portfolio() {
+function Portfolio(props) {
   const {
     user,
     portfolioSettings,
     portfoliosList,
     openPortfoliosModal,
+    currentPortfolioId,
   } = useContext(AppContext);
 
   let { id } = useParams();
   const history = useHistory();
-  if (
-    portfoliosList.length > 0 &&
-    !(id && portfoliosList.find((x) => x.id === id))
-  ) {
-    history.push(`/portfolio/${portfoliosList[0].id}`);
-  }
+
+  useEffect(() => {
+    // If id is undefined or invalid, reroute to a valid portfolio
+    if (
+      portfoliosList.length > 0 &&
+      !(id && portfoliosList.find((x) => x.id === id))
+    ) {
+      history.push(`/portfolio/${portfoliosList[0].id}`);
+    }
+
+    // If new id is valid, update current portfolio
+    else if (
+      id &&
+      id !== currentPortfolioId &&
+      portfoliosList.find((x) => x.id === id)
+    ) {
+      props.onPortfolioChange(id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, portfoliosList]);
 
   return (
     <div className="Portfolio">

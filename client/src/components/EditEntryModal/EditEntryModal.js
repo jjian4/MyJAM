@@ -86,7 +86,7 @@ function EditEntryModal(props) {
 
     props.onSave({
       id: props.initialValues.id,
-      dateCreated: props.initialValues.dateCreated,
+      dateCreated: props.initialValues.dateCreated || Date.now(),
       lastUpdate: Date.now(),
       color,
       isStarred,
