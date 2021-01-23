@@ -13,6 +13,7 @@ mongoose.connect(keys.mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+mongoose.set("useFindAndModify", false);
 
 const app = express();
 

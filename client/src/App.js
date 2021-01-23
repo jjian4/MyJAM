@@ -25,7 +25,6 @@ function App() {
 
   const [user, setUser] = useState(null);
 
-  const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth <= 991);
   const [portfolioSettings, setPortfolioSettings] = useState({});
   const [portfoliosList, setPortfoliosList] = useState([]);
   const [isPortfoliosModalOpen, setIsPortfoliosModalOpen] = useState(false);
@@ -59,11 +58,6 @@ function App() {
     };
 
     getCurrentUser();
-
-    window.addEventListener("resize", resizeWindow);
-    return () => {
-      window.removeEventListener("resize", resizeWindow);
-    };
   }, []);
 
   // Using a timer to update db every few seconds in chunks, instead of many small changes
@@ -86,15 +80,10 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [portfolioSettings]);
 
-  // Resize portfolio menu items when window gets too small
-  const resizeWindow = () => {
-    setIsWindowSmall(window.innerWidth <= 991);
-  };
-
   const loginUser = async (currentUser) => {
     setUser(currentUser);
 
-    // Initialize portfolio settingss
+    // Initialize portfolio settings, set default values if not in database
     const {
       display,
       isCardColorOn,
@@ -107,7 +96,6 @@ function App() {
       tableSortProperty,
       tableIsSortAscending,
     } = currentUser.portfolioSettings;
-    // Set default settings if field isn't already set in database
     setPortfolioSettings({
       display: display || PORTFOLIO_DISPLAY.BOARD.name,
       isCardColorOn: isCardColorOn || true,
@@ -146,10 +134,6 @@ function App() {
     }
   };
 
-  const openPortfoliosModal = () => {
-    setIsPortfoliosModalOpen(true);
-  };
-
   const updatePortfoliosList = async (newPortfoliosList) => {
     // Save to db first to get newly generated ids for new portfolios
     try {
@@ -185,34 +169,6 @@ function App() {
     }
   };
 
-  const openNewEntryModal = (initialValues) => {
-    setNewEntryModal({
-      isOpen: true,
-      initialValues: initialValues,
-      autoFocusProperty: "company",
-    });
-  };
-
-  const openEditEntryModal = (entryId, autoFocusProperty = null) => {
-    setEditEntryModal({
-      isOpen: true,
-      initialValues: entries.find((entry) => entry.id === entryId),
-      autoFocusProperty: autoFocusProperty,
-    });
-  };
-
-  const updateEntry = (values) => {
-    // values only needs to include the properties that changed (but always needs id)
-    const indexToUpdate = entries.findIndex((entry) => entry.id === values.id);
-    setEntries([
-      ...entries.slice(0, indexToUpdate),
-      { ...entries[indexToUpdate], ...values },
-      ...entries.slice(indexToUpdate + 1),
-    ]);
-    // TODO: get values.entryId and update id in database
-    console.log("TODO: Update database");
-  };
-
   const saveNewEntry = async (values) => {
     // Save to db first to get newly generated ids for new entry
     try {
@@ -239,38 +195,91 @@ function App() {
     }
   };
 
-  const loading = isUserLoading || isPortfolioLoading;
+  const updateEntry = async (values) => {
+    // values only needs to include the properties that changed (but always needs id)
+    try {
+      const indexToUpdate = entries.findIndex(
+        (entry) => entry.id === values.id
+      );
+      setEntries([
+        ...entries.slice(0, indexToUpdate),
+        { ...entries[indexToUpdate], ...values },
+        ...entries.slice(indexToUpdate + 1),
+      ]);
+
+      await axios.patch(`/api/entry`, {
+        portfolioId: currentPortfolioId,
+        newValues: values,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const deleteEntry = async (entryId) => {
+    try {
+      const indexToDelete = entries.findIndex((entry) => entry.id === entryId);
+      setEntries([
+        ...entries.slice(0, indexToDelete),
+        ...entries.slice(indexToDelete + 1),
+      ]);
+
+      await axios.delete(`/api/entry`, {
+        data: {
+          portfolioId: currentPortfolioId,
+          entryId: entryId,
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const loadingText = isUserLoading
+    ? "Loading..."
+    : isPortfolioLoading
+    ? "Loading Portfolio..."
+    : null;
 
   return (
     <AppContext.Provider
       value={{
         user: user,
-        isWindowSmall: isWindowSmall,
         portfolioSettings: portfolioSettings,
         updatePortfolioSettings: updatePortfolioSettings,
         portfoliosList: portfoliosList,
-        openPortfoliosModal: openPortfoliosModal,
-        searchValue: searchValue,
-        setSearchValue: setSearchValue,
+        openPortfoliosModal: () => setIsPortfoliosModalOpen(true),
         currentPortfolioId: currentPortfolioId,
         entries: entries,
-        openNewEntryModal: openNewEntryModal,
-        openEditEntryModal: openEditEntryModal,
+        openNewEntryModal: (initialValues) =>
+          setNewEntryModal({
+            isOpen: true,
+            initialValues: initialValues,
+            autoFocusProperty: "company",
+          }),
+        openEditEntryModal: (entryId, autoFocusProperty = null) =>
+          setEditEntryModal({
+            isOpen: true,
+            initialValues: entries.find((entry) => entry.id === entryId),
+            autoFocusProperty: autoFocusProperty,
+          }),
         updateEntry: updateEntry,
+        searchValue: searchValue,
+        setSearchValue: setSearchValue,
       }}
     >
       <div className="App">
         <AppMenuBar />
 
-        {loading && (
+        {loadingText && (
           <div className="loadingPage">
-            <div className="loadingText">Loading...</div>
+            <div className="loadingText">{loadingText}</div>
           </div>
         )}
 
-        {!loading && <Route exact path="/" component={About} />}
+        {!loadingText && <Route exact path="/" component={About} />}
 
-        {!loading && user && (
+        {!loadingText && user && (
           <>
             <Route
               exact
@@ -320,6 +329,7 @@ function App() {
           initialValues={editEntryModal.initialValues}
           autoFocusProperty={editEntryModal.autoFocusProperty}
           onSave={updateEntry}
+          onDelete={deleteEntry}
         />
       </div>
     </AppContext.Provider>

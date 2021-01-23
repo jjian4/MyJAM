@@ -1,4 +1,4 @@
-import { useContext, useState, useRef } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import { Button, Input } from "semantic-ui-react";
 import AppContext from "../../AppContext";
 import DashboardColumnFilterDropdown from "../Dashboard/DashboardColumnFilterDropdown/DashboardColumnFilterDropdown";
@@ -13,7 +13,6 @@ import "./PortfolioMenuBar.scss";
 
 function PortfolioMenuBar() {
   const {
-    isWindowSmall,
     portfolioSettings,
     searchValue,
     setSearchValue,
@@ -25,6 +24,18 @@ function PortfolioMenuBar() {
 
   const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [tempSearchValue, setTempSearchValue] = useState(searchValue);
+  const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth <= 991);
+
+  useEffect(() => {
+    window.addEventListener("resize", resizeWindow);
+    return () => {
+      window.removeEventListener("resize", resizeWindow);
+    };
+  }, []);
+  // Resize portfolio menu items when window gets too small
+  const resizeWindow = () => {
+    setIsWindowSmall(window.innerWidth <= 991);
+  };
 
   const searchTimeoutRef = useRef();
   const updateSearchValue = (newSearchValue) => {

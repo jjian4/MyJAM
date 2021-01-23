@@ -11,7 +11,7 @@ module.exports = (app) => {
     try {
       const user = await User.findById(req.user.id);
       user.portfolioSettings = newPortfolioSettings;
-      await user.save();
+      user.save();
       res.send(user.portfolioSettings);
     } catch (e) {
       res.status(500).send(e.message);
@@ -56,6 +56,11 @@ module.exports = (app) => {
       // If any portfolios were deleted, delete from db
       for (const portfolioId of portfolioIds) {
         if (!newPortfoliosList.find((x) => x.id === portfolioId.toString())) {
+          // TODO: Delete all of the portfolio's entries before deleting the portfolio
+          const portfolioToDelete = await Portfolio.findById(portfolioId);
+          for (const entryId of portfolioToDelete.entryIds) {
+            await Entry.findByIdAndDelete(entryId);
+          }
           await Portfolio.deleteOne({ _id: portfolioId });
         }
       }
@@ -88,14 +93,18 @@ module.exports = (app) => {
       const user = await User.findById(req.user.id);
       const { portfolioIds } = user;
       if (!portfolioIds.includes(portfolioId)) {
-        res.status(401).send("User does not have access to this portfolio.");
+        return res
+          .status(401)
+          .send("User does not have access to this portfolio.");
       }
       const portfolio = await Portfolio.findById(portfolioId);
 
       const entries = [];
       for (entryId of portfolio.entryIds) {
         const entry = await Entry.findById(entryId);
-        entries.push(entry);
+        if (entry) {
+          entries.push(entry);
+        }
       }
 
       res.send(entries);
@@ -111,13 +120,73 @@ module.exports = (app) => {
       const user = await User.findById(req.user.id);
       const { portfolioIds } = user;
       if (!portfolioIds.includes(portfolioId)) {
-        res.status(401).send("User does not have access to this portfolio.");
+        return res
+          .status(401)
+          .send("User does not have access to this portfolio.");
       }
       const portfolio = await Portfolio.findById(portfolioId);
       const newEntry = await new Entry(entry).save();
+      // Also add to portfolio entryIds list
       portfolio.entryIds.push(newEntry.id);
       portfolio.save();
       res.send(newEntry);
+    } catch (e) {
+      res.status(500).send(e.message);
+    }
+  });
+
+  app.patch("/api/entry", requireLogin, async (req, res) => {
+    // newValues only needs to include the properties that changed (but always needs id)
+    const { portfolioId, newValues } = req.body;
+    try {
+      const user = await User.findById(req.user.id);
+      const { portfolioIds } = user;
+      if (!portfolioIds.includes(portfolioId)) {
+        return res
+          .status(401)
+          .send("User does not have access to this portfolio.");
+      }
+      const portfolio = await Portfolio.findById(portfolioId);
+      if (!portfolio.entryIds.includes(newValues.id)) {
+        return res
+          .status(401)
+          .send("The portfolio does not have access to this entry.");
+      }
+      const updatedEntry = await Entry.findByIdAndUpdate(
+        newValues.id,
+        newValues,
+        {
+          new: true,
+        }
+      );
+      res.send(updatedEntry);
+    } catch (e) {
+      res.status(500).send(e.message);
+    }
+  });
+
+  app.delete("/api/entry", requireLogin, async (req, res) => {
+    const { portfolioId, entryId } = req.body;
+    try {
+      const user = await User.findById(req.user.id);
+      const { portfolioIds } = user;
+      if (!portfolioIds.includes(portfolioId)) {
+        return res
+          .status(401)
+          .send("User does not have access to this portfolio.");
+      }
+      const portfolio = await Portfolio.findById(portfolioId);
+      if (!portfolio.entryIds.includes(entryId)) {
+        return res
+          .status(401)
+          .send("The portfolio does not have access to this entry.");
+      }
+
+      await Entry.findByIdAndDelete(entryId);
+      // Also remove from portfolio entryIds list
+      portfolio.entryIds.pull({ _id: entryId });
+      portfolio.save();
+      res.send(entryId);
     } catch (e) {
       res.status(500).send(e.message);
     }

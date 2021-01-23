@@ -289,9 +289,29 @@ function EditEntryModal(props) {
           </Form.Group>
         </Form>
       </Modal.Content>
-      <Modal.Actions>
-        <Button onClick={props.onClose}>Cancel</Button>
-        <Button content="Save" onClick={handleSave} positive />
+      <Modal.Actions className="footer">
+        <div>
+          {props.initialValues.id && props.onDelete && (
+            <Button
+              onClick={() => {
+                props.onDelete(props.initialValues.id);
+                props.onClose();
+              }}
+              negative
+              basic
+            >
+              Delete
+            </Button>
+          )}
+        </div>
+        <div>
+          <Button onClick={props.onClose} basic>
+            Cancel
+          </Button>
+          <Button className="saveButton" onClick={handleSave} positive>
+            Save
+          </Button>
+        </div>
       </Modal.Actions>
     </Modal>
   );
