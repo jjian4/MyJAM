@@ -7,10 +7,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Menu, Dropdown, Button } from "semantic-ui-react";
+import { Dropdown } from "semantic-ui-react";
 import AppContext from "../../AppContext";
 import { WEBSITE_NAME } from "../../utilities/constants";
 import DropdownButton from "../DropdownButton/DropdownButton";
+import GoogleOauthButton from "../GoogleOauthButton/GoogleOauthButton";
 import "./AppMenuBar.scss";
 
 function AppMenuBar() {
@@ -79,7 +80,7 @@ function AppMenuBar() {
       </div>
 
       <div className="menuRight">
-        {user ? (
+        {user && (
           <Dropdown
             className="userDropdown"
             trigger={
@@ -128,15 +129,9 @@ function AppMenuBar() {
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-        ) : (
-          <Menu.Item>
-            <a href="/auth/google">
-              <Button basic circular inverted>
-                Sign in with Google
-              </Button>
-            </a>
-          </Menu.Item>
         )}
+        {/* Explicitly checking for false because null means unknown if logged in */}
+        {user === false && <GoogleOauthButton />}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import axios from "axios";
 import _ from "lodash";
 import AppMenuBar from "./components/AppMenuBar/AppMenuBar";
 import Portfolio from "./pages/Portfolio/Portfolio";
-import About from "./pages/About/About";
+import Home from "./pages/Home/Home";
 import EditPortfoliosModal from "./components/EditPortfoliosModal/EditPortfoliosModal";
 import EditEntryModal from "./components/EditEntryModal/EditEntryModal";
 import AppContext from "./AppContext";
@@ -53,6 +53,8 @@ function App() {
       if (currentUser) {
         console.log(currentUser);
         await loginUser(currentUser);
+      } else {
+        setUser(false); // Set to false instead of null to indicate we already checked
       }
       setIsUserLoading(false);
     };
@@ -277,7 +279,7 @@ function App() {
           </div>
         )}
 
-        {!loadingText && <Route exact path="/" component={About} />}
+        {!loadingText && <Route exact path="/" component={Home} />}
 
         {!loadingText && user && (
           <>
