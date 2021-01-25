@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Button } from "semantic-ui-react";
 import AppContext from "../../AppContext";
+import { WEBSITE_NAME } from "../../utilities/constants";
 import "./About.scss";
 
 function About() {
@@ -10,7 +11,7 @@ function About() {
     <div className="About">
       <div className="content">
         <div className="appName">
-          {user ? `Hi ${user.givenName || user.displayName}!` : "Job App Tool"}
+          {user ? `Hi ${user.givenName || user.displayName}!` : WEBSITE_NAME}
         </div>
 
         {!user && (

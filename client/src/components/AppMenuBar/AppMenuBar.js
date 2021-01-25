@@ -1,7 +1,16 @@
-import { useContext } from "react";
+import {
+  faCommentDots,
+  faFolder,
+  faUser,
+  faUserCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Menu, Dropdown, Image, Button } from "semantic-ui-react";
+import { Menu, Dropdown, Button } from "semantic-ui-react";
 import AppContext from "../../AppContext";
+import { WEBSITE_NAME } from "../../utilities/constants";
+import DropdownButton from "../DropdownButton/DropdownButton";
 import "./AppMenuBar.scss";
 
 function AppMenuBar() {
@@ -14,68 +23,105 @@ function AppMenuBar() {
     currentPortfolioId,
   } = useContext(AppContext);
 
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+
   const currentPortfolio = portfoliosList.find(
     (x) => x.id === currentPortfolioId
   );
 
   return (
-    <Menu className="AppMenuBar" fixed="top" borderless inverted>
-      <Menu.Item>
-        <Image className="appLogo" src="https://logo.clearbit.com/umich.edu" />
-        <Link className="appName" to={user ? "/portfolio" : "/"}>
-          Job App Tool
+    <div className="AppMenuBar">
+      <div className="menuLeft">
+        <Link className="appLogoAndName" to={user ? "/portfolio" : "/"}>
+          <img
+            className="appLogo"
+            src="https://logo.clearbit.com/reactjs.org"
+            alt="appLogo"
+          />
+          <span className="appName">{WEBSITE_NAME}</span>
         </Link>
-      </Menu.Item>
 
-      {currentPortfolio && (
-        <Dropdown
-          className="portfolioSelector link item"
-          text={currentPortfolio.name}
-          pointing
-        >
-          <Dropdown.Menu>
-            {portfoliosList.map((portfolio, index) => (
-              <Dropdown.Item
-                key={index}
-                active={portfolio.id === currentPortfolioId}
-                onClick={() => history.push(`/portfolio/${portfolio.id}`)}
-              >
-                <div className="dropdownRow">
-                  <span className="portfolioName">{portfolio.name}</span>
-                  <span className="numEntries">({portfolio.numEntries})</span>
-                </div>
+        {currentPortfolio && (
+          <Dropdown
+            className="portfolioSelector"
+            trigger={
+              <DropdownButton
+                className="dropdownButton"
+                size="small"
+                inverted
+                icon={"folder"}
+                text={currentPortfolio.name}
+              />
+            }
+            icon={false}
+            direction={"right"}
+          >
+            <Dropdown.Menu className="dropdownMenu">
+              {portfoliosList.map((portfolio, index) => (
+                <Dropdown.Item
+                  key={index}
+                  active={portfolio.id === currentPortfolioId}
+                  onClick={() => history.push(`/portfolio/${portfolio.id}`)}
+                >
+                  <div className="dropdownRow">
+                    <span className="portfolioName">{portfolio.name}</span>
+                    <span className="numEntries">({portfolio.numEntries})</span>
+                  </div>
+                </Dropdown.Item>
+              ))}
+              <Dropdown.Divider />
+              <Dropdown.Item onClick={openPortfoliosModal}>
+                Edit Portfolios
               </Dropdown.Item>
-            ))}
-            <Dropdown.Divider />
-            <Dropdown.Item onClick={openPortfoliosModal}>
-              Edit Portfolios
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      )}
+            </Dropdown.Menu>
+          </Dropdown>
+        )}
+      </div>
 
-      <Menu.Menu position="right">
-        <Menu.Item as="a" onClick={() => console.log(user)}>
-          USER
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/portfolio">PORTFOLIO</Link>
-        </Menu.Item>
-
-        <Menu.Item>
-          <Link to="/">ABOUT</Link>
-        </Menu.Item>
-
+      <div className="menuRight">
         {user ? (
           <Dropdown
-            text={user.displayName || user.givenName}
-            pointing
-            className="link item"
+            className="userDropdown"
+            trigger={
+              <DropdownButton
+                className={`dropdownButton ${
+                  isUserDropdownOpen ? "dropdownButton-open" : ""
+                }`}
+                size="medium"
+                icon="user"
+                text={user.displayName}
+              />
+            }
             icon={false}
+            direction="left"
+            onOpen={() => setIsUserDropdownOpen(true)}
+            onClose={() => setIsUserDropdownOpen(false)}
           >
-            <Dropdown.Menu>
-              <Dropdown.Item>Portfolios</Dropdown.Item>
-              <Dropdown.Item>Settings</Dropdown.Item>
+            <Dropdown.Menu className="dropdownMenu">
+              <Dropdown.Item
+                className="dropdownHeading"
+                // onClick={(e) => e.stopPropagation()}
+              >
+                <div className="userCircle">
+                  <FontAwesomeIcon icon={faUserCircle} />
+                </div>
+                <div className="displayName">{user.displayName}</div>
+                <div className="email">fake@email.com</div>
+              </Dropdown.Item>
+
+              <Dropdown.Divider />
+              <Dropdown.Item>
+                <FontAwesomeIcon className="optionIcon" icon={faUser} /> My
+                Profile
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <FontAwesomeIcon className="optionIcon" icon={faFolder} /> My
+                Portfolios
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <FontAwesomeIcon className="optionIcon" icon={faCommentDots} />
+                Give us Feedback
+              </Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Item as="a" href="/api/logout">
                 Logout
@@ -91,8 +137,8 @@ function AppMenuBar() {
             </a>
           </Menu.Item>
         )}
-      </Menu.Menu>
-    </Menu>
+      </div>
+    </div>
   );
 }
 

@@ -19,18 +19,19 @@
   }
 
   .menuleft {
-    padding: 0 10px;
+    padding: 0 16px;
     .menuItem {
       margin-right: 12px;
     }
   }
 
   .menuRight {
-    padding: 0 10px;
+    padding: 0 16px;
     .menuItem {
       margin-right: 12px;
     }
     .newEntryButton {
+      margin: 0;
     }
   }
 }

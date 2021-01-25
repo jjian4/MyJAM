@@ -13,6 +13,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+export const WEBSITE_NAME = "MyJAM";
+
 export const DRAG_DROP_ITEMS = {
   DASHBOARD_CARD: "DashboardCard",
 };
