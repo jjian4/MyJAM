@@ -23,18 +23,30 @@ passport.use(
       proxy: true,
     },
     async (accessToken, refreshToken, profile, done) => {
-      // The only time we will use googleId instead of mongodb-generated user id
-      const existingUser = await User.findOne({ googleId: profile.id });
+      const { id, displayName, name, emails, photos } = profile;
+      const email = emails && emails.length > 0 ? emails[0].value : null;
+      const photo = photos && photos.length > 0 ? photos[0].value : null;
 
+      // The only time we use googleId instead of mongodb user id
+      const existingUser = await User.findOne({ googleId: id });
       if (existingUser) {
+        // Update name, email, photo since they may have changed since last login
+        existingUser.displayName = displayName;
+        existingUser.familyName = name.familyName;
+        existingUser.givenName = name.givenName;
+        existingUser.email = email;
+        existingUser.photo = photo;
+        existingUser.save();
         return done(null, existingUser);
       }
 
       const newUser = await new User({
-        googleId: profile.id,
-        displayName: profile.displayName,
-        familyName: profile.name.familyName,
-        givenName: profile.name.givenName,
+        googleId: id,
+        displayName: displayName,
+        familyName: name.familyName,
+        givenName: name.givenName,
+        email: email,
+        photo: photo,
         portfolios: [],
         portfolioSettings: {},
       }).save();

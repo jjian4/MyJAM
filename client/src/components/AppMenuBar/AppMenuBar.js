@@ -6,8 +6,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { Dropdown } from "semantic-ui-react";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import { Button, Dropdown } from "semantic-ui-react";
 import AppContext from "../../AppContext";
 import { WEBSITE_NAME } from "../../utilities/constants";
 import DropdownButton from "../DropdownButton/DropdownButton";
@@ -16,6 +16,7 @@ import "./AppMenuBar.scss";
 
 function AppMenuBar() {
   const history = useHistory();
+  const location = useLocation();
 
   const {
     user,
@@ -33,7 +34,7 @@ function AppMenuBar() {
   return (
     <div className="AppMenuBar">
       <div className="menuLeft">
-        <Link className="appLogoAndName" to={user ? "/portfolio" : "/"}>
+        <Link className="appLogoAndName" to="/">
           <img
             className="appLogo"
             src="https://logo.clearbit.com/reactjs.org"
@@ -46,13 +47,15 @@ function AppMenuBar() {
           <Dropdown
             className="portfolioSelector"
             trigger={
-              <DropdownButton
-                className="dropdownButton"
-                size="small"
-                inverted
-                icon={"folder"}
-                text={currentPortfolio.name}
-              />
+              <Link to={`/portfolio/${currentPortfolio.id}`}>
+                <DropdownButton
+                  className="dropdownButton"
+                  size="small"
+                  circular
+                  icon={"folder"}
+                  text={currentPortfolio.name}
+                />
+              </Link>
             }
             icon={false}
             direction={"right"}
@@ -61,7 +64,7 @@ function AppMenuBar() {
               {portfoliosList.map((portfolio, index) => (
                 <Dropdown.Item
                   key={index}
-                  active={portfolio.id === currentPortfolioId}
+                  active={portfolio.id === currentPortfolio.id}
                   onClick={() => history.push(`/portfolio/${portfolio.id}`)}
                 >
                   <div className="dropdownRow">
@@ -77,6 +80,22 @@ function AppMenuBar() {
             </Dropdown.Menu>
           </Dropdown>
         )}
+
+        {!currentPortfolio && user && location.pathname === "/" && (
+          <Link
+            className="portfoliosLink"
+            to="/portfolio"
+            onClick={() => {
+              if (portfoliosList.length === 0) {
+                openPortfoliosModal();
+              }
+            }}
+          >
+            <Button className="portfoliosButton" size="small" circular>
+              {portfoliosList.length === 0 ? "Make Portfolio" : "My Portfolios"}
+            </Button>
+          </Link>
+        )}
       </div>
 
       <div className="menuRight">
@@ -90,6 +109,7 @@ function AppMenuBar() {
                 }`}
                 size="medium"
                 icon="user"
+                circular
                 text={user.displayName}
               />
             }
@@ -103,11 +123,15 @@ function AppMenuBar() {
                 className="dropdownHeading"
                 // onClick={(e) => e.stopPropagation()}
               >
-                <div className="userCircle">
-                  <FontAwesomeIcon icon={faUserCircle} />
+                <div className="userPhotoRow">
+                  {user.photo ? (
+                    <img className="photo" src={user.photo} alt="profile" />
+                  ) : (
+                    <FontAwesomeIcon className="photo" icon={faUserCircle} />
+                  )}
                 </div>
                 <div className="displayName">{user.displayName}</div>
-                <div className="email">fake@email.com</div>
+                {user.email && <div className="email">{user.email}</div>}
               </Dropdown.Item>
 
               <Dropdown.Divider />
@@ -115,7 +139,7 @@ function AppMenuBar() {
                 <FontAwesomeIcon className="optionIcon" icon={faUser} /> My
                 Profile
               </Dropdown.Item>
-              <Dropdown.Item>
+              <Dropdown.Item onClick={openPortfoliosModal}>
                 <FontAwesomeIcon className="optionIcon" icon={faFolder} /> My
                 Portfolios
               </Dropdown.Item>

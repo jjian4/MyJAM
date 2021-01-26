@@ -2,3 +2,5 @@ $menu-height: 55px;
 $portfolio-menu-height: 55px;
 
 $primary-color: #a50b5e;
+$primary-light: lighten($primary-color, 40%);
+$primary-dark: darken($primary-color, 2%);

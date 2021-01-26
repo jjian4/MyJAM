@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 const AppContext = createContext({
-  user: null, // includes displayName, givenName, portfolioIds [], portfolioSettings {}
+  user: null, // includes displayName, familyName, givenName, email, photo, portfolioIds [], portfolioSettings {}
   portfolioSettings: {}, // includes display, isCardColorOn, boardDensity, boardColumnFilter [], boardSortProperty, boardIsSortAscending, tableDensity, tableColumnFilter [], tableSortProperty, tableIsSortAscending
   updatePortfolioSettings: () => {},
   portfoliosList: [], // includes id, name, numEntries

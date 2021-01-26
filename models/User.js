@@ -6,6 +6,8 @@ const userSchema = new Schema({
   displayName: String,
   familyName: String,
   givenName: String,
+  email: String,
+  photo: String,
   portfolioIds: [mongoose.ObjectId],
   portfolioSettings: {
     display: String,

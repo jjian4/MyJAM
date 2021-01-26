@@ -36,15 +36,19 @@
     }
 
     .portfolioSelector {
-      margin-left: 20px;
+      margin-left: 24px;
 
       .dropdownButton {
-        background-color: transparent;
+        background-color: $primary-color;
         color: whitesmoke;
+        border: 1px solid $primary-light;
+        &:hover {
+          background-color: $primary-dark;
+        }
       }
 
       .dropdownMenu {
-        margin-top: 2px;
+        margin-top: 4px;
         min-width: 180px;
 
         .dropdownRow {
@@ -61,39 +65,61 @@
         }
       }
     }
+
+    .portfoliosLink {
+      margin-left: 24px;
+      .portfoliosButton {
+        background-color: $primary-color;
+        color: whitesmoke;
+        border: 1px solid $primary-light;
+        &:hover {
+          background-color: $primary-dark;
+        }
+      }
+    }
   }
 
   .menuRight {
     .userDropdown {
       .dropdownButton {
-        background-color: transparent;
+        background-color: $primary-color;
         color: whitesmoke;
-        border: 2px solid transparent;
+        border: 1px solid transparent;
+        &:hover {
+          border: 1px solid $primary-light;
+        }
       }
 
       .dropdownButton-open {
-        border: 2px solid white;
+        border: 1px solid $primary-light;
       }
 
       .dropdownMenu {
         margin-top: 4px;
-        min-width: 200px;
+        min-width: 220px;
 
         .dropdownHeading {
           text-align: center;
 
-          .userCircle {
+          .userPhotoRow {
+            padding-top: 4px;
             color: gray;
-            font-size: 40px;
+
+            .photo {
+              width: 55px;
+              height: 55px;
+              border-radius: 50%;
+            }
           }
 
           .displayName {
-            padding: 12px 0 10px;
+            padding: 12px 0 6px;
             font-weight: bold;
             font-size: 18px;
           }
 
           .email {
+            padding-top: 4px;
             color: gray;
             font-size: 14px;
           }

@@ -20,13 +20,15 @@ function EditPortfoliosModal(props) {
       setFormPortfolios(portfoliosList);
       setIsSaveClicked(false);
       setErrorMessage("");
+    }
+  }, [props.open, portfoliosList]);
 
-      if (portfoliosList.length === 0) {
-        addNewPortfolio();
-      }
+  useEffect(() => {
+    if (formPortfolios.length === 0) {
+      addNewPortfolio();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.open]);
+  }, [formPortfolios]);
 
   const addNewPortfolio = () => {
     setFormPortfolios([
