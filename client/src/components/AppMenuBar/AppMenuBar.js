@@ -82,17 +82,9 @@ function AppMenuBar() {
         )}
 
         {!currentPortfolio && user && location.pathname === "/" && (
-          <Link
-            className="portfoliosLink"
-            to="/portfolio"
-            onClick={() => {
-              if (portfoliosList.length === 0) {
-                openPortfoliosModal();
-              }
-            }}
-          >
+          <Link className="portfoliosLink" to="/portfolio">
             <Button className="portfoliosButton" size="small" circular>
-              {portfoliosList.length === 0 ? "Make Portfolio" : "My Portfolios"}
+              My Portfolios
             </Button>
           </Link>
         )}

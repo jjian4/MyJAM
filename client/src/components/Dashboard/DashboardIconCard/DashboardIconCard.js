@@ -5,7 +5,7 @@ import { DRAG_DROP_ITEMS } from "../../../utilities/constants";
 import "./DashboardIconCard.scss";
 
 function DashboardIconCard(props) {
-  const { portfolioSettings, openEditEntryModal } = useContext(AppContext);
+  const { portfolioSettings, openEntryModal } = useContext(AppContext);
 
   // Used to allow card to be dragged into another column
   const [{ isDragging }, drag] = useDrag({
@@ -24,7 +24,7 @@ function DashboardIconCard(props) {
         cardColor ? "DashboardIconCard-colored" : ""
       }`}
       style={{ borderColor: cardColor, opacity: isDragging ? 0.5 : 1 }}
-      onClick={() => openEditEntryModal(props.entry.id)}
+      onClick={() => openEntryModal(props.entry.id)}
     >
       <img className="logo" src={props.entry.logo} alt={props.entry.company} />
     </div>

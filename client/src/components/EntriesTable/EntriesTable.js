@@ -20,7 +20,7 @@ function EntriesTable() {
     updatePortfolioSettings,
     entries,
     searchValue,
-    openEditEntryModal,
+    openEntryModal,
     updateEntry,
   } = useContext(AppContext);
 
@@ -64,7 +64,7 @@ function EntriesTable() {
   const EditCellButton = ({ entryId, propertyToEdit }) => (
     <div
       className="editCellButton"
-      onClick={() => openEditEntryModal(entryId, propertyToEdit)}
+      onClick={() => openEntryModal(entryId, propertyToEdit)}
     >
       <FontAwesomeIcon icon={faPencilAlt} />
     </div>

@@ -3,10 +3,10 @@ import { Button, Modal, Dropdown, Input, Message } from "semantic-ui-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGripVertical } from "@fortawesome/free-solid-svg-icons";
 import AppContext from "../../AppContext";
-import "./EditPortfoliosModal.scss";
+import "./PortfoliosModal.scss";
 import { ReactSortable } from "react-sortablejs";
 
-function EditPortfoliosModal(props) {
+function PortfoliosModal(props) {
   const { portfoliosList } = useContext(AppContext);
 
   const [formPortfolios, setFormPortfolios] = useState([]);
@@ -62,7 +62,7 @@ function EditPortfoliosModal(props) {
 
   return (
     <Modal
-      className="EditPortfoliosModal"
+      className="PortfoliosModal"
       onClose={props.onClose}
       open={props.open}
       size="small"
@@ -158,4 +158,4 @@ function EditPortfoliosModal(props) {
   );
 }
 
-export default EditPortfoliosModal;
+export default PortfoliosModal;

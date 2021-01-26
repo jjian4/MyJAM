@@ -17,9 +17,9 @@ import AppContext from "../../AppContext";
 import CompanySelector from "../CompanySelector/CompanySelector";
 import { CARD_COLORS, STATUS } from "../../utilities/constants";
 import StarButton from "../StarButton/StarButton";
-import "./EditEntryModal.scss";
+import "./EntryModal.scss";
 
-function EditEntryModal(props) {
+function EntryModal(props) {
   const { portfolioSettings } = useContext(AppContext);
 
   const [color, setColor] = useState("");
@@ -105,7 +105,7 @@ function EditEntryModal(props) {
 
   return (
     <Modal
-      className="EditEntryModal"
+      className="EntryModal"
       onClose={props.onClose}
       open={props.open}
       size="small"
@@ -317,4 +317,4 @@ function EditEntryModal(props) {
   );
 }
 
-export default EditEntryModal;
+export default EntryModal;

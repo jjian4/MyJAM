@@ -18,7 +18,7 @@ const maxNotesLength = 100;
 const maxNotesLines = 3;
 
 function DashboardCard(props) {
-  const { portfolioSettings, openEditEntryModal, updateEntry } = useContext(
+  const { portfolioSettings, openEntryModal, updateEntry } = useContext(
     AppContext
   );
   const { boardDensity, isCardColorOn } = portfolioSettings;
@@ -82,7 +82,7 @@ function DashboardCard(props) {
               <FontAwesomeIcon
                 title="Edit"
                 icon={faEdit}
-                onClick={() => openEditEntryModal(props.entry.id)}
+                onClick={() => openEntryModal(props.entry.id)}
               />
             )}
 
@@ -143,7 +143,7 @@ function DashboardCard(props) {
               <div
                 className="cardButton"
                 style={{ backgroundColor: cardColor }}
-                onClick={() => openEditEntryModal(props.entry.id)}
+                onClick={() => openEntryModal(props.entry.id)}
               >
                 Edit
               </div>

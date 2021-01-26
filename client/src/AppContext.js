@@ -9,7 +9,7 @@ const AppContext = createContext({
   currentPortfolioId: "",
   entries: [], // includes id, dateCreated, lastUpdate, color, isStarred, company, domain, logo, jobTitle, applyDate, deadlineDate, status, url, notes
   openNewEntryModal: () => {},
-  openEditEntryModal: () => {},
+  openEntryModal: () => {},
   updateEntry: () => {},
   searchValue: "",
   setSearchValue: () => {},

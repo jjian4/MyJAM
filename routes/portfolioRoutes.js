@@ -18,8 +18,9 @@ module.exports = (app) => {
     }
   });
 
-  // Gets a summary of all of the user's portfolios
-  app.get("/api/portfolios", requireLogin, async (req, res) => {
+  // Gets a summary of all of the user's portfolios (id, dateCreated, lastUpdate, name, numEntries)
+  // Use when you don't need a list of every entry id in each portfolio
+  app.get("/api/portfolios_summary", requireLogin, async (req, res) => {
     try {
       const user = await User.findById(req.user.id);
       const { portfolioIds } = user;
@@ -35,6 +36,8 @@ module.exports = (app) => {
         ) {
           portfolios.push({
             id: id,
+            dateCreated: portfolio.dateCreated,
+            lastUpdate: portfolio.lastUpdate,
             name: portfolio.name,
             numEntries: portfolio.entryIds.length,
           });
@@ -69,8 +72,11 @@ module.exports = (app) => {
       for (const item of newPortfoliosList) {
         if (!item.id) {
           const newPortfolio = await new Portfolio({
-            ...item,
+            dateCreated: Date.now(),
+            lastUpdate: Date.now(),
+            name: item.name,
             ownerId: user.id,
+            entryIds: [],
           }).save();
           item.id = newPortfolio.id;
         }
@@ -128,6 +134,7 @@ module.exports = (app) => {
       const newEntry = await new Entry(entry).save();
       // Also add to portfolio entryIds list
       portfolio.entryIds.push(newEntry.id);
+      portfolio.lastUpdate = Date.now();
       portfolio.save();
       res.send(newEntry);
     } catch (e) {
@@ -159,6 +166,8 @@ module.exports = (app) => {
           new: true,
         }
       );
+      portfolio.lastUpdate = Date.now();
+      portfolio.save();
       res.send(updatedEntry);
     } catch (e) {
       res.status(500).send(e.message);
@@ -185,6 +194,7 @@ module.exports = (app) => {
       await Entry.findByIdAndDelete(entryId);
       // Also remove from portfolio entryIds list
       portfolio.entryIds.pull({ _id: entryId });
+      portfolio.lastUpdate = Date.now();
       portfolio.save();
       res.send(entryId);
     } catch (e) {

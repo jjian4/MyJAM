@@ -3,10 +3,11 @@ import { Route, useHistory } from "react-router-dom";
 import axios from "axios";
 import _ from "lodash";
 import AppMenuBar from "./components/AppMenuBar/AppMenuBar";
+import LoadingPage from "./pages/LoadingPage/LoadingPage";
 import Portfolio from "./pages/Portfolio/Portfolio";
 import Home from "./pages/Home/Home";
-import EditPortfoliosModal from "./components/EditPortfoliosModal/EditPortfoliosModal";
-import EditEntryModal from "./components/EditEntryModal/EditEntryModal";
+import PortfoliosModal from "./components/PortfoliosModal/PortfoliosModal";
+import EntryModal from "./components/EntryModal/EntryModal";
 import AppContext from "./AppContext";
 import {
   PORTFOLIO_DISPLAY,
@@ -36,7 +37,7 @@ function App() {
     initialValues: {},
     autoFocusProperty: null,
   });
-  const [editEntryModal, setEditEntryModal] = useState({
+  const [editEntryModal, setEntryModal] = useState({
     isOpen: false,
     initialValues: {},
     autoFocusProperty: null,
@@ -122,7 +123,7 @@ function App() {
     });
 
     // Initialize portfolios
-    const response = await axios.get("/api/portfolios");
+    const response = await axios.get("/api/portfolios_summary");
     setPortfoliosList(response.data);
   };
 
@@ -259,8 +260,8 @@ function App() {
             initialValues: initialValues,
             autoFocusProperty: "company",
           }),
-        openEditEntryModal: (entryId, autoFocusProperty = null) =>
-          setEditEntryModal({
+        openEntryModal: (entryId, autoFocusProperty = null) =>
+          setEntryModal({
             isOpen: true,
             initialValues: entries.find((entry) => entry.id === entryId),
             autoFocusProperty: autoFocusProperty,
@@ -273,37 +274,31 @@ function App() {
       <div className="App">
         <AppMenuBar />
 
-        {loadingText && (
-          <div className="loadingPage">
-            <div className="loadingText">{loadingText}</div>
-          </div>
-        )}
+        {loadingText && <LoadingPage loadingText={loadingText} />}
 
         {!loadingText && <Route exact path="/" component={Home} />}
 
         {!loadingText && user && (
-          <>
-            <Route
-              exact
-              path={["/portfolio", "/portfolio/:id"]}
-              render={(props) => (
-                <Portfolio
-                  {...props}
-                  onPortfolioChange={changeCurrentPortfolio}
-                />
-              )}
-            />
-          </>
+          <Route
+            exact
+            path={["/portfolio", "/portfolio/:id"]}
+            render={(props) => (
+              <Portfolio
+                {...props}
+                onPortfolioChange={changeCurrentPortfolio}
+              />
+            )}
+          />
         )}
 
         {/* Used to edit and reorder portfolios */}
-        <EditPortfoliosModal
+        <PortfoliosModal
           open={isPortfoliosModalOpen}
           onClose={() => setIsPortfoliosModalOpen(false)}
           onSave={updatePortfoliosList}
         />
         {/* Used to add new entries */}
-        <EditEntryModal
+        <EntryModal
           open={newEntryModal.isOpen}
           onClose={() =>
             setNewEntryModal({
@@ -318,10 +313,10 @@ function App() {
           onSave={saveNewEntry}
         />
         {/* Used to edit existing entries */}
-        <EditEntryModal
+        <EntryModal
           open={editEntryModal.isOpen}
           onClose={() =>
-            setEditEntryModal({
+            setEntryModal({
               isOpen: false,
               initialValues: {},
               autoFocusProperty: null,

@@ -36,12 +36,16 @@ passport.use(
         existingUser.givenName = name.givenName;
         existingUser.email = email;
         existingUser.photo = photo;
+        // Update last login
+        existingUser.lastLoginDate = Date.now();
         existingUser.save();
         return done(null, existingUser);
       }
 
       const newUser = await new User({
         googleId: id,
+        creationDate: Date.now(),
+        lastLoginDate: Date.now(),
         displayName: displayName,
         familyName: name.familyName,
         givenName: name.givenName,
