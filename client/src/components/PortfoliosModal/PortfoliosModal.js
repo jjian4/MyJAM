@@ -109,7 +109,8 @@ function PortfoliosModal(props) {
                     error={isSaveClicked && portfolio.name.trim().length === 0}
                   />
                   <div className="numEntries">
-                    ({portfolio.numEntries} entries)
+                    ({portfolio.numEntries}{" "}
+                    {portfolio.numEntries === 1 ? "entry" : "entries"})
                   </div>
                 </div>
                 <div className="rowRight">
@@ -151,8 +152,12 @@ function PortfoliosModal(props) {
         )}
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={props.onClose}>Cancel</Button>
-        <Button content="Save" onClick={handleSave} positive />
+        <Button size="small" onClick={props.onClose}>
+          Cancel
+        </Button>
+        <Button size="small" onClick={handleSave} positive>
+          Save
+        </Button>
       </Modal.Actions>
     </Modal>
   );

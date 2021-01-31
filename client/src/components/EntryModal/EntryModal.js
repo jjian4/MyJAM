@@ -305,10 +305,15 @@ function EntryModal(props) {
           )}
         </div>
         <div>
-          <Button onClick={props.onClose} basic>
+          <Button size="small" onClick={props.onClose} basic>
             Cancel
           </Button>
-          <Button className="saveButton" onClick={handleSave} positive>
+          <Button
+            className="saveButton"
+            size="small"
+            onClick={handleSave}
+            positive
+          >
             Save
           </Button>
         </div>

@@ -20,6 +20,7 @@ function AppMenuBar() {
 
   const {
     user,
+    openProfileModal,
     portfoliosList,
     openPortfoliosModal,
     currentPortfolioId,
@@ -113,6 +114,7 @@ function AppMenuBar() {
             <Dropdown.Menu className="dropdownMenu">
               <Dropdown.Item
                 className="dropdownHeading"
+                onClick={openProfileModal}
                 // onClick={(e) => e.stopPropagation()}
               >
                 <div className="userPhotoRow">
@@ -127,7 +129,7 @@ function AppMenuBar() {
               </Dropdown.Item>
 
               <Dropdown.Divider />
-              <Dropdown.Item>
+              <Dropdown.Item onClick={openProfileModal}>
                 <FontAwesomeIcon className="optionIcon" icon={faUser} /> My
                 Profile
               </Dropdown.Item>

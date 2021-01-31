@@ -6,6 +6,7 @@ import AppMenuBar from "./components/AppMenuBar/AppMenuBar";
 import LoadingPage from "./pages/LoadingPage/LoadingPage";
 import Portfolio from "./pages/Portfolio/Portfolio";
 import Home from "./pages/Home/Home";
+import ProfileModal from "./components/ProfileModal/ProfileModal";
 import PortfoliosModal from "./components/PortfoliosModal/PortfoliosModal";
 import EntryModal from "./components/EntryModal/EntryModal";
 import AppContext from "./AppContext";
@@ -25,6 +26,7 @@ function App() {
   const [isPortfolioLoading, setIsPortfolioLoading] = useState(false);
 
   const [user, setUser] = useState(null);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   const [portfolioSettings, setPortfolioSettings] = useState({});
   const [portfoliosList, setPortfoliosList] = useState([]);
@@ -125,6 +127,16 @@ function App() {
     // Initialize portfolios
     const response = await axios.get("/api/portfolios_summary");
     setPortfoliosList(response.data);
+  };
+
+  const deleteAccount = async () => {
+    try {
+      await axios.delete("/api/current_user");
+    } catch (e) {
+      console.log(e);
+    }
+    // history.push doesn't work bc it's only for react router routes
+    window.location.href = "/api/logout";
   };
 
   const updatePortfolioSettings = async (settingsChange) => {
@@ -248,6 +260,7 @@ function App() {
     <AppContext.Provider
       value={{
         user: user,
+        openProfileModal: () => setIsProfileModalOpen(true),
         portfolioSettings: portfolioSettings,
         updatePortfolioSettings: updatePortfolioSettings,
         portfoliosList: portfoliosList,
@@ -291,6 +304,12 @@ function App() {
           />
         )}
 
+        {/* Used to edit and view user's profile */}
+        <ProfileModal
+          open={isProfileModalOpen}
+          onClose={() => setIsProfileModalOpen(false)}
+          onDeleteAccount={deleteAccount}
+        />
         {/* Used to edit and reorder portfolios */}
         <PortfoliosModal
           open={isPortfoliosModalOpen}
