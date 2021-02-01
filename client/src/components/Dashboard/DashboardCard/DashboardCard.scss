@@ -24,6 +24,10 @@
       border-radius: 50%;
       background-color: white;
       border: 1px solid lightgray;
+      display: none;
+    }
+    .logo-loaded {
+      display: inline-block;
     }
     .company {
       font-weight: bold;

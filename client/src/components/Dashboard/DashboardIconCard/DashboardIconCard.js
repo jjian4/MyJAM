@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useDrag } from "react-dnd";
 import AppContext from "../../../AppContext";
 import { DRAG_DROP_ITEMS } from "../../../utilities/constants";
@@ -6,6 +6,8 @@ import "./DashboardIconCard.scss";
 
 function DashboardIconCard(props) {
   const { portfolioSettings, openEntryModal } = useContext(AppContext);
+
+  const [isLogoLoaded, setIsLogoLoaded] = useState(false);
 
   // Used to allow card to be dragged into another column
   const [{ isDragging }, drag] = useDrag({
@@ -23,10 +25,24 @@ function DashboardIconCard(props) {
       className={`DashboardIconCard ${
         cardColor ? "DashboardIconCard-colored" : ""
       }`}
-      style={{ borderColor: cardColor, opacity: isDragging ? 0.5 : 1 }}
+      style={{
+        borderColor: cardColor,
+        backgroundColor: cardColor,
+        opacity: isDragging ? 0.5 : 1,
+      }}
       onClick={() => openEntryModal(props.entry.id)}
     >
-      <img className="logo" src={props.entry.logo} alt={props.entry.company} />
+      <img
+        className={`logo ${
+          props.entry.logo && isLogoLoaded ? "logo-loaded" : ""
+        }`}
+        src={props.entry.logo}
+        alt={props.entry.company}
+        onLoad={() => setIsLogoLoaded(true)}
+      />
+      {!isLogoLoaded && (
+        <div className="companyText">{props.entry.company[0]}</div>
+      )}
     </div>
   );
 }

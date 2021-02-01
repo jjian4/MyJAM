@@ -10,6 +10,7 @@ import {
   TABLE_DENSITY,
 } from "../../utilities/constants";
 import StarButton from "../StarButton/StarButton";
+import EntriesTableCompanyCell from "./EntriesTableCompanyCell/EntriesTableCompanyCell";
 import "./EntriesTable.scss";
 
 const maxUrlLength = 50;
@@ -173,22 +174,10 @@ function EntriesTable() {
                     if (column.property === "company") {
                       return (
                         <Table.Cell key={index} singleLine>
-                          <div className="data companyCell">
-                            <a
-                              href={
-                                entry.domain ? prependHttp(entry.domain) : null
-                              }
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <img
-                                className="logo"
-                                src={entry["logo"]}
-                                alt="logo"
-                              />
-                            </a>{" "}
-                            {entry[column.property]}
-                          </div>
+                          <EntriesTableCompanyCell
+                            entry={entry}
+                            column={column}
+                          />
                           <EditCellButton
                             entryId={entry["id"]}
                             propertyToEdit={column.property}

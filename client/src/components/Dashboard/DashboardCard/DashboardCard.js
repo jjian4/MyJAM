@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendar,
@@ -22,6 +22,8 @@ function DashboardCard(props) {
     AppContext
   );
   const { boardDensity, isCardColorOn } = portfolioSettings;
+
+  const [isLogoLoaded, setIsLogoLoaded] = useState(false);
 
   // Used to allow card to be dragged into another column
   const [{ isDragging }, drag] = useDrag({
@@ -58,15 +60,20 @@ function DashboardCard(props) {
             boardDensity === BOARD_DENSITY.COMPACT.name ? "compactCardTop" : ""
           }`}
         >
-          {props.entry.logo && (
-            <a
-              href={props.entry.domain ? prependHttp(props.entry.domain) : null}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img className="logo" src={props.entry.logo} alt="logo" />
-            </a>
-          )}
+          <a
+            href={props.entry.domain ? prependHttp(props.entry.domain) : null}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              className={`logo ${
+                props.entry.logo && isLogoLoaded ? "logo-loaded" : ""
+              }`}
+              src={props.entry.logo}
+              alt="logo"
+              onLoad={() => setIsLogoLoaded(true)}
+            />
+          </a>
           <div>
             <div className="company">{props.entry.company}</div>
             <div className="jobTitle">{props.entry.jobTitle}</div>
