@@ -17,18 +17,14 @@
     position: relative;
     align-items: flex-start;
     padding: 12px 12px 0 12px;
-    .logo {
+
+    .logoWrapper {
       width: 40px;
       height: 40px;
       margin-right: 10px;
       border-radius: 50%;
-      background-color: white;
-      border: 1px solid lightgray;
-      display: none;
     }
-    .logo-loaded {
-      display: inline-block;
-    }
+
     .company {
       font-weight: bold;
     }
@@ -136,7 +132,7 @@
   border: 1px solid white;
 
   .cardTop {
-    .logo {
+    .logoWrapper {
       border: 1px solid whitesmoke;
     }
     .company {

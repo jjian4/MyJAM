@@ -12,6 +12,7 @@ import TimeAgo from "react-timeago";
 import AppContext from "../../../AppContext";
 import { BOARD_DENSITY, DRAG_DROP_ITEMS } from "../../../utilities/constants";
 import StarButton from "../../StarButton/StarButton";
+import LogoCircle from "../../LogoCircle/LogoCircle";
 import "./DashboardCard.scss";
 
 const maxNotesLength = 100;
@@ -61,18 +62,12 @@ function DashboardCard(props) {
           }`}
         >
           <a
+            className="logoWrapper"
             href={props.entry.domain ? prependHttp(props.entry.domain) : null}
             target="_blank"
             rel="noreferrer"
           >
-            <img
-              className={`logo ${
-                props.entry.logo && isLogoLoaded ? "logo-loaded" : ""
-              }`}
-              src={props.entry.logo}
-              alt="logo"
-              onLoad={() => setIsLogoLoaded(true)}
-            />
+            <LogoCircle entry={props.entry} />
           </a>
           <div>
             <div className="company">{props.entry.company}</div>

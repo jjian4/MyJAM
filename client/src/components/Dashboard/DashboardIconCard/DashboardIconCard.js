@@ -1,13 +1,12 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useDrag } from "react-dnd";
 import AppContext from "../../../AppContext";
 import { DRAG_DROP_ITEMS } from "../../../utilities/constants";
+import LogoCircle from "../../LogoCircle/LogoCircle";
 import "./DashboardIconCard.scss";
 
 function DashboardIconCard(props) {
   const { portfolioSettings, openEntryModal } = useContext(AppContext);
-
-  const [isLogoLoaded, setIsLogoLoaded] = useState(false);
 
   // Used to allow card to be dragged into another column
   const [{ isDragging }, drag] = useDrag({
@@ -27,22 +26,12 @@ function DashboardIconCard(props) {
       }`}
       style={{
         borderColor: cardColor,
-        backgroundColor: cardColor,
+        // backgroundColor: cardColor,
         opacity: isDragging ? 0.5 : 1,
       }}
       onClick={() => openEntryModal(props.entry.id)}
     >
-      <img
-        className={`logo ${
-          props.entry.logo && isLogoLoaded ? "logo-loaded" : ""
-        }`}
-        src={props.entry.logo}
-        alt={props.entry.company}
-        onLoad={() => setIsLogoLoaded(true)}
-      />
-      {!isLogoLoaded && (
-        <div className="companyText">{props.entry.company[0]}</div>
-      )}
+      <LogoCircle entry={props.entry} />
     </div>
   );
 }

@@ -13,24 +13,24 @@
     cursor: grabbing;
   }
 
-  .logo {
-    height: 100%;
-    width: 100%;
-    border-radius: 50%;
-    background-color: white;
-    display: none;
-  }
-  .logo-loaded {
-    display: inline-block;
-  }
+  // .logo {
+  //   height: 100%;
+  //   width: 100%;
+  //   border-radius: 50%;
+  //   background-color: white;
+  //   display: none;
+  // }
+  // .logo-loaded {
+  //   display: inline-block;
+  // }
 
   .companyText {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-weight: bold;
-    font-size: 20px;
+    font-size: 28px;
+    color: gray;
   }
 }
 
@@ -39,6 +39,7 @@
   border-width: 4px;
   border-style: solid;
   .companyText {
-    color: whitesmoke;
+    font-weight: bold;
+    // color: whitesmoke;
   }
 }

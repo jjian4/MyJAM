@@ -1,0 +1,29 @@
+.LogoCircle {
+  position: relative;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-color: white;
+
+  .logo {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    background-color: white;
+    display: none;
+  }
+  .logo-loaded {
+    display: inline-block;
+  }
+
+  .companyText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: 2vw;
+    color: gray;
+  }
+}

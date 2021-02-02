@@ -14,8 +14,10 @@ import DashboardCard from "../DashboardCard/DashboardCard";
 import DashboardIconCard from "../DashboardIconCard/DashboardIconCard";
 import "./DashboardColumn.scss";
 
-const MIN_WIDTH = 280;
-const MAX_WIDTH = 310;
+// const MIN_WIDTH = 280;
+// const MAX_WIDTH = 310;
+const MIN_WIDTH = 295;
+const MAX_WIDTH = 295;
 
 function DashboardColumn(props) {
   const {

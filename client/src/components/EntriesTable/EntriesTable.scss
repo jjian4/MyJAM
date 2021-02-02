@@ -60,6 +60,18 @@
               }
             }
 
+            .companyCell {
+              display: flex;
+              align-items: center;
+              .logoWrapper {
+                width: 1.8em;
+                height: 1.8em;
+                margin-right: 8px;
+                border-radius: 50%;
+                border: 1px solid lightgray;
+              }
+            }
+
             .urlCell {
               &:hover {
                 text-decoration: underline;
