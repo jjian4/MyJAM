@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendar,
@@ -23,8 +23,6 @@ function DashboardCard(props) {
     AppContext
   );
   const { boardDensity, isCardColorOn } = portfolioSettings;
-
-  const [isLogoLoaded, setIsLogoLoaded] = useState(false);
 
   // Used to allow card to be dragged into another column
   const [{ isDragging }, drag] = useDrag({
@@ -53,6 +51,7 @@ function DashboardCard(props) {
       ref={drag}
       className={`DashboardCard ${cardColor ? "DashboardCard-colored" : ""}`}
       style={{ backgroundColor: cardColor, opacity: isDragging ? 0.5 : 1 }}
+      onDoubleClick={() => openEntryModal(props.entry.id)}
     >
       {(boardDensity === BOARD_DENSITY.COMPACT.name ||
         boardDensity === BOARD_DENSITY.DETAILED.name) && (
@@ -75,7 +74,11 @@ function DashboardCard(props) {
           </div>
           <div className="cardOptions">
             {boardDensity === BOARD_DENSITY.COMPACT.name && props.entry.url && (
-              <a href={props.entry.url} target="_blank" rel="noreferrer">
+              <a
+                href={prependHttp(props.entry.url)}
+                target="_blank"
+                rel="noreferrer"
+              >
                 <FontAwesomeIcon title="URL" icon={faLink} />
               </a>
             )}
@@ -135,7 +138,7 @@ function DashboardCard(props) {
                 <a
                   className="cardButton"
                   style={{ backgroundColor: cardColor }}
-                  href={props.entry.url}
+                  href={prependHttp(props.entry.url)}
                   target="_blank"
                   rel="noreferrer"
                 >

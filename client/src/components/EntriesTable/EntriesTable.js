@@ -184,8 +184,8 @@ function EntriesTable() {
                               rel="noreferrer"
                             >
                               <LogoCircle entry={entry} />
-                            </a>{" "}
-                            {entry[column.property]}
+                            </a>
+                            <span>{entry[column.property]}</span>
                           </div>
                           <EditCellButton
                             entryId={entry["id"]}

@@ -68,8 +68,18 @@ module.exports = (app) => {
         }
       }
 
-      // If any portfolios were created, make new document in db (id auto-generates)
       for (const item of newPortfoliosList) {
+        // Update existing portfolios' names
+        if (item.id) {
+          const existingPortfolio = await Portfolio.findById(item.id);
+          if (existingPortfolio && existingPortfolio.name !== item.name) {
+            existingPortfolio.lastUpdate = Date.now();
+            existingPortfolio.name = item.name;
+            existingPortfolio.save();
+          }
+        }
+
+        // If any portfolios were created, make new document in db (id auto-generates)
         if (!item.id) {
           const newPortfolio = await new Portfolio({
             dateCreated: Date.now(),

@@ -76,7 +76,18 @@ function DashboardColumn(props) {
           border: `${isOver ? "2px dashed gray" : "2px solid transparent"}`,
         }}
       >
-        <div className="columnHeading">
+        <div
+          className="columnHeading"
+          onDoubleClick={() => {
+            const newColumnFilter = _.cloneDeep(boardColumnFilter);
+            newColumnFilter[props.index].isExpanded = !newColumnFilter[
+              props.index
+            ].isExpanded;
+            updatePortfolioSettings({
+              boardColumnFilter: newColumnFilter,
+            });
+          }}
+        >
           <span>
             <span className="status">{props.status.toUpperCase()}</span>
             <span className="numEntries">({props.columnEntries.length})</span>
