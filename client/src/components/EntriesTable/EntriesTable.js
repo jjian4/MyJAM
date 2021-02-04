@@ -32,6 +32,7 @@ function EntriesTable() {
     tableIsSortAscending,
   } = portfolioSettings;
 
+  // the portfolio entries sorted
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -85,6 +86,8 @@ function EntriesTable() {
 
     return false;
   };
+
+  console.log(data);
 
   return (
     <div className="EntriesTable">

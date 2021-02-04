@@ -30,8 +30,22 @@
     .menuItem {
       margin-right: 12px;
     }
-    .newEntryButton {
-      margin: 0;
+
+    .optionsDropdown {
+      color: gray;
+      i {
+        margin: 0;
+      }
+      .optionsMenu {
+        min-width: 180px;
+        margin-top: 4px;
+        user-select: none;
+        .optionIcon {
+          color: gray;
+          margin-right: 10px;
+          width: 18px;
+        }
+      }
     }
   }
 }

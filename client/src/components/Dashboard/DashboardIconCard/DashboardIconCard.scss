@@ -7,30 +7,12 @@
   height: 55px;
   width: 55px;
 
+  font-size: 28px;
+
   cursor: pointer;
 
   :active {
     cursor: grabbing;
-  }
-
-  // .logo {
-  //   height: 100%;
-  //   width: 100%;
-  //   border-radius: 50%;
-  //   background-color: white;
-  //   display: none;
-  // }
-  // .logo-loaded {
-  //   display: inline-block;
-  // }
-
-  .companyText {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 28px;
-    color: gray;
   }
 }
 
