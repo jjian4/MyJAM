@@ -21,10 +21,10 @@ import dateFormat from "dateformat";
 
 function PortfolioMenuBar() {
   const {
-    portfolioSettings,
+    displaySettings,
     searchValue,
     setSearchValue,
-    updatePortfolioSettings,
+    updateDisplaySettings,
     portfoliosList,
     currentPortfolioId,
     entries,
@@ -36,7 +36,7 @@ function PortfolioMenuBar() {
     isCardColorOn,
     boardDensity,
     tableDensity,
-  } = portfolioSettings;
+  } = displaySettings;
 
   const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [tempSearchValue, setTempSearchValue] = useState(searchValue);
@@ -111,7 +111,7 @@ function PortfolioMenuBar() {
               key={index}
               icon
               active={item.name === display}
-              onClick={() => updatePortfolioSettings({ display: item.name })}
+              onClick={() => updateDisplaySettings({ display: item.name })}
             >
               {item.icon}
               {!isWindowSmall && (
@@ -128,7 +128,7 @@ function PortfolioMenuBar() {
                 icon
                 active={boardDensity === item.name}
                 onClick={() =>
-                  updatePortfolioSettings({ boardDensity: item.name })
+                  updateDisplaySettings({ boardDensity: item.name })
                 }
               >
                 {item.icon}
@@ -147,7 +147,7 @@ function PortfolioMenuBar() {
                 icon
                 active={tableDensity === item.name}
                 onClick={() =>
-                  updatePortfolioSettings({ tableDensity: item.name })
+                  updateDisplaySettings({ tableDensity: item.name })
                 }
               >
                 {item.icon}
@@ -206,12 +206,16 @@ function PortfolioMenuBar() {
         >
           <Dropdown.Menu className="optionsMenu">
             {isCardColorOn ? (
-              <Dropdown.Item onClick={() => console.log("TODO")}>
+              <Dropdown.Item
+                onClick={() => updateDisplaySettings({ isCardColorOn: false })}
+              >
                 <FontAwesomeIcon className="optionIcon" icon={faTintSlash} />{" "}
                 Hide Card Colors
               </Dropdown.Item>
             ) : (
-              <Dropdown.Item onClick={() => console.log("TODO")}>
+              <Dropdown.Item
+                onClick={() => updateDisplaySettings({ isCardColorOn: true })}
+              >
                 <FontAwesomeIcon className="optionIcon" icon={faTint} /> Show
                 Card Colors
               </Dropdown.Item>

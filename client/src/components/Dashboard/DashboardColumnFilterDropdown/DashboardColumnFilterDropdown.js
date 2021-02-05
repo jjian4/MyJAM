@@ -11,10 +11,10 @@ import { faGripVertical } from "@fortawesome/free-solid-svg-icons";
 import "./DashboardColumnFilterDropdown.scss";
 
 function DashboardColumnFilterDropdown(props) {
-  const { portfolioSettings, updatePortfolioSettings, entries } = useContext(
+  const { displaySettings, updateDisplaySettings, entries } = useContext(
     AppContext
   );
-  const { boardColumnFilter } = portfolioSettings;
+  const { boardColumnFilter } = displaySettings;
 
   const dropdownButton = (
     <DropdownButton
@@ -30,14 +30,14 @@ function DashboardColumnFilterDropdown(props) {
     const status = value;
     const index = newSettings.findIndex((column) => column.status === status);
     newSettings[index].isActive = !newSettings[index].isActive;
-    updatePortfolioSettings({ boardColumnFilter: newSettings });
+    updateDisplaySettings({ boardColumnFilter: newSettings });
   };
 
   const handleSizeToggle = (status) => {
     const newSettings = _.cloneDeep(boardColumnFilter);
     const index = newSettings.findIndex((column) => column.status === status);
     newSettings[index].isExpanded = !newSettings[index].isExpanded;
-    updatePortfolioSettings({ boardColumnFilter: newSettings });
+    updateDisplaySettings({ boardColumnFilter: newSettings });
   };
 
   const statusCounts = {};
@@ -64,7 +64,7 @@ function DashboardColumnFilterDropdown(props) {
             delete item.selected;
             delete item.chosen;
           });
-          updatePortfolioSettings({ boardColumnFilter: x });
+          updateDisplaySettings({ boardColumnFilter: x });
         }}
         animation={200}
         handle=".gripIcon"

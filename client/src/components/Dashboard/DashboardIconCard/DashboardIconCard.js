@@ -6,7 +6,7 @@ import LogoCircle from "../../LogoCircle/LogoCircle";
 import "./DashboardIconCard.scss";
 
 function DashboardIconCard(props) {
-  const { portfolioSettings, openEntryModal } = useContext(AppContext);
+  const { displaySettings, openEntryModal } = useContext(AppContext);
 
   // Used to allow card to be dragged into another column
   const [{ isDragging }, drag] = useDrag({
@@ -16,7 +16,7 @@ function DashboardIconCard(props) {
     }),
   });
 
-  const cardColor = portfolioSettings.isCardColorOn ? props.entry.color : null;
+  const cardColor = displaySettings.isCardColorOn ? props.entry.color : null;
 
   return (
     <div

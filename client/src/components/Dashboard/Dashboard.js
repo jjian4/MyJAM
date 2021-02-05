@@ -6,7 +6,7 @@ import { STATUS } from "../../utilities/constants";
 import "./Dashboard.scss";
 
 function Dashboard() {
-  const { portfolioSettings, updatePortfolioSettings, entries } = useContext(
+  const { displaySettings, updateDisplaySettings, entries } = useContext(
     AppContext
   );
 
@@ -14,7 +14,7 @@ function Dashboard() {
     boardColumnFilter,
     boardSortProperty,
     boardIsSortAscending,
-  } = portfolioSettings;
+  } = displaySettings;
 
   const [entriesByStatus, setEntriesByStatus] = useState({});
 
@@ -61,7 +61,7 @@ function Dashboard() {
             delete item.selected;
             delete item.chosen;
           });
-          updatePortfolioSettings({ boardColumnFilter: x });
+          updateDisplaySettings({ boardColumnFilter: x });
         }}
         animation={200}
         handle=".columnHeading"

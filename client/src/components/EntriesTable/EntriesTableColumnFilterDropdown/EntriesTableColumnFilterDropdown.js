@@ -10,8 +10,8 @@ import DropdownButton from "../../DropdownButton/DropdownButton";
 import "./EntriesTableColumnFilterDropdown.scss";
 
 function EntriesTableColumnFilterDropdown(props) {
-  const { portfolioSettings, updatePortfolioSettings } = useContext(AppContext);
-  const { tableColumnFilter } = portfolioSettings;
+  const { displaySettings, updateDisplaySettings } = useContext(AppContext);
+  const { tableColumnFilter } = displaySettings;
 
   const dropdownButton = (
     <DropdownButton
@@ -30,7 +30,7 @@ function EntriesTableColumnFilterDropdown(props) {
 
     newSettings[index].isActive = !newSettings[index].isActive;
 
-    updatePortfolioSettings({ tableColumnFilter: newSettings });
+    updateDisplaySettings({ tableColumnFilter: newSettings });
   };
 
   return (
@@ -49,7 +49,7 @@ function EntriesTableColumnFilterDropdown(props) {
             delete item.selected;
             delete item.chosen;
           });
-          updatePortfolioSettings({ tableColumnFilter: x });
+          updateDisplaySettings({ tableColumnFilter: x });
         }}
         animation={200}
         handle=".gripIcon"

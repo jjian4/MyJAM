@@ -1,3 +1,5 @@
+@import "../../../utilities/variables";
+
 .DashboardCard {
   display: flex;
   flex-direction: column;
@@ -99,7 +101,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: $default-text-color;
         &:hover {
           background-color: darken(whitesmoke, 3%);
         }
@@ -158,8 +160,8 @@
       color: white;
     }
     .cardButtons {
-      color: white;
       .cardButton {
+        color: white;
         &:hover {
           // background-color assigned in js
           filter: brightness(95%);

@@ -20,7 +20,7 @@ import StarButton from "../StarButton/StarButton";
 import "./EntryModal.scss";
 
 function EntryModal(props) {
-  const { portfolioSettings } = useContext(AppContext);
+  const { displaySettings } = useContext(AppContext);
 
   const [color, setColor] = useState("");
   const [isStarred, setIsStarred] = useState(false);
@@ -116,7 +116,7 @@ function EntryModal(props) {
           <div>{props.heading}</div>
 
           <div className="headerRight">
-            {portfolioSettings.isCardColorOn && (
+            {displaySettings.isCardColorOn && (
               <Dropdown
                 className="colorDropdown"
                 trigger={

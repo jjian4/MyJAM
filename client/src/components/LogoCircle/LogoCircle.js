@@ -3,11 +3,11 @@ import AppContext from "../../AppContext";
 import "./LogoCircle.scss";
 
 function LogoCircle(props) {
-  const { portfolioSettings } = useContext(AppContext);
+  const { displaySettings } = useContext(AppContext);
 
   const [isLogoLoaded, setIsLogoLoaded] = useState(false);
 
-  const cardColor = portfolioSettings.isCardColorOn ? props.entry.color : null;
+  const cardColor = displaySettings.isCardColorOn ? props.entry.color : null;
 
   return (
     <div className="LogoCircle">

@@ -10,10 +10,10 @@ import "./Portfolio.scss";
 
 function Portfolio(props) {
   const {
-    portfolioSettings,
     portfoliosList,
     openPortfoliosModal,
     currentPortfolioId,
+    displaySettings,
   } = useContext(AppContext);
 
   let { id } = useParams();
@@ -59,12 +59,12 @@ function Portfolio(props) {
 
       <div className="content">
         {currentPortfolioId &&
-          portfolioSettings.display === PORTFOLIO_DISPLAY.BOARD.name && (
+          displaySettings.display === PORTFOLIO_DISPLAY.BOARD.name && (
             <Dashboard />
           )}
 
         {currentPortfolioId &&
-          portfolioSettings.display === PORTFOLIO_DISPLAY.TABLE.name && (
+          displaySettings.display === PORTFOLIO_DISPLAY.TABLE.name && (
             <EntriesTable />
           )}
       </div>

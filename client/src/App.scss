@@ -3,7 +3,8 @@
 body {
   margin: 0;
   box-sizing: border-box;
-  background-color: lightgray;
+  background-color: $background-color;
+  color: $default-text-color;
 }
 
 .App {

@@ -19,10 +19,10 @@ const maxNotesLength = 100;
 const maxNotesLines = 3;
 
 function DashboardCard(props) {
-  const { portfolioSettings, openEntryModal, updateEntry } = useContext(
+  const { displaySettings, openEntryModal, updateEntry } = useContext(
     AppContext
   );
-  const { boardDensity, isCardColorOn } = portfolioSettings;
+  const { boardDensity, isCardColorOn } = displaySettings;
 
   // Used to allow card to be dragged into another column
   const [{ isDragging }, drag] = useDrag({

@@ -23,15 +23,13 @@ import "./App.scss";
 
 function App() {
   const [isUserLoading, setIsUserLoading] = useState(false);
-  const [isPortfolioLoading, setIsPortfolioLoading] = useState(false);
-
   const [user, setUser] = useState(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
-  const [portfolioSettings, setPortfolioSettings] = useState({});
+  const [isPortfolioLoading, setIsPortfolioLoading] = useState(false);
   const [portfoliosList, setPortfoliosList] = useState([]);
   const [isPortfoliosModalOpen, setIsPortfoliosModalOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const [displaySettings, setDisplaySettings] = useState({});
   const [currentPortfolioId, setCurrentPortfolioId] = useState("");
   const [entries, setEntries] = useState([]);
   const [newEntryModal, setNewEntryModal] = useState({
@@ -44,6 +42,7 @@ function App() {
     initialValues: {},
     autoFocusProperty: null,
   });
+  const [searchValue, setSearchValue] = useState("");
 
   const history = useHistory();
 
@@ -66,63 +65,28 @@ function App() {
   }, []);
 
   // Using a timer to update db every few seconds in chunks, instead of many small changes
-  const updatePortfolioSettingsTimeoutRef = useRef();
+  const updateDisplaySettingsTimeoutRef = useRef();
   useEffect(() => {
-    clearTimeout(updatePortfolioSettingsTimeoutRef.current);
+    clearTimeout(updateDisplaySettingsTimeoutRef.current);
 
-    updatePortfolioSettingsTimeoutRef.current = setTimeout(async () => {
+    updateDisplaySettingsTimeoutRef.current = setTimeout(async () => {
       if (!user) {
         return;
       }
       try {
-        await axios.put("/api/portfolio_settings", {
-          newPortfolioSettings: portfolioSettings,
+        await axios.put("/api/display_settings", {
+          portfolioId: currentPortfolioId,
+          newDisplaySettings: displaySettings,
         });
       } catch (e) {
         console.log(e);
       }
     }, 5000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [portfolioSettings]);
+  }, [displaySettings]);
 
   const loginUser = async (currentUser) => {
     setUser(currentUser);
-
-    // Initialize portfolio settings, set default values if not in database
-    const {
-      display,
-      isCardColorOn,
-      boardDensity,
-      boardColumnFilter,
-      boardSortProperty,
-      boardIsSortAscending,
-      tableDensity,
-      tableColumnFilter,
-      tableSortProperty,
-      tableIsSortAscending,
-    } = currentUser.portfolioSettings;
-    setPortfolioSettings({
-      display: display || PORTFOLIO_DISPLAY.BOARD.name,
-      isCardColorOn: isCardColorOn || true,
-      // Dashboard
-      boardDensity: boardDensity || BOARD_DENSITY.COMPACT.name,
-      boardColumnFilter:
-        boardColumnFilter.length === 0
-          ? DEFAULT_BOARD_COLUMN_FILTER
-          : boardColumnFilter,
-      boardSortProperty:
-        boardSortProperty || BOARD_SORT_BY.LAST_UPDATE.property,
-      boardIsSortAscending:
-        boardIsSortAscending || BOARD_SORT_BY.LAST_UPDATE.isDefaultAscending,
-      // TABLE
-      tableDensity: tableDensity || TABLE_DENSITY.COMFORTABLE.name,
-      tableColumnFilter:
-        tableColumnFilter.length === 0
-          ? DEFAULT_TABLE_COLUMN_FILTER
-          : tableColumnFilter,
-      tableSortProperty: tableSortProperty || TABLE_COLUMNS.COMPANY.property,
-      tableIsSortAscending: tableIsSortAscending || true,
-    });
 
     // Initialize portfolios
     const response = await axios.get("/api/portfolios_summary");
@@ -139,11 +103,11 @@ function App() {
     window.location.href = "/api/logout";
   };
 
-  const updatePortfolioSettings = async (settingsChange) => {
+  const updateDisplaySettings = async (settingsChange) => {
     for (const property in settingsChange) {
       // Ignore if nothing changed
-      if (!_.isEqual(settingsChange[property], portfolioSettings[property])) {
-        setPortfolioSettings({ ...portfolioSettings, ...settingsChange });
+      if (!_.isEqual(settingsChange[property], displaySettings[property])) {
+        setDisplaySettings({ ...displaySettings, ...settingsChange });
         return;
       }
     }
@@ -175,9 +139,46 @@ function App() {
   const changeCurrentPortfolio = async (id) => {
     try {
       setIsPortfolioLoading(true);
-      const response = await axios.get(`/api/entries/${id}`);
-      setEntries(response.data);
+      const response = await axios.get(`/api/portfolio/${id}`);
       setCurrentPortfolioId(id);
+      setEntries(response.data.entries);
+
+      // Set portfolio's display settings, use default values if not in database
+      const {
+        display,
+        isCardColorOn,
+        boardDensity,
+        boardColumnFilter,
+        boardSortProperty,
+        boardIsSortAscending,
+        tableDensity,
+        tableColumnFilter,
+        tableSortProperty,
+        tableIsSortAscending,
+      } = response.data.displaySettings;
+      setDisplaySettings({
+        display: display || PORTFOLIO_DISPLAY.BOARD.name,
+        isCardColorOn: isCardColorOn || true,
+        // Dashboard
+        boardDensity: boardDensity || BOARD_DENSITY.COMPACT.name,
+        boardColumnFilter:
+          boardColumnFilter.length === 0
+            ? DEFAULT_BOARD_COLUMN_FILTER
+            : boardColumnFilter,
+        boardSortProperty:
+          boardSortProperty || BOARD_SORT_BY.LAST_UPDATE.property,
+        boardIsSortAscending:
+          boardIsSortAscending || BOARD_SORT_BY.LAST_UPDATE.isDefaultAscending,
+        // TABLE
+        tableDensity: tableDensity || TABLE_DENSITY.COMFORTABLE.name,
+        tableColumnFilter:
+          tableColumnFilter.length === 0
+            ? DEFAULT_TABLE_COLUMN_FILTER
+            : tableColumnFilter,
+        tableSortProperty: tableSortProperty || TABLE_COLUMNS.COMPANY.property,
+        tableIsSortAscending: tableIsSortAscending || true,
+      });
+
       setIsPortfolioLoading(false);
     } catch (e) {
       console.log(e);
@@ -261,11 +262,11 @@ function App() {
       value={{
         user: user,
         openProfileModal: () => setIsProfileModalOpen(true),
-        portfolioSettings: portfolioSettings,
-        updatePortfolioSettings: updatePortfolioSettings,
         portfoliosList: portfoliosList,
         openPortfoliosModal: () => setIsPortfoliosModalOpen(true),
         currentPortfolioId: currentPortfolioId,
+        displaySettings: displaySettings,
+        updateDisplaySettings: updateDisplaySettings,
         entries: entries,
         openNewEntryModal: (initialValues) =>
           setNewEntryModal({

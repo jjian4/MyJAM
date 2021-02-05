@@ -52,7 +52,6 @@ passport.use(
         email: email,
         photo: photo,
         portfolios: [],
-        portfolioSettings: {},
       }).save();
       done(null, newUser);
     }

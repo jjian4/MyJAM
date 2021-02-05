@@ -11,8 +11,8 @@ import DropdownButton from "../../DropdownButton/DropdownButton";
 import "./DashboardSortDropdown.scss";
 
 function DashboardSortDropdown(props) {
-  const { portfolioSettings, updatePortfolioSettings } = useContext(AppContext);
-  const { boardSortProperty, boardIsSortAscending } = portfolioSettings;
+  const { displaySettings, updateDisplaySettings } = useContext(AppContext);
+  const { boardSortProperty, boardIsSortAscending } = displaySettings;
 
   const dropdownButton = (
     <DropdownButton
@@ -43,7 +43,7 @@ function DashboardSortDropdown(props) {
             key={option.name}
             active={boardSortProperty === option.property}
             onClick={() =>
-              updatePortfolioSettings({
+              updateDisplaySettings({
                 boardSortProperty: option.property,
                 boardIsSortAscending:
                   boardSortProperty === option.property

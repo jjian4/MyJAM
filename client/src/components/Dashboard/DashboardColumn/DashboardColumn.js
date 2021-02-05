@@ -21,14 +21,14 @@ const MAX_WIDTH = 295;
 
 function DashboardColumn(props) {
   const {
-    portfolioSettings,
-    updatePortfolioSettings,
+    displaySettings,
+    updateDisplaySettings,
     searchValue,
     openNewEntryModal,
     updateEntry,
   } = useContext(AppContext);
 
-  const { boardDensity, boardColumnFilter } = portfolioSettings;
+  const { boardDensity, boardColumnFilter } = displaySettings;
 
   // Used to receive cards that are drag-dropped from another column
   const handleCardDrop = (item) => {
@@ -83,7 +83,7 @@ function DashboardColumn(props) {
             newColumnFilter[props.index].isExpanded = !newColumnFilter[
               props.index
             ].isExpanded;
-            updatePortfolioSettings({
+            updateDisplaySettings({
               boardColumnFilter: newColumnFilter,
             });
           }}
@@ -113,7 +113,7 @@ function DashboardColumn(props) {
                   onClick={() => {
                     const newColumnFilter = _.cloneDeep(boardColumnFilter);
                     newColumnFilter[props.index].isExpanded = false;
-                    updatePortfolioSettings({
+                    updateDisplaySettings({
                       boardColumnFilter: newColumnFilter,
                     });
                   }}
@@ -129,7 +129,7 @@ function DashboardColumn(props) {
                   onClick={() => {
                     const newColumnFilter = _.cloneDeep(boardColumnFilter);
                     newColumnFilter[props.index].isExpanded = true;
-                    updatePortfolioSettings({
+                    updateDisplaySettings({
                       boardColumnFilter: newColumnFilter,
                     });
                   }}
@@ -145,7 +145,7 @@ function DashboardColumn(props) {
                 onClick={() => {
                   const newColumnFilter = _.cloneDeep(boardColumnFilter);
                   newColumnFilter[props.index].isActive = false;
-                  updatePortfolioSettings({
+                  updateDisplaySettings({
                     boardColumnFilter: newColumnFilter,
                   });
                 }}

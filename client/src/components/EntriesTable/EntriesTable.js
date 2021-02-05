@@ -17,12 +17,12 @@ const maxUrlLength = 50;
 
 function EntriesTable() {
   const {
-    portfolioSettings,
-    updatePortfolioSettings,
+    displaySettings,
+    updateDisplaySettings,
     entries,
-    searchValue,
     openEntryModal,
     updateEntry,
+    searchValue,
   } = useContext(AppContext);
 
   const {
@@ -30,7 +30,7 @@ function EntriesTable() {
     tableColumnFilter,
     tableSortProperty,
     tableIsSortAscending,
-  } = portfolioSettings;
+  } = displaySettings;
 
   // the portfolio entries sorted
   const [data, setData] = useState([]);
@@ -47,10 +47,10 @@ function EntriesTable() {
 
   const handleSort = (newSortProperty) => {
     if (newSortProperty === tableSortProperty) {
-      updatePortfolioSettings({ tableIsSortAscending: !tableIsSortAscending });
+      updateDisplaySettings({ tableIsSortAscending: !tableIsSortAscending });
       setData(data.reverse());
     } else {
-      updatePortfolioSettings({
+      updateDisplaySettings({
         tableSortProperty: newSortProperty,
         tableIsSortAscending: true,
       });
@@ -86,8 +86,6 @@ function EntriesTable() {
 
     return false;
   };
-
-  console.log(data);
 
   return (
     <div className="EntriesTable">

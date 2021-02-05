@@ -6,18 +6,6 @@ const Portfolio = mongoose.model("portfolios");
 const Entry = mongoose.model("entries");
 
 module.exports = (app) => {
-  app.put("/api/portfolio_settings", requireLogin, async (req, res) => {
-    const { newPortfolioSettings } = req.body;
-    try {
-      const user = await User.findById(req.user.id);
-      user.portfolioSettings = newPortfolioSettings;
-      user.save();
-      res.send(user.portfolioSettings);
-    } catch (e) {
-      res.status(500).send(e.message);
-    }
-  });
-
   // Gets a summary of all of the user's portfolios (id, dateCreated, lastUpdate, name, numEntries)
   // Use when you don't need a list of every entry id in each portfolio
   app.get("/api/portfolios_summary", requireLogin, async (req, res) => {
@@ -86,6 +74,7 @@ module.exports = (app) => {
             lastUpdate: Date.now(),
             name: item.name,
             ownerId: user.id,
+            displaySettings: {},
             entryIds: [],
           }).save();
           item.id = newPortfolio.id;
@@ -102,8 +91,8 @@ module.exports = (app) => {
     }
   });
 
-  // Gets all entries in a specific portfolio
-  app.get("/api/entries/:portfolioId", requireLogin, async (req, res) => {
+  // Get a specific portfolio along with all its entries
+  app.get("/api/portfolio/:portfolioId", requireLogin, async (req, res) => {
     const { portfolioId } = req.params;
     try {
       const user = await User.findById(req.user.id);
@@ -114,16 +103,50 @@ module.exports = (app) => {
           .send("User does not have access to this portfolio.");
       }
       const portfolio = await Portfolio.findById(portfolioId);
+      const {
+        dateCreated,
+        lastUpdate,
+        name,
+        ownerId,
+        displaySettings,
+        entryIds,
+      } = portfolio;
 
       const entries = [];
-      for (entryId of portfolio.entryIds) {
+      for (entryId of entryIds) {
         const entry = await Entry.findById(entryId);
         if (entry) {
           entries.push(entry);
         }
       }
 
-      res.send(entries);
+      res.send({
+        dateCreated,
+        lastUpdate,
+        name,
+        ownerId,
+        displaySettings,
+        entries,
+      });
+    } catch (e) {
+      res.status(500).send(e.message);
+    }
+  });
+
+  app.put("/api/display_settings", requireLogin, async (req, res) => {
+    const { portfolioId, newDisplaySettings } = req.body;
+    try {
+      const user = await User.findById(req.user.id);
+      const { portfolioIds } = user;
+      if (!portfolioIds.includes(portfolioId)) {
+        return res
+          .status(401)
+          .send("User does not have access to this portfolio.");
+      }
+      const portfolio = await Portfolio.findById(portfolioId);
+      portfolio.displaySettings = newDisplaySettings;
+      portfolio.save();
+      res.send(portfolio.displaySettings);
     } catch (e) {
       res.status(500).send(e.message);
     }
