@@ -1,3 +1,5 @@
+@import "../../utilities/variables";
+
 .Home {
   font-size: 24px;
   .content {
@@ -9,7 +11,16 @@
     text-align: center;
 
     .appName {
-      margin-bottom: 30px;
+      cursor: default;
+      user-select: none;
+      font-family: "Gochi Hand";
+      font-size: 150px;
+      color: $primary-color;
+      margin-bottom: 120px;
+    }
+
+    .loginPrompt {
+      margin-bottom: 20px;
     }
   }
 }

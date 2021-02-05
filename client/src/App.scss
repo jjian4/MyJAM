@@ -1,5 +1,10 @@
 @import "./utilities/variables";
 
+@font-face {
+  font-family: "Gochi Hand";
+  src: url("./utilities//GochiHand.ttf") format("truetype");
+}
+
 body {
   margin: 0;
   box-sizing: border-box;

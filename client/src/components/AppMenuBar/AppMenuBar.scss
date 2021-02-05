@@ -1,5 +1,4 @@
 @import "../../utilities/variables";
-@import url("https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap");
 
 .AppMenuBar {
   height: $menu-height;
@@ -20,7 +19,8 @@
     display: flex;
     align-items: center;
     .appLogoAndName {
-      font-family: "Gochi Hand", cursive;
+      font-family: "Gochi Hand";
+      user-select: none;
       .appLogo {
         display: none;
         justify-content: center;
