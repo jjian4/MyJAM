@@ -36,11 +36,7 @@ function AppMenuBar() {
     <div className="AppMenuBar">
       <div className="menuLeft">
         <Link className="appLogoAndName" to="/">
-          <img
-            className="appLogo"
-            src="https://logo.clearbit.com/reactjs.org"
-            alt="appLogo"
-          />
+          <div className="appLogo">J</div>
           <span className="appName">{WEBSITE_NAME}</span>
         </Link>
 
