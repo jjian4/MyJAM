@@ -157,26 +157,26 @@ function App() {
         tableIsSortAscending,
       } = response.data.displaySettings;
       setDisplaySettings({
-        display: display || PORTFOLIO_DISPLAY.BOARD.name,
-        isCardColorOn: isCardColorOn || true,
+        display: display ?? PORTFOLIO_DISPLAY.BOARD.name,
+        isCardColorOn: isCardColorOn ?? true,
         // Dashboard
-        boardDensity: boardDensity || BOARD_DENSITY.COMPACT.name,
+        boardDensity: boardDensity ?? BOARD_DENSITY.COMPACT.name,
         boardColumnFilter:
           boardColumnFilter.length === 0
             ? DEFAULT_BOARD_COLUMN_FILTER
             : boardColumnFilter,
         boardSortProperty:
-          boardSortProperty || BOARD_SORT_BY.LAST_UPDATE.property,
+          boardSortProperty ?? BOARD_SORT_BY.LAST_UPDATE.property,
         boardIsSortAscending:
-          boardIsSortAscending || BOARD_SORT_BY.LAST_UPDATE.isDefaultAscending,
+          boardIsSortAscending ?? BOARD_SORT_BY.LAST_UPDATE.isDefaultAscending,
         // TABLE
-        tableDensity: tableDensity || TABLE_DENSITY.COMFORTABLE.name,
+        tableDensity: tableDensity ?? TABLE_DENSITY.COMFORTABLE.name,
         tableColumnFilter:
           tableColumnFilter.length === 0
             ? DEFAULT_TABLE_COLUMN_FILTER
             : tableColumnFilter,
-        tableSortProperty: tableSortProperty || TABLE_COLUMNS.COMPANY.property,
-        tableIsSortAscending: tableIsSortAscending || true,
+        tableSortProperty: tableSortProperty ?? TABLE_COLUMNS.COMPANY.property,
+        tableIsSortAscending: tableIsSortAscending ?? true,
       });
 
       setIsPortfolioLoading(false);

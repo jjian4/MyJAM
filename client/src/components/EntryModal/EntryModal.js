@@ -41,21 +41,21 @@ function EntryModal(props) {
     // Initialize values everytime modal reopens
     if (props.open) {
       setColor(
-        props.initialValues.color ||
+        props.initialValues.color ??
           CARD_COLORS[Math.floor(Math.random() * CARD_COLORS.length)]
       );
-      setIsStarred(props.initialValues.isStarred || false);
-      setCompany(props.initialValues.company || "");
-      setDomain(props.initialValues.domain || "");
-      setLogo(props.initialValues.logo || "");
-      setJobTitle(props.initialValues.jobTitle || "");
+      setIsStarred(props.initialValues.isStarred ?? false);
+      setCompany(props.initialValues.company ?? "");
+      setDomain(props.initialValues.domain ?? "");
+      setLogo(props.initialValues.logo ?? "");
+      setJobTitle(props.initialValues.jobTitle ?? "");
       setApplyDate(
-        props.initialValues.applyDate || dateFormat(new Date(), "yyyy-mm-dd")
+        props.initialValues.applyDate ?? dateFormat(new Date(), "yyyy-mm-dd")
       );
-      setDeadlineDate(props.initialValues.deadlineDate || "");
-      setStatus(props.initialValues.status || STATUS.APPLIED);
-      setUrl(props.initialValues.url || "");
-      setNotes(props.initialValues.notes || "");
+      setDeadlineDate(props.initialValues.deadlineDate ?? "");
+      setStatus(props.initialValues.status ?? STATUS.APPLIED);
+      setUrl(props.initialValues.url ?? "");
+      setNotes(props.initialValues.notes ?? "");
 
       setIsSaveClicked(false);
       setErrorMessage("");
@@ -86,7 +86,7 @@ function EntryModal(props) {
 
     props.onSave({
       id: props.initialValues.id,
-      dateCreated: props.initialValues.dateCreated || Date.now(),
+      dateCreated: props.initialValues.dateCreated ?? Date.now(),
       lastUpdate: Date.now(),
       color,
       isStarred,
