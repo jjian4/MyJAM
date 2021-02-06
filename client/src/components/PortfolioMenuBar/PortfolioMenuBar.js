@@ -1,14 +1,10 @@
 import { useContext, useState, useRef, useEffect } from "react";
 import { Button, Dropdown, Input } from "semantic-ui-react";
 import AppContext from "../../AppContext";
-import DashboardColumnFilterDropdown from "../Dashboard/DashboardColumnFilterDropdown/DashboardColumnFilterDropdown";
-import EntriesTableColumnFilterDropdown from "../EntriesTable/EntriesTableColumnFilterDropdown/EntriesTableColumnFilterDropdown";
+import DashboardFilterDropdown from "../Dashboard/DashboardFilterDropdown/DashboardFilterDropdown";
+import EntriesTableFilterDropdown from "../EntriesTable/EntriesTableFilterDropdown/EntriesTableFilterDropdown";
 import DashboardSortDropdown from "../Dashboard/DashboardSortDropdown/DashboardSortDropdown";
-import {
-  BOARD_DENSITY,
-  PORTFOLIO_DISPLAY,
-  TABLE_DENSITY,
-} from "../../utilities/constants";
+import { PORTFOLIO_DISPLAY } from "../../utilities/constants";
 import "./PortfolioMenuBar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -31,12 +27,7 @@ function PortfolioMenuBar() {
     openNewEntryModal,
   } = useContext(AppContext);
 
-  const {
-    display,
-    isCardColorOn,
-    boardDensity,
-    tableDensity,
-  } = displaySettings;
+  const { display, isCardColorOn } = displaySettings;
 
   const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [tempSearchValue, setTempSearchValue] = useState(searchValue);
@@ -105,59 +96,20 @@ function PortfolioMenuBar() {
   return (
     <div className="PortfolioMenuBar">
       <div className="menuleft">
-        <Button.Group className="menuItem" basic size="mini">
+        <div className="menuItem displaySelector">
           {Object.values(PORTFOLIO_DISPLAY).map((item, index) => (
-            <Button
+            <div
+              className={`displayButton ${
+                item.name === display ? "displayButton-active" : ""
+              }`}
               key={index}
-              icon
-              active={item.name === display}
               onClick={() => updateDisplaySettings({ display: item.name })}
             >
-              {item.icon}
-              {!isWindowSmall && (
-                <span className="buttonLabel">{item.name}</span>
-              )}
-            </Button>
+              <FontAwesomeIcon className="displayIcon" icon={item.icon} />
+              <span>{item.name}</span>
+            </div>
           ))}
-        </Button.Group>
-        {display === PORTFOLIO_DISPLAY.BOARD.name && (
-          <Button.Group className="menuItem" basic size="mini">
-            {Object.values(BOARD_DENSITY).map((item, index) => (
-              <Button
-                key={index}
-                icon
-                active={boardDensity === item.name}
-                onClick={() =>
-                  updateDisplaySettings({ boardDensity: item.name })
-                }
-              >
-                {item.icon}
-                {!isWindowSmall && (
-                  <span className="buttonLabel">{item.name}</span>
-                )}
-              </Button>
-            ))}
-          </Button.Group>
-        )}
-        {display === PORTFOLIO_DISPLAY.TABLE.name && (
-          <Button.Group className="menuItem" basic size="mini">
-            {Object.values(TABLE_DENSITY).map((item, index) => (
-              <Button
-                key={index}
-                icon
-                active={tableDensity === item.name}
-                onClick={() =>
-                  updateDisplaySettings({ tableDensity: item.name })
-                }
-              >
-                {item.icon}
-                {!isWindowSmall && (
-                  <span className="buttonLabel">{item.name}</span>
-                )}
-              </Button>
-            ))}
-          </Button.Group>
-        )}
+        </div>
       </div>
 
       <div className="menuRight">
@@ -174,7 +126,7 @@ function PortfolioMenuBar() {
 
         {display === PORTFOLIO_DISPLAY.BOARD.name && (
           <span className="menuItem">
-            <DashboardColumnFilterDropdown hideLabel={isWindowSmall} />
+            <DashboardFilterDropdown hideLabel={isWindowSmall} />
           </span>
         )}
 
@@ -186,7 +138,7 @@ function PortfolioMenuBar() {
 
         {display === PORTFOLIO_DISPLAY.TABLE.name && (
           <span className="menuItem">
-            <EntriesTableColumnFilterDropdown hideLabel={isWindowSmall} />
+            <EntriesTableFilterDropdown hideLabel={isWindowSmall} />
           </span>
         )}
 

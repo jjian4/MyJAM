@@ -13,15 +13,60 @@
   align-items: center;
 
   background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 
   .buttonLabel {
     margin-left: 4px;
   }
 
   .menuleft {
+    display: flex;
+    align-items: center;
+    height: 100%;
     padding: 0 16px;
+
     .menuItem {
       margin-right: 12px;
+    }
+
+    .displaySelector {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      .displayButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 88px;
+        margin-right: 10px;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        font-size: 16px;
+        font-weight: bold;
+        color: gray;
+        cursor: pointer;
+        transition: all 150ms ease-in-out;
+        .displayIcon {
+          margin-right: 6px;
+        }
+        &:hover {
+          .displayIcon {
+            color: $default-text-color;
+          }
+          border-bottom-color: gray;
+        }
+      }
+      .displayButton-active {
+        color: $primary-color;
+        border-bottom-color: $primary-color;
+        &:hover {
+          .displayIcon {
+            color: $primary-color;
+          }
+          border-bottom-color: $primary-color;
+        }
+      }
     }
   }
 

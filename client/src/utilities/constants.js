@@ -11,7 +11,6 @@ import {
   faThLarge,
   faThList,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const WEBSITE_NAME = "MyJAM";
 
@@ -31,11 +30,11 @@ export const STATUS = {
 export const PORTFOLIO_DISPLAY = {
   BOARD: {
     name: "Board",
-    icon: <FontAwesomeIcon icon={faColumns} />,
+    icon: faColumns,
   },
   TABLE: {
     name: "Table",
-    icon: <FontAwesomeIcon icon={faListAlt} />,
+    icon: faListAlt,
   },
 };
 
@@ -45,15 +44,15 @@ export const ENTRY_SEARCH_PROPERTIES = ["company", "jobTitle", "url", "notes"];
 export const BOARD_DENSITY = {
   ICONS: {
     name: "Icons",
-    icon: <FontAwesomeIcon icon={faTh} />,
+    icon: faTh,
   },
   COMPACT: {
     name: "Compact",
-    icon: <FontAwesomeIcon icon={faThLarge} />,
+    icon: faThLarge,
   },
   DETAILED: {
     name: "Detailed",
-    icon: <FontAwesomeIcon icon={faStickyNote} />,
+    icon: faStickyNote,
   },
 };
 
@@ -109,11 +108,11 @@ export const BOARD_SORT_BY = {
 export const TABLE_DENSITY = {
   COMPACT: {
     name: "Compact",
-    icon: <FontAwesomeIcon icon={faList} />,
+    icon: faList,
   },
   COMFORTABLE: {
     name: "Comfortable",
-    icon: <FontAwesomeIcon icon={faThList} />,
+    icon: faThList,
   },
 };
 

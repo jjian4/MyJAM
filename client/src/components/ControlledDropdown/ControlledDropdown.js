@@ -49,7 +49,7 @@ function ControlledDropdown(props) {
           </span>
         }
       >
-        <Dropdown.Menu className="dropdownMenu">{props.children}</Dropdown.Menu>
+        {props.children}
       </Dropdown>
     </span>
   );
