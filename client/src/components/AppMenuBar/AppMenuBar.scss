@@ -11,9 +11,12 @@
   justify-content: space-between;
   align-items: center;
 
-  padding: 0 16px;
   background-color: $primary-color;
   z-index: 10;
+  padding: 0 16px 0 2px;
+  @media (max-width: 575px) {
+    padding: 0 8px;
+  }
 
   .menuLeft {
     display: flex;
@@ -21,6 +24,7 @@
     .appLogoAndName {
       font-family: "Gochi Hand";
       user-select: none;
+      padding: 12px 14px;
       .appLogo {
         display: none;
         justify-content: center;
@@ -38,6 +42,10 @@
         color: whitesmoke;
         padding-left: 2px;
       }
+      &:hover {
+        transition: transform 0.2s;
+        transform: scale(1.04);
+      }
       @media (max-width: 767px) {
         .appLogo {
           display: flex;
@@ -49,7 +57,7 @@
     }
 
     .portfolioSelector {
-      margin-left: 24px;
+      margin-left: 12px;
 
       @media (max-width: 767px) {
         margin-left: 12px;
@@ -59,6 +67,7 @@
         background-color: $primary-color;
         color: whitesmoke;
         border: 1px solid $primary-light;
+        transition: 0.2s;
         &:hover {
           background-color: $primary-dark;
         }
@@ -84,11 +93,12 @@
     }
 
     .portfoliosLink {
-      margin-left: 24px;
+      margin-left: 12px;
       .portfoliosButton {
         background-color: $primary-color;
         color: whitesmoke;
         border: 1px solid $primary-light;
+        transition: 0.2s;
         &:hover {
           background-color: $primary-dark;
         }
@@ -99,16 +109,42 @@
   .menuRight {
     .userDropdown {
       .dropdownButton {
+        display: inline-block;
         background-color: $primary-color;
         color: whitesmoke;
         border: 1px solid transparent;
+        transition: 0.2s;
         &:hover {
-          border: 1px solid $primary-light;
+          border-color: $primary-light;
         }
       }
-
       .dropdownButton-open {
+        border-color: $primary-light;
+      }
+
+      .dropdownCircleButton {
+        display: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        color: whitesmoke;
+        border: 1px solid transparent;
+        transition: 0.2s;
+        &:hover {
+          border-color: $primary-light;
+        }
+      }
+      .dropdownCircleButton-open {
         border: 1px solid $primary-light;
+      }
+
+      @media (max-width: 575px) {
+        .dropdownButton {
+          display: none;
+        }
+        .dropdownCircleButton {
+          display: inline-block;
+        }
       }
 
       .dropdownMenu {

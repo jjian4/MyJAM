@@ -1,3 +1,5 @@
+@import "../../utilities/variables";
+
 .PortfoliosModal {
   .header {
   }
@@ -51,5 +53,10 @@
   .addPortfolioRow {
     margin-top: 20px;
     text-align: center;
+  }
+
+  .saveButton {
+    background-color: $primary-color;
+    color: white;
   }
 }

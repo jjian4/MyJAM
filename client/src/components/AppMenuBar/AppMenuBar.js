@@ -92,15 +92,34 @@ function AppMenuBar() {
           <Dropdown
             className="userDropdown"
             trigger={
-              <DropdownButton
-                className={`dropdownButton ${
-                  isUserDropdownOpen ? "dropdownButton-open" : ""
-                }`}
-                size="medium"
-                icon="user"
-                circular
-                text={user.displayName}
-              />
+              <>
+                <DropdownButton
+                  className={`dropdownButton ${
+                    isUserDropdownOpen ? "dropdownButton-open" : ""
+                  }`}
+                  size="medium"
+                  icon="user"
+                  circular
+                  text={user.displayName}
+                />
+
+                {user.photo ? (
+                  <img
+                    className={`dropdownCircleButton ${
+                      isUserDropdownOpen ? "dropdownCircleButton-open" : ""
+                    }`}
+                    src={user.photo}
+                    alt="profile"
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    className={`dropdownCircleButton ${
+                      isUserDropdownOpen ? "dropdownCircleButton-open" : ""
+                    }`}
+                    icon={faUserCircle}
+                  />
+                )}
+              </>
             }
             icon={false}
             direction="left"
@@ -133,7 +152,7 @@ function AppMenuBar() {
                 <FontAwesomeIcon className="optionIcon" icon={faFolder} /> My
                 Portfolios
               </Dropdown.Item>
-              <Dropdown.Item>
+              <Dropdown.Item onClick={() => alert("TODO")}>
                 <FontAwesomeIcon className="optionIcon" icon={faCommentDots} />
                 Give us Feedback
               </Dropdown.Item>

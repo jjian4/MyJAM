@@ -45,7 +45,6 @@ function Portfolio(props) {
         <div className="makePortfolioPrompt">
           <div>You do not have any portfolios.</div>
           <Button
-            positive
             circular
             className="makePortfolioButton"
             onClick={openPortfoliosModal}

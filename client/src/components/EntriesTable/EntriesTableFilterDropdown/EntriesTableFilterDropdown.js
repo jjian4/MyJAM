@@ -16,7 +16,7 @@ function EntriesTableFilterDropdown(props) {
 
   const dropdownButton = (
     <DropdownButton
-      size="mini"
+      size="tiny"
       basic
       icon="filter"
       text={props.hideLabel ? null : "Display"}
@@ -39,7 +39,7 @@ function EntriesTableFilterDropdown(props) {
     <ControlledDropdown
       className="EntriesTableFilterDropdown"
       icon={false}
-      direction="left"
+      direction="right"
       dropdownButton={dropdownButton}
     >
       <Dropdown.Menu className="dropdownMenu">

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Checkbox, Dropdown } from "semantic-ui-react";
+import { Checkbox, Dropdown } from "semantic-ui-react";
 import { ReactSortable } from "react-sortablejs";
 import _ from "lodash";
 import AppContext from "../../../AppContext";
@@ -31,7 +31,7 @@ function DashboardFilterDropdown(props) {
 
   const dropdownButton = (
     <DropdownButton
-      size="mini"
+      size="tiny"
       basic
       icon="filter"
       text={props.hideLabel ? null : "Display"}
@@ -67,7 +67,7 @@ function DashboardFilterDropdown(props) {
     <ControlledDropdown
       className="DashboardFilterDropdown"
       icon={false}
-      direction="left"
+      direction="right"
       dropdownButton={dropdownButton}
     >
       <Dropdown.Menu className="dropdownMenu">
@@ -130,7 +130,7 @@ function DashboardFilterDropdown(props) {
           </div>
 
           <div className="rightMenuColumn">
-            <div className="dropdownSectionHeader">Columns</div>
+            <div className="dropdownSectionHeader">Statuses</div>
             <ReactSortable
               list={boardColumnFilter}
               setList={(x) => {
@@ -164,7 +164,7 @@ function DashboardFilterDropdown(props) {
                     />
                   </div>
 
-                  <Button
+                  <div
                     className={`sizeButton ${
                       column.isActive
                         ? column.isExpanded
@@ -173,15 +173,10 @@ function DashboardFilterDropdown(props) {
                         : "sizeButton-hidden"
                     }`}
                     title="Expand"
-                    basic
-                    size="mini"
-                    icon
-                    toggle
-                    circular
                     onClick={() => handleSizeToggle(column.status)}
                   >
                     <FontAwesomeIcon icon={BOARD_COLUMN_OPTION_ICONS.EXPAND} />
-                  </Button>
+                  </div>
                 </div>
               ))}
             </ReactSortable>

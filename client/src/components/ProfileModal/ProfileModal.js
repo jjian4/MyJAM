@@ -35,7 +35,7 @@ function ProfileModal(props) {
       className="ProfileModal"
       onClose={props.onClose}
       open={props.open}
-      size="tiny"
+      size="small"
       closeOnEscape={true}
       closeIcon
     >

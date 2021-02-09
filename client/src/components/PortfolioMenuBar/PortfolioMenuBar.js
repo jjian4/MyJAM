@@ -109,19 +109,6 @@ function PortfolioMenuBar() {
             </div>
           ))}
         </div>
-      </div>
-
-      <div className="menuRight">
-        <span className="menuItem">
-          <Input
-            icon="search"
-            size="mini"
-            placeholder="Search Entries..."
-            loading={isSearchLoading}
-            value={tempSearchValue}
-            onChange={(e) => updateSearchValue(e.target.value)}
-          />
-        </span>
 
         {display === PORTFOLIO_DISPLAY.BOARD.name && (
           <span className="menuItem">
@@ -134,10 +121,24 @@ function PortfolioMenuBar() {
             <EntriesTableFilterDropdown hideLabel={isWindowSmall} />
           </span>
         )}
+      </div>
+
+      <div className="menuRight">
+        <span className="menuItem">
+          <Input
+            className="searchBar"
+            icon="search"
+            iconPosition="left"
+            size="mini"
+            placeholder="Search Entries..."
+            loading={isSearchLoading}
+            value={tempSearchValue}
+            onChange={(e) => updateSearchValue(e.target.value)}
+          />
+        </span>
 
         <Button
-          className="menuItem"
-          positive
+          className="menuItem newEntryButton"
           size="mini"
           icon="plus"
           content={isWindowSmall ? null : "New Entry"}

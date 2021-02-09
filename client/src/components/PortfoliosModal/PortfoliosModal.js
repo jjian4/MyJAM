@@ -155,7 +155,7 @@ function PortfoliosModal(props) {
         <Button size="small" onClick={props.onClose}>
           Cancel
         </Button>
-        <Button size="small" onClick={handleSave} positive>
+        <Button className="saveButton" size="small" onClick={handleSave}>
           Save
         </Button>
       </Modal.Actions>

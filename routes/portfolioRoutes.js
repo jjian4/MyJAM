@@ -47,7 +47,7 @@ module.exports = (app) => {
       // If any portfolios were deleted, delete from db
       for (const portfolioId of portfolioIds) {
         if (!newPortfoliosList.find((x) => x.id === portfolioId.toString())) {
-          // TODO: Delete all of the portfolio's entries before deleting the portfolio
+          // Delete all of the portfolio's entries before deleting the portfolio
           const portfolioToDelete = await Portfolio.findById(portfolioId);
           for (const entryId of portfolioToDelete.entryIds) {
             await Entry.findByIdAndDelete(entryId);

@@ -24,9 +24,15 @@
     align-items: center;
     height: 100%;
     padding: 0 16px;
+    @media (max-width: 575px) {
+      padding: 0 8px;
+    }
 
     .menuItem {
       margin-right: 12px;
+      @media (max-width: 575px) {
+        margin-right: 8px;
+      }
     }
 
     .displaySelector {
@@ -39,14 +45,13 @@
         justify-content: center;
         height: 100%;
         width: 88px;
-        margin-right: 10px;
         border-top: 4px solid transparent;
         border-bottom: 4px solid transparent;
         font-size: 16px;
         font-weight: bold;
         color: gray;
         cursor: pointer;
-        transition: all 150ms ease-in-out;
+        transition: 0.2s;
         .displayIcon {
           margin-right: 6px;
         }
@@ -55,6 +60,16 @@
             color: $default-text-color;
           }
           border-bottom-color: gray;
+        }
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+        &:last-child {
+          margin-right: 6px;
+        }
+        @media (max-width: 575px) {
+          width: 76px;
+          font-size: 14px;
         }
       }
       .displayButton-active {
@@ -71,12 +86,36 @@
   }
 
   .menuRight {
-    padding: 0 16px;
+    padding: 0 8px;
+    @media (max-width: 575px) {
+      padding: 0 8px;
+    }
+
     .menuItem {
       margin-right: 12px;
+      @media (max-width: 575px) {
+        margin-right: 8px;
+      }
+    }
+
+    .searchBar {
+      width: 200px;
+      @media (max-width: 767px) {
+        width: 150px;
+      }
+      @media (max-width: 575px) {
+        display: none;
+      }
+    }
+
+    .newEntryButton {
+      background-color: $primary-color;
+      color: white;
+      margin-right: 4px;
     }
 
     .optionsDropdown {
+      padding: 8px;
       color: gray;
       i {
         margin: 0;

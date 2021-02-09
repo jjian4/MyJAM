@@ -14,4 +14,13 @@ body {
 
 .App {
   padding-top: $menu-height;
+
+  // Global changes
+  .dropdown {
+    .menu {
+      .item {
+        border-radius: 4px;
+      }
+    }
+  }
 }
