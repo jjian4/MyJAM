@@ -1,79 +1,157 @@
+@import "../../../utilities/variables";
+
 .DashboardFilterDropdown {
+  user-select: none;
+
   .dropdownMenu {
-    margin-top: 2px !important;
+    margin-top: 3px !important;
 
-    .dropdownHeader {
-      margin: 10px 0 6px !important;
-    }
-
-    .densityRow {
-      .densityIcon {
-        margin-right: 10px;
-        color: gray;
-      }
-    }
-
-    .statusRow {
+    .dropdownMenuContent {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      // Adopts styling from Dropdown.Item
-      padding: 0px 8px 0px 0;
-      &:hover {
-        background-color: whitesmoke;
+
+      .dropdownSectionHeader {
+        margin: 10px 0 8px;
+        padding: 0 14px;
+        font-size: 11px;
+        font-weight: bold;
+        color: black;
+        text-transform: uppercase;
       }
 
-      .rowLeft {
-        flex: 1;
-        display: flex;
-        align-items: center;
+      .dropdownDivider {
+        border-top: 3px solid whitesmoke;
+        height: 0;
+        margin: 7px 0;
+      }
 
-        .gripIcon {
-          padding: 10px 12px 10px 16px;
-          margin-right: 2px;
-          color: lightgray;
-          cursor: grab;
-          :active {
-            cursor: grabbing;
-          }
-        }
+      .leftMenuColumn {
+        border-right: 3px solid whitesmoke;
+        min-width: 190px;
 
-        .checkbox {
-          padding: 10px 12px 10px 0;
+        .densityRow {
+          padding: 8px 16px;
           cursor: pointer;
-          flex: 1;
+          border-radius: 6px;
+          &:hover {
+            background-color: whitesmoke;
+          }
 
-          // Makes the toggle button shorter
-          input {
-            width: 2.5rem;
+          .densityIcon {
+            margin-right: 10px;
+            color: gray;
           }
-          label {
-            padding-left: 3.5rem;
-            &::before {
-              width: 2.5rem;
+        }
+        .densityRow-active {
+          font-weight: bold;
+          color: $primary-color;
+          .densityIcon {
+            color: $primary-color;
+          }
+        }
+
+        .sortRow {
+          padding: 8px 16px;
+          cursor: pointer;
+          border-radius: 6px;
+          &:hover {
+            background-color: whitesmoke;
+          }
+
+          .sortRowContent {
+            display: flex;
+            justify-content: space-between;
+
+            .sortDirectionIcon {
+              margin-left: 10px;
+              color: gray;
             }
-            &::after {
-              left: -0.05rem;
+            .sortDirectionIcon-hidden {
+              visibility: hidden;
             }
           }
-          input:checked ~ label {
-            &::before {
-              background-color: #21ba45 !important;
-            }
-            &::after {
-              left: 1.15rem;
+        }
+        .sortRow-active {
+          font-weight: bold;
+          color: $primary-color;
+          .sortRowContent {
+            .sortDirectionIcon {
+              color: $primary-color;
             }
           }
         }
       }
 
-      .sizeButton {
-        color: lightgray;
-        height: 28px;
-        width: 28px;
-      }
-      .sizeButton-hidden {
-        visibility: hidden;
+      .rightMenuColumn {
+        min-width: 190px;
+
+        .statusRow {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          // Adopts styling from Dropdown.Item
+          padding: 0px 8px 0px 0;
+          border-radius: 6px;
+          &:hover {
+            background-color: whitesmoke;
+          }
+
+          .rowLeft {
+            flex: 1;
+            display: flex;
+            align-items: center;
+
+            .gripIcon {
+              padding: 10px 12px 10px 16px;
+              margin-right: 2px;
+              color: lightgray;
+              cursor: grab;
+              :active {
+                cursor: grabbing;
+              }
+            }
+
+            .checkbox {
+              padding: 10px 12px 10px 0;
+              cursor: pointer;
+              flex: 1;
+
+              // Makes the toggle button shorter
+              input {
+                width: 2.5rem;
+              }
+              label {
+                padding-left: 3.5rem;
+                &::before {
+                  width: 2.5rem;
+                }
+                &::after {
+                  left: -0.05rem;
+                }
+              }
+              input:checked ~ label {
+                &::before {
+                  background-color: $primary-color !important;
+                }
+                &::after {
+                  left: 1.15rem;
+                }
+              }
+            }
+          }
+
+          .sizeButton {
+            color: lightgray;
+            height: 28px;
+            width: 28px;
+          }
+          .sizeButton-active {
+            background-color: $primary-color !important;
+            color: whitesmoke !important;
+          }
+          .sizeButton-hidden {
+            visibility: hidden;
+          }
+        }
       }
     }
   }

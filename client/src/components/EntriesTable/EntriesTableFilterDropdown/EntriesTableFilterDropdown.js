@@ -43,52 +43,61 @@ function EntriesTableFilterDropdown(props) {
       dropdownButton={dropdownButton}
     >
       <Dropdown.Menu className="dropdownMenu">
-        <Dropdown.Header className="dropdownHeader" content="Density" />
-        {Object.values(TABLE_DENSITY).map((item, index) => (
-          <Dropdown.Item
-            className="densityRow"
-            key={index}
-            active={tableDensity === item.name}
-            onClick={() => updateDisplaySettings({ tableDensity: item.name })}
-          >
-            <FontAwesomeIcon className="densityIcon" icon={item.icon} />{" "}
-            {item.name}
-          </Dropdown.Item>
-        ))}
+        <div className="dropdownMenuContent">
+          <div className="dropdownSectionHeader">Density</div>
 
-        <Dropdown.Divider />
-
-        <Dropdown.Header className="dropdownHeader" content="Columns" />
-        <ReactSortable
-          className="columnSorter"
-          list={tableColumnFilter}
-          setList={(x) => {
-            x.forEach((item) => {
-              delete item.selected;
-              delete item.chosen;
-            });
-            updateDisplaySettings({ tableColumnFilter: x });
-          }}
-          animation={200}
-          handle=".gripIcon"
-        >
-          {tableColumnFilter.map((column) => (
-            <div className="columnsRow" key={column.property}>
-              <div className="gripIcon">
-                <FontAwesomeIcon icon={faGripVertical} />
+          <div className="densitySection">
+            {Object.values(TABLE_DENSITY).map((item, index) => (
+              <div
+                className={`densityRow ${
+                  tableDensity === item.name ? "densityRow-active" : ""
+                }`}
+                key={index}
+                onClick={() =>
+                  updateDisplaySettings({ tableDensity: item.name })
+                }
+              >
+                <FontAwesomeIcon className="densityIcon" icon={item.icon} />{" "}
+                {item.name}
               </div>
+            ))}
+          </div>
 
-              <Checkbox
-                toggle
-                className="checkbox"
-                label={column.name}
-                value={column.name}
-                checked={column.isActive}
-                onChange={handleCheckboxToggle}
-              />
-            </div>
-          ))}
-        </ReactSortable>
+          <div className="dropdownDivider" />
+
+          <div className="dropdownSectionHeader">Columns</div>
+
+          <ReactSortable
+            className="columnSorter"
+            list={tableColumnFilter}
+            setList={(x) => {
+              x.forEach((item) => {
+                delete item.selected;
+                delete item.chosen;
+              });
+              updateDisplaySettings({ tableColumnFilter: x });
+            }}
+            animation={200}
+            handle=".gripIcon"
+          >
+            {tableColumnFilter.map((column) => (
+              <div className="columnsRow" key={column.property}>
+                <div className="gripIcon">
+                  <FontAwesomeIcon icon={faGripVertical} />
+                </div>
+
+                <Checkbox
+                  toggle
+                  className="checkbox"
+                  label={column.name}
+                  value={column.name}
+                  checked={column.isActive}
+                  onChange={handleCheckboxToggle}
+                />
+              </div>
+            ))}
+          </ReactSortable>
+        </div>
       </Dropdown.Menu>
     </ControlledDropdown>
   );

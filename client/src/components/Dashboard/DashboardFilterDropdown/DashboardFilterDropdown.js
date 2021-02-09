@@ -9,15 +9,25 @@ import ControlledDropdown from "../../ControlledDropdown/ControlledDropdown";
 import {
   BOARD_COLUMN_OPTION_ICONS,
   BOARD_DENSITY,
+  BOARD_SORT_BY,
 } from "../../../utilities/constants";
-import { faGripVertical } from "@fortawesome/free-solid-svg-icons";
+import {
+  faGripVertical,
+  faLongArrowAltDown,
+  faLongArrowAltUp,
+} from "@fortawesome/free-solid-svg-icons";
 import "./DashboardFilterDropdown.scss";
 
 function DashboardFilterDropdown(props) {
   const { displaySettings, updateDisplaySettings, entries } = useContext(
     AppContext
   );
-  const { boardDensity, boardColumnFilter } = displaySettings;
+  const {
+    boardDensity,
+    boardSortProperty,
+    boardIsSortAscending,
+    boardColumnFilter,
+  } = displaySettings;
 
   const dropdownButton = (
     <DropdownButton
@@ -61,73 +71,122 @@ function DashboardFilterDropdown(props) {
       dropdownButton={dropdownButton}
     >
       <Dropdown.Menu className="dropdownMenu">
-        <Dropdown.Header className="dropdownHeader" content="Density" />
-        {Object.values(BOARD_DENSITY).map((item, index) => (
-          <Dropdown.Item
-            className="densityRow"
-            key={index}
-            active={boardDensity === item.name}
-            onClick={() => updateDisplaySettings({ boardDensity: item.name })}
-          >
-            <FontAwesomeIcon className="densityIcon" icon={item.icon} />{" "}
-            {item.name}
-          </Dropdown.Item>
-        ))}
-
-        <Dropdown.Divider />
-
-        <Dropdown.Header className="dropdownHeader" content="Columns" />
-        <ReactSortable
-          list={boardColumnFilter}
-          setList={(x) => {
-            x.forEach((item) => {
-              delete item.selected;
-              delete item.chosen;
-            });
-            updateDisplaySettings({ boardColumnFilter: x });
-          }}
-          animation={200}
-          handle=".gripIcon"
-        >
-          {boardColumnFilter.map((column) => (
-            <div className="statusRow" key={column.status}>
-              <div className="rowLeft">
-                <div className="gripIcon">
-                  <FontAwesomeIcon icon={faGripVertical} />
-                </div>
-
-                <Checkbox
-                  toggle
-                  className="checkbox"
-                  label={`${column.status}${
-                    statusCounts[column.status]
-                      ? ` (${statusCounts[column.status]})`
-                      : ""
-                  }`}
-                  value={column.status}
-                  checked={column.isActive}
-                  onChange={handleCheckboxToggle}
-                />
-              </div>
-
-              <Button
-                className={`sizeButton ${
-                  column.isActive ? "" : "sizeButton-hidden"
+        <div className="dropdownMenuContent">
+          <div className="leftMenuColumn">
+            <div className="dropdownSectionHeader">Density</div>
+            {Object.values(BOARD_DENSITY).map((item, index) => (
+              <div
+                className={`densityRow ${
+                  boardDensity === item.name ? "densityRow-active" : ""
                 }`}
-                title="Expand"
-                basic
-                size="mini"
-                icon
-                toggle
-                circular
-                active={column.isExpanded}
-                onClick={() => handleSizeToggle(column.status)}
+                key={index}
+                onClick={() =>
+                  updateDisplaySettings({ boardDensity: item.name })
+                }
               >
-                <FontAwesomeIcon icon={BOARD_COLUMN_OPTION_ICONS.EXPAND} />
-              </Button>
-            </div>
-          ))}
-        </ReactSortable>
+                <FontAwesomeIcon className="densityIcon" icon={item.icon} />{" "}
+                {item.name}
+              </div>
+            ))}
+
+            <div className="dropdownDivider" />
+
+            <div className="dropdownSectionHeader">Sort By</div>
+            {Object.values(BOARD_SORT_BY).map((option) => (
+              <div
+                className={`sortRow ${
+                  boardSortProperty === option.property ? "sortRow-active" : ""
+                }`}
+                key={option.name}
+                onClick={() =>
+                  updateDisplaySettings({
+                    boardSortProperty: option.property,
+                    boardIsSortAscending:
+                      boardSortProperty === option.property
+                        ? !boardIsSortAscending
+                        : option.isDefaultAscending,
+                  })
+                }
+              >
+                <div className="sortRowContent">
+                  <div>{option.name}</div>
+                  <div>
+                    <FontAwesomeIcon
+                      className={`sortDirectionIcon ${
+                        boardSortProperty !== option.property
+                          ? "sortDirectionIcon-hidden"
+                          : ""
+                      }`}
+                      icon={
+                        boardIsSortAscending
+                          ? faLongArrowAltDown
+                          : faLongArrowAltUp
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="rightMenuColumn">
+            <div className="dropdownSectionHeader">Columns</div>
+            <ReactSortable
+              list={boardColumnFilter}
+              setList={(x) => {
+                x.forEach((item) => {
+                  delete item.selected;
+                  delete item.chosen;
+                });
+                updateDisplaySettings({ boardColumnFilter: x });
+              }}
+              animation={200}
+              handle=".gripIcon"
+            >
+              {boardColumnFilter.map((column) => (
+                <div className="statusRow" key={column.status}>
+                  <div className="rowLeft">
+                    <div className="gripIcon">
+                      <FontAwesomeIcon icon={faGripVertical} />
+                    </div>
+
+                    <Checkbox
+                      toggle
+                      className="checkbox"
+                      label={`${column.status}${
+                        statusCounts[column.status]
+                          ? ` (${statusCounts[column.status]})`
+                          : ""
+                      }`}
+                      value={column.status}
+                      checked={column.isActive}
+                      onChange={handleCheckboxToggle}
+                    />
+                  </div>
+
+                  <Button
+                    className={`sizeButton ${
+                      column.isActive
+                        ? column.isExpanded
+                          ? "sizeButton-active"
+                          : ""
+                        : "sizeButton-hidden"
+                    }`}
+                    title="Expand"
+                    basic
+                    size="mini"
+                    icon
+                    toggle
+                    circular
+                    onClick={() => handleSizeToggle(column.status)}
+                  >
+                    <FontAwesomeIcon icon={BOARD_COLUMN_OPTION_ICONS.EXPAND} />
+                  </Button>
+                </div>
+              ))}
+            </ReactSortable>
+          </div>
+        </div>
       </Dropdown.Menu>
     </ControlledDropdown>
   );

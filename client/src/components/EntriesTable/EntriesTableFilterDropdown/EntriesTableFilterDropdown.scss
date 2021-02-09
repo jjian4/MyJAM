@@ -1,63 +1,106 @@
+@import "../../../utilities/variables";
+
 .EntriesTableFilterDropdown {
   .dropdownMenu {
-    margin-top: 2px !important;
+    margin-top: 3px !important;
 
-    .dropdownHeader {
-      margin: 10px 0 6px !important;
-    }
+    .dropdownMenuContent {
+      width: 450px;
 
-    .densityRow {
-      .densityIcon {
-        margin-right: 10px;
-        color: gray;
+      .dropdownSectionHeader {
+        margin: 10px 0 8px;
+        padding: 0 14px;
+        font-size: 11px;
+        font-weight: bold;
+        color: black;
+        text-transform: uppercase;
       }
-    }
 
-    .columnSorter {
-      .columnsRow {
+      .dropdownDivider {
+        border-top: 3px solid whitesmoke;
+        height: 0;
+        margin: 7px 0;
+      }
+
+      .densitySection {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        // Adopts styling from Dropdown.Item
-        padding: 0px 8px 0px 0;
-        &:hover {
-          background-color: whitesmoke;
-        }
+        flex-wrap: wrap;
 
-        .gripIcon {
-          padding: 10px 12px 10px 16px;
-          margin-right: 2px;
-          color: lightgray;
-          cursor: grab;
-          :active {
-            cursor: grabbing;
-          }
-        }
-
-        .checkbox {
-          padding: 10px 12px 10px 0;
+        .densityRow {
+          width: 50%;
+          padding: 8px 16px;
+          display: inline-block;
           cursor: pointer;
-          flex: 1;
-
-          // Makes the toggle button shorter
-          input {
-            width: 2.5rem;
+          border-radius: 6px;
+          &:hover {
+            background-color: whitesmoke;
           }
-          label {
-            padding-left: 3.5rem;
-            &::before {
+
+          .densityIcon {
+            margin-right: 10px;
+            color: gray;
+          }
+        }
+        .densityRow-active {
+          font-weight: bold;
+          color: $primary-color;
+          .densityIcon {
+            color: $primary-color;
+          }
+        }
+      }
+
+      .columnSorter {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        height: 240px;
+
+        .columnsRow {
+          width: 50%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-radius: 6px;
+          &:hover {
+            background-color: whitesmoke;
+          }
+
+          .gripIcon {
+            padding: 9px 12px 9px 16px;
+            margin-right: 2px;
+            color: lightgray;
+            cursor: grab;
+            :active {
+              cursor: grabbing;
+            }
+          }
+
+          .checkbox {
+            padding: 9px 16px 9px 0;
+            cursor: pointer;
+            flex: 1;
+
+            // Makes the toggle button shorter
+            input {
               width: 2.5rem;
             }
-            &::after {
-              left: -0.05rem;
+            label {
+              padding-left: 3.5rem;
+              &::before {
+                width: 2.5rem;
+              }
+              &::after {
+                left: -0.05rem;
+              }
             }
-          }
-          input:checked ~ label {
-            &::before {
-              background-color: #21ba45 !important;
-            }
-            &::after {
-              left: 1.15rem;
+            input:checked ~ label {
+              &::before {
+                background-color: $primary-color !important;
+              }
+              &::after {
+                left: 1.15rem;
+              }
             }
           }
         }

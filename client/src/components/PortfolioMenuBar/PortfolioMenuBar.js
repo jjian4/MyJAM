@@ -3,7 +3,6 @@ import { Button, Dropdown, Input } from "semantic-ui-react";
 import AppContext from "../../AppContext";
 import DashboardFilterDropdown from "../Dashboard/DashboardFilterDropdown/DashboardFilterDropdown";
 import EntriesTableFilterDropdown from "../EntriesTable/EntriesTableFilterDropdown/EntriesTableFilterDropdown";
-import DashboardSortDropdown from "../Dashboard/DashboardSortDropdown/DashboardSortDropdown";
 import { PORTFOLIO_DISPLAY } from "../../utilities/constants";
 import "./PortfolioMenuBar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -127,12 +126,6 @@ function PortfolioMenuBar() {
         {display === PORTFOLIO_DISPLAY.BOARD.name && (
           <span className="menuItem">
             <DashboardFilterDropdown hideLabel={isWindowSmall} />
-          </span>
-        )}
-
-        {display === PORTFOLIO_DISPLAY.BOARD.name && (
-          <span className="menuItem">
-            <DashboardSortDropdown hideLabel={isWindowSmall} />
           </span>
         )}
 
