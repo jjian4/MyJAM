@@ -75,7 +75,7 @@
 
       .dropdownMenu {
         margin-top: 4px;
-        min-width: 180px;
+        min-width: 220px;
 
         .dropdownRow {
           display: flex;
@@ -88,6 +88,11 @@
           .numEntries {
             color: gray;
           }
+        }
+
+        .editIcon {
+          margin-right: 10px;
+          color: gray;
         }
       }
     }

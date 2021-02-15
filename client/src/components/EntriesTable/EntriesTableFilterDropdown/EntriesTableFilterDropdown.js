@@ -63,7 +63,7 @@ function EntriesTableFilterDropdown(props) {
             ))}
           </div>
 
-          <div className="dropdownDivider" />
+          <div className="thickDivider" />
 
           <div className="dropdownSectionHeader">Columns</div>
 

@@ -183,6 +183,11 @@ function EntriesTable() {
                               }
                               target="_blank"
                               rel="noreferrer"
+                              style={{
+                                borderColor: displaySettings.isCardColorOn
+                                  ? entry["color"]
+                                  : null,
+                              }}
                             >
                               <LogoCircle entry={entry} />
                             </a>

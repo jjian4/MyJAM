@@ -26,7 +26,6 @@ function DashboardIconCard(props) {
       }`}
       style={{
         borderColor: cardColor,
-        // backgroundColor: cardColor,
         opacity: isDragging ? 0.5 : 1,
       }}
       onClick={() => openEntryModal(props.entry.id)}

@@ -18,14 +18,14 @@
         text-transform: uppercase;
       }
 
-      .dropdownDivider {
-        border-top: 3px solid whitesmoke;
+      .thickDivider {
+        border-top: 4px solid whitesmoke;
         height: 0;
         margin: 7px 0;
       }
 
       .leftMenuColumn {
-        border-right: 3px solid whitesmoke;
+        border-right: 4px solid whitesmoke;
         min-width: 190px;
 
         .densityRow {
@@ -171,6 +171,20 @@
           }
           .sizeButton-hidden {
             visibility: hidden;
+          }
+        }
+
+        .addStatusButton {
+          padding: 8px 16px;
+          cursor: pointer;
+          border-radius: 4px;
+          &:hover {
+            background-color: whitesmoke;
+          }
+
+          .addStatusIcon {
+            margin-right: 10px;
+            color: gray;
           }
         }
       }

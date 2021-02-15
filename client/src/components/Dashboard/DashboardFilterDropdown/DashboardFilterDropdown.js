@@ -15,6 +15,7 @@ import {
   faGripVertical,
   faLongArrowAltDown,
   faLongArrowAltUp,
+  faPencilAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import "./DashboardFilterDropdown.scss";
 
@@ -89,7 +90,7 @@ function DashboardFilterDropdown(props) {
               </div>
             ))}
 
-            <div className="dropdownDivider" />
+            <div className="thickDivider" />
 
             <div className="dropdownSectionHeader">Sort By</div>
             {Object.values(BOARD_SORT_BY).map((option) => (
@@ -180,6 +181,11 @@ function DashboardFilterDropdown(props) {
                 </div>
               ))}
             </ReactSortable>
+            <Dropdown.Divider />
+            <div className="addStatusButton" onClick={() => alert("TODO")}>
+              <FontAwesomeIcon className="addStatusIcon" icon={faPencilAlt} />
+              Edit Status List
+            </div>
           </div>
         </div>
       </Dropdown.Menu>

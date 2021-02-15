@@ -1,6 +1,7 @@
 import {
   faCommentDots,
   faFolder,
+  faPencilAlt,
   faUser,
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
@@ -72,7 +73,8 @@ function AppMenuBar() {
               ))}
               <Dropdown.Divider />
               <Dropdown.Item onClick={openPortfoliosModal}>
-                Edit Portfolios
+                <FontAwesomeIcon className="editIcon" icon={faPencilAlt} /> Edit
+                Portfolios
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
