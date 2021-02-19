@@ -5,7 +5,7 @@ import {
   faList,
   faListAlt,
   faMinus,
-  faPlusCircle,
+  faPlus,
   faStickyNote,
   faTh,
   faThLarge,
@@ -68,7 +68,7 @@ export const DEFAULT_BOARD_COLUMN_FILTER = [
 export const BOARD_COLUMN_OPTION_ICONS = {
   COMPRESS: faCompress,
   EXPAND: faExpand,
-  ADD_ENTRY: faPlusCircle,
+  ADD_ENTRY: faPlus,
   HIDE_COLUMN: faMinus,
 };
 

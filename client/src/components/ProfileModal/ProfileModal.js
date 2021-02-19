@@ -75,7 +75,7 @@ function ProfileModal(props) {
               <tr>
                 <td>Portfolios</td>
                 <td>
-                  {portfoliosList.length > 0
+                  {portfoliosList?.length > 0
                     ? portfoliosList.map((portfolio, index) => (
                         <div className="portfolioRow" key={index}>
                           <span className="portfolioName">

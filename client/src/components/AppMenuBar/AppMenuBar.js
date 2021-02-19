@@ -29,7 +29,7 @@ function AppMenuBar() {
 
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
-  const currentPortfolio = portfoliosList.find(
+  const currentPortfolio = portfoliosList?.find(
     (x) => x.id === currentPortfolioId
   );
 

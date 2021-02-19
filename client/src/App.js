@@ -27,11 +27,11 @@ function App() {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   const [isPortfolioLoading, setIsPortfolioLoading] = useState(false);
-  const [portfoliosList, setPortfoliosList] = useState([]);
+  const [portfoliosList, setPortfoliosList] = useState(null);
   const [isPortfoliosModalOpen, setIsPortfoliosModalOpen] = useState(false);
   const [displaySettings, setDisplaySettings] = useState({});
   const [currentPortfolioId, setCurrentPortfolioId] = useState("");
-  const [entries, setEntries] = useState([]);
+  const [entries, setEntries] = useState(null);
   const [newEntryModal, setNewEntryModal] = useState({
     isOpen: false,
     initialValues: {},

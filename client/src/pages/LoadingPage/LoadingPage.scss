@@ -1,9 +1,9 @@
+@import "../../utilities/variables";
+
 .LoadingPage {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 300px;
-  .loadingText {
-    font-size: 30px;
-  }
+  height: calc(100vh - #{$menu-height});
+  padding-bottom: 100px;
 }

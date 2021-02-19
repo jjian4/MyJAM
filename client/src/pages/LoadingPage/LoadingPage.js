@@ -1,9 +1,12 @@
+import { Loader } from "semantic-ui-react";
 import "./LoadingPage.scss";
 
 function LoadingPage(props) {
   return (
     <div className="LoadingPage">
-      <div className="loadingText">{props.loadingText}</div>
+      <Loader className="loadingText" active inline size="big">
+        {props.loadingText}
+      </Loader>
     </div>
   );
 }

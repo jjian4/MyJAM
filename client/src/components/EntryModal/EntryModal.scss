@@ -111,8 +111,13 @@
   .footer {
     display: flex;
     justify-content: space-between;
+    button {
+      @media (max-width: 767px) {
+        margin-bottom: 1rem;
+      }
+    }
     .saveButton {
-      margin-left: 10px;
+      margin-left: 0.75rem;
       background-color: $primary-color;
       color: white;
     }
