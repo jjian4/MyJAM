@@ -1,0 +1,84 @@
+@import "../../utilities/variables";
+
+.StatusListModal {
+  .statusList {
+    .statusRow {
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .rowLeft {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding-right: 8px;
+        .gripIcon {
+          padding: 10px;
+          color: gray;
+          cursor: grab;
+          :active {
+            cursor: grabbing;
+          }
+        }
+        .statusName {
+          flex: 1;
+          display: inline-block;
+          padding: 6px 14px;
+          font-weight: bold;
+          cursor: pointer;
+        }
+        .statusInput {
+          flex: 1;
+          .input {
+            width: 100%;
+          }
+        }
+      }
+
+      .editRowRight {
+        padding: 0 4px;
+        .editSaveButton {
+          background-color: $primary-color;
+          color: white;
+        }
+      }
+
+      .rowRight {
+        .numEntries {
+          display: inline-block;
+          color: gray;
+          padding: 0 10px;
+        }
+
+        .options {
+          display: none;
+          color: gray;
+          .editButton {
+            display: inline-block;
+            cursor: pointer;
+            padding: 6px;
+          }
+          .optionsDropdown {
+            cursor: pointer;
+            padding: 6px;
+          }
+        }
+      }
+
+      &:hover {
+        background-color: whitesmoke;
+        .numEntries {
+          display: none;
+        }
+        .options {
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+  .addStatusRow {
+    margin-top: 20px;
+    text-align: center;
+  }
+}

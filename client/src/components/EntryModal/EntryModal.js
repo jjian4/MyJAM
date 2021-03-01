@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import AppContext from "../../AppContext";
 import CompanySelector from "../CompanySelector/CompanySelector";
-import { CARD_COLORS, STATUS } from "../../utilities/constants";
+import { CARD_COLORS } from "../../utilities/constants";
 import StarButton from "../StarButton/StarButton";
 import "./EntryModal.scss";
 
@@ -30,7 +30,7 @@ function EntryModal(props) {
   const [jobTitle, setJobTitle] = useState("");
   const [applyDate, setApplyDate] = useState("");
   const [deadlineDate, setDeadlineDate] = useState("");
-  const [status, setStatus] = useState(STATUS.APPLIED);
+  const [status, setStatus] = useState("");
   const [url, setUrl] = useState("");
   const [notes, setNotes] = useState("");
 
@@ -53,7 +53,7 @@ function EntryModal(props) {
         props.initialValues.applyDate ?? dateFormat(new Date(), "yyyy-mm-dd")
       );
       setDeadlineDate(props.initialValues.deadlineDate ?? "");
-      setStatus(props.initialValues.status ?? STATUS.APPLIED);
+      setStatus(props.initialValues.status ?? "");
       setUrl(props.initialValues.url ?? "");
       setNotes(props.initialValues.notes ?? "");
 
@@ -79,7 +79,7 @@ function EntryModal(props) {
 
   const handleSave = () => {
     setIsSaveClicked(true);
-    if (!company.trim() || !jobTitle.trim() || !status) {
+    if (!company.trim() || !jobTitle.trim() || !status.trim()) {
       setErrorMessage("At least one required field is empty.");
       return;
     }
@@ -102,6 +102,10 @@ function EntryModal(props) {
     });
     props.onClose();
   };
+
+  const statusOptions = (displaySettings.boardColumnFilter ?? []).map((x) => {
+    return { text: x.status, value: x.status };
+  });
 
   return (
     <Modal
@@ -248,15 +252,12 @@ function EntryModal(props) {
               />
             </Form.Field>
 
-            <Form.Field error={isSaveClicked && !status}>
+            <Form.Field error={isSaveClicked && !status.trim()}>
               <label>Status *</label>
               <Dropdown
                 fluid
                 selection
-                options={Object.values(STATUS).map((status) => ({
-                  text: status,
-                  value: status,
-                }))}
+                options={statusOptions}
                 value={status}
                 onChange={(e, { name, value }) => setStatus(value)}
                 defaultOpen={props.autoFocusProperty === "status"}

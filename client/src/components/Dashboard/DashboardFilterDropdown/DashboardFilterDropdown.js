@@ -20,9 +20,12 @@ import {
 import "./DashboardFilterDropdown.scss";
 
 function DashboardFilterDropdown(props) {
-  const { displaySettings, updateDisplaySettings, entries } = useContext(
-    AppContext
-  );
+  const {
+    displaySettings,
+    updateDisplaySettings,
+    openStatusListModal,
+    entries,
+  } = useContext(AppContext);
   const {
     boardDensity,
     boardSortProperty,
@@ -131,7 +134,7 @@ function DashboardFilterDropdown(props) {
           </div>
 
           <div className="rightMenuColumn">
-            <div className="dropdownSectionHeader">Statuses</div>
+            <div className="dropdownSectionHeader">Status</div>
             <ReactSortable
               list={boardColumnFilter}
               setList={(x) => {
@@ -182,7 +185,7 @@ function DashboardFilterDropdown(props) {
               ))}
             </ReactSortable>
             <Dropdown.Divider />
-            <div className="addStatusButton" onClick={() => alert("TODO")}>
+            <div className="addStatusButton" onClick={openStatusListModal}>
               <FontAwesomeIcon className="addStatusIcon" icon={faPencilAlt} />
               Edit Status List
             </div>

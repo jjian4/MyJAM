@@ -156,14 +156,14 @@ function PortfolioMenuBar() {
                 onClick={() => updateDisplaySettings({ isCardColorOn: false })}
               >
                 <FontAwesomeIcon className="optionIcon" icon={faTintSlash} />{" "}
-                Hide Card Colors
+                Hide Entry Colors
               </Dropdown.Item>
             ) : (
               <Dropdown.Item
                 onClick={() => updateDisplaySettings({ isCardColorOn: true })}
               >
                 <FontAwesomeIcon className="optionIcon" icon={faTint} /> Show
-                Card Colors
+                Entry Colors
               </Dropdown.Item>
             )}
             <Dropdown.Item onClick={exportToCsv}>

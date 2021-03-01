@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react";
 import { ReactSortable } from "react-sortablejs";
 import AppContext from "../../AppContext";
 import DashboardColumn from "./DashboardColumn/DashboardColumn";
-import { STATUS } from "../../utilities/constants";
 import "./Dashboard.scss";
 
 function Dashboard() {
@@ -21,8 +20,8 @@ function Dashboard() {
   useEffect(() => {
     if (entries) {
       const statusToEntries = {};
-      Object.values(STATUS).forEach((status) => {
-        statusToEntries[status] = [];
+      Object.values(boardColumnFilter).forEach((x) => {
+        statusToEntries[x.status] = [];
       });
 
       entries.forEach((entry) => {
@@ -49,7 +48,7 @@ function Dashboard() {
     } else {
       setEntriesByStatus({});
     }
-  }, [entries, boardSortProperty, boardIsSortAscending]);
+  }, [entries, boardColumnFilter, boardSortProperty, boardIsSortAscending]);
 
   return (
     <div className="Dashboard">

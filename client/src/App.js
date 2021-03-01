@@ -20,6 +20,7 @@ import {
   DEFAULT_TABLE_COLUMN_FILTER,
 } from "./utilities/constants";
 import "./App.scss";
+import StatusListModal from "./components/StatusListModal/StatusListModal";
 
 function App() {
   const [isUserLoading, setIsUserLoading] = useState(false);
@@ -29,8 +30,9 @@ function App() {
   const [isPortfolioLoading, setIsPortfolioLoading] = useState(false);
   const [portfoliosList, setPortfoliosList] = useState(null);
   const [isPortfoliosModalOpen, setIsPortfoliosModalOpen] = useState(false);
-  const [displaySettings, setDisplaySettings] = useState({});
   const [currentPortfolioId, setCurrentPortfolioId] = useState("");
+  const [displaySettings, setDisplaySettings] = useState({});
+  const [isStatusListModalOpen, setIsStatusListModalOpen] = useState(false);
   const [entries, setEntries] = useState(null);
   const [newEntryModal, setNewEntryModal] = useState({
     isOpen: false,
@@ -103,16 +105,6 @@ function App() {
     window.location.href = "/api/logout";
   };
 
-  const updateDisplaySettings = async (settingsChange) => {
-    for (const property in settingsChange) {
-      // Ignore if nothing changed
-      if (!_.isEqual(settingsChange[property], displaySettings[property])) {
-        setDisplaySettings({ ...displaySettings, ...settingsChange });
-        return;
-      }
-    }
-  };
-
   const updatePortfoliosList = async (newPortfoliosList) => {
     // Save to db first to get newly generated ids for new portfolios
     try {
@@ -182,6 +174,44 @@ function App() {
       setIsPortfolioLoading(false);
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const updateDisplaySettings = async (settingsChange) => {
+    for (const property in settingsChange) {
+      // Ignore if nothing changed
+      if (!_.isEqual(settingsChange[property], displaySettings[property])) {
+        setDisplaySettings({ ...displaySettings, ...settingsChange });
+        return;
+      }
+    }
+  };
+
+  const updateStatusName = async (oldStatusName, newStatusName) => {
+    try {
+      const newBoardColumnFilter = await axios.patch(`/api/status_list`, {
+        portfolioId: currentPortfolioId,
+        updatedStatuses: {
+          [oldStatusName]: newStatusName,
+        },
+      });
+
+      // BUG: app crashes when we try to update frontend
+
+      // updateDisplaySettings({ boardColumnFilter: newBoardColumnFilter });
+
+      // const updatedEntries = [...entries];
+      // for (const entry of updatedEntries) {
+      //   if (entry.status === oldStatusName) {
+      //     entry.status = newStatusName;
+      //   }
+      // }
+      // setEntries(updatedEntries);
+
+      return true;
+    } catch (e) {
+      console.log(e);
+      return false;
     }
   };
 
@@ -267,6 +297,7 @@ function App() {
         currentPortfolioId: currentPortfolioId,
         displaySettings: displaySettings,
         updateDisplaySettings: updateDisplaySettings,
+        openStatusListModal: () => setIsStatusListModalOpen(true),
         entries: entries,
         openNewEntryModal: (initialValues) =>
           setNewEntryModal({
@@ -317,6 +348,14 @@ function App() {
           onClose={() => setIsPortfoliosModalOpen(false)}
           onSave={updatePortfoliosList}
         />
+        {/* Used to edit and reorder current portfolio's statuses */}
+        {currentPortfolioId && (
+          <StatusListModal
+            open={isStatusListModalOpen}
+            onClose={() => setIsStatusListModalOpen(false)}
+            onUpdateStatusName={updateStatusName}
+          />
+        )}
         {/* Used to add new entries */}
         <EntryModal
           open={newEntryModal.isOpen}

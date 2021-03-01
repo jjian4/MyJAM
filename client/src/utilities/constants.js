@@ -18,15 +18,6 @@ export const DRAG_DROP_ITEMS = {
   DASHBOARD_CARD: "DashboardCard",
 };
 
-export const STATUS = {
-  REJECTED: "Rejected",
-  WISHLIST: "Wishlist",
-  APPLIED: "Applied",
-  PHONE_SCREEN: "Phone Screen",
-  INTERVIEW: "Interview",
-  OFFER: "Offer",
-};
-
 export const PORTFOLIO_DISPLAY = {
   BOARD: {
     name: "Board",
@@ -57,12 +48,12 @@ export const BOARD_DENSITY = {
 };
 
 export const DEFAULT_BOARD_COLUMN_FILTER = [
-  { status: STATUS.REJECTED, isActive: false, isExpanded: false },
-  { status: STATUS.WISHLIST, isActive: false, isExpanded: false },
-  { status: STATUS.APPLIED, isActive: true, isExpanded: false },
-  { status: STATUS.PHONE_SCREEN, isActive: false, isExpanded: false },
-  { status: STATUS.INTERVIEW, isActive: true, isExpanded: false },
-  { status: STATUS.OFFER, isActive: true, isExpanded: false },
+  { status: "Rejected", isActive: false, isExpanded: false },
+  { status: "Wishlist", isActive: false, isExpanded: false },
+  { status: "Applied", isActive: true, isExpanded: false },
+  { status: "Phone Screen", isActive: false, isExpanded: false },
+  { status: "Interview", isActive: true, isExpanded: false },
+  { status: "Offer", isActive: true, isExpanded: false },
 ];
 
 export const BOARD_COLUMN_OPTION_ICONS = {

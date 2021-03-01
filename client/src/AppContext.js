@@ -8,6 +8,7 @@ const AppContext = createContext({
   currentPortfolioId: "",
   displaySettings: {}, // Specific to each portfolio; includes display, isCardColorOn, boardDensity, boardColumnFilter [], boardSortProperty, boardIsSortAscending, tableDensity, tableColumnFilter [], tableSortProperty, tableIsSortAscending
   updateDisplaySettings: () => {},
+  openStatusListModal: () => {},
   entries: null, // includes id, dateCreated, lastUpdate, color, isStarred, company, domain, logo, jobTitle, applyDate, deadlineDate, status, url, notes
   openNewEntryModal: () => {},
   openEntryModal: () => {},

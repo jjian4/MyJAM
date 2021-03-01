@@ -152,6 +152,49 @@ module.exports = (app) => {
     }
   });
 
+  // Change a status name
+  app.patch("/api/status_list", requireLogin, async (req, res) => {
+    const { portfolioId, updatedStatuses } = req.body;
+
+    try {
+      const user = await User.findById(req.user.id);
+      const { portfolioIds } = user;
+      if (!portfolioIds.includes(portfolioId)) {
+        return res
+          .status(401)
+          .send("User does not have access to this portfolio.");
+      }
+      const portfolio = await Portfolio.findById(portfolioId);
+
+      for (const [oldName, newName] of Object.entries(updatedStatuses)) {
+        const index = portfolio.displaySettings.boardColumnFilter.findIndex(
+          (x) => x.status === oldName
+        );
+        if (index !== -1) {
+          // Update status in status list
+          portfolio.displaySettings.boardColumnFilter[index].status = newName;
+
+          // Update entries' status fields
+          for (const entryId of portfolio.entryIds) {
+            const entry = await Entry.findById(entryId);
+            if (entry.status === oldName) {
+              entry.status = newName;
+              entry.save();
+            }
+          }
+
+          portfolio.lastUpdate = Date.now();
+          portfolio.save();
+        }
+      }
+
+      res.send(portfolio.displaySettings.boardColumnFilter);
+    } catch (e) {
+      console.log(e.message);
+      res.status(500).send(e.message);
+    }
+  });
+
   // Save a new portfolio entry
   app.post("/api/entry", requireLogin, async (req, res) => {
     const { portfolioId, entry } = req.body;
