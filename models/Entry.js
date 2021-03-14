@@ -12,7 +12,7 @@ const entrySchema = new Schema({
   jobTitle: String,
   applyDate: String,
   deadlineDate: String,
-  status: String,
+  statusId: String,
   url: String,
   notes: String,
 });

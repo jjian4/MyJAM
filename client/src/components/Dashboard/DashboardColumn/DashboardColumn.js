@@ -33,7 +33,7 @@ function DashboardColumn(props) {
   // Used to receive cards that are drag-dropped from another column
   const handleCardDrop = (item) => {
     if (props.columnEntries.findIndex((entry) => entry.id === item.id) === -1) {
-      updateEntry({ id: item.id, status: props.status });
+      updateEntry({ id: item.id, statusId: props.statusId });
     }
   };
   const [{ isOver, canDrop }, drop] = useDrop({
@@ -89,7 +89,11 @@ function DashboardColumn(props) {
           }}
         >
           <span>
-            <span className="status">{props.status.toUpperCase()}</span>
+            <span className="status">
+              {boardColumnFilter
+                .find((x) => x.statusId === props.statusId)
+                .status.toUpperCase()}
+            </span>
             <span className="numEntries">({props.columnEntries.length})</span>
           </span>
 
@@ -100,7 +104,7 @@ function DashboardColumn(props) {
           >
             <Dropdown.Menu>
               <Dropdown.Item
-                onClick={() => openNewEntryModal({ status: props.status })}
+                onClick={() => openNewEntryModal({ statusId: props.statusId })}
               >
                 <FontAwesomeIcon
                   className="optionIcon"

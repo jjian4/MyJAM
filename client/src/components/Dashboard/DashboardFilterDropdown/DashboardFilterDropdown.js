@@ -44,25 +44,29 @@ function DashboardFilterDropdown(props) {
 
   const handleCheckboxToggle = (e, { value }) => {
     const newSettings = _.cloneDeep(boardColumnFilter);
-    const status = value;
-    const index = newSettings.findIndex((column) => column.status === status);
+    const statusId = value;
+    const index = newSettings.findIndex(
+      (column) => column.statusId === statusId
+    );
     newSettings[index].isActive = !newSettings[index].isActive;
     updateDisplaySettings({ boardColumnFilter: newSettings });
   };
 
-  const handleSizeToggle = (status) => {
+  const handleSizeToggle = (statusId) => {
     const newSettings = _.cloneDeep(boardColumnFilter);
-    const index = newSettings.findIndex((column) => column.status === status);
+    const index = newSettings.findIndex(
+      (column) => column.statusId === statusId
+    );
     newSettings[index].isExpanded = !newSettings[index].isExpanded;
     updateDisplaySettings({ boardColumnFilter: newSettings });
   };
 
   const statusCounts = {};
-  entries.forEach(({ status }) => {
-    if (status in statusCounts) {
-      ++statusCounts[status];
+  entries.forEach(({ statusId }) => {
+    if (statusId in statusCounts) {
+      ++statusCounts[statusId];
     } else {
-      statusCounts[status] = 1;
+      statusCounts[statusId] = 1;
     }
   });
 
@@ -148,7 +152,7 @@ function DashboardFilterDropdown(props) {
               handle=".gripIcon"
             >
               {boardColumnFilter.map((column) => (
-                <div className="statusRow" key={column.status}>
+                <div className="statusRow" key={column.statusId}>
                   <div className="rowLeft">
                     <div className="gripIcon">
                       <FontAwesomeIcon icon={faGripVertical} />
@@ -157,12 +161,16 @@ function DashboardFilterDropdown(props) {
                     <Checkbox
                       toggle
                       className="checkbox"
-                      label={`${column.status}${
-                        statusCounts[column.status]
-                          ? ` (${statusCounts[column.status]})`
+                      label={`${
+                        boardColumnFilter.find(
+                          (x) => x.statusId === column.statusId
+                        ).status
+                      }${
+                        statusCounts[column.statusId]
+                          ? ` (${statusCounts[column.statusId]})`
                           : ""
                       }`}
-                      value={column.status}
+                      value={column.statusId}
                       checked={column.isActive}
                       onChange={handleCheckboxToggle}
                     />
@@ -177,7 +185,7 @@ function DashboardFilterDropdown(props) {
                         : "sizeButton-hidden"
                     }`}
                     title="Expand"
-                    onClick={() => handleSizeToggle(column.status)}
+                    onClick={() => handleSizeToggle(column.statusId)}
                   >
                     <FontAwesomeIcon icon={BOARD_COLUMN_OPTION_ICONS.EXPAND} />
                   </div>

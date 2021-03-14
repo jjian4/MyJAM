@@ -26,6 +26,7 @@ function EntriesTable() {
   } = useContext(AppContext);
 
   const {
+    boardColumnFilter,
     tableDensity,
     tableColumnFilter,
     tableSortProperty,
@@ -192,6 +193,23 @@ function EntriesTable() {
                               <LogoCircle entry={entry} />
                             </a>
                             <span>{entry[column.property]}</span>
+                          </div>
+                          <EditCellButton
+                            entryId={entry["id"]}
+                            propertyToEdit={column.property}
+                          />
+                        </Table.Cell>
+                      );
+                    }
+                    if (column.property === "statusId") {
+                      return (
+                        <Table.Cell key={index} singleLine>
+                          <div className="data">
+                            {
+                              boardColumnFilter.find(
+                                (x) => x.statusId === entry[column.property]
+                              ).status
+                            }
                           </div>
                           <EditCellButton
                             entryId={entry["id"]}

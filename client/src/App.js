@@ -187,34 +187,6 @@ function App() {
     }
   };
 
-  const updateStatusName = async (oldStatusName, newStatusName) => {
-    try {
-      const newBoardColumnFilter = await axios.patch(`/api/status_list`, {
-        portfolioId: currentPortfolioId,
-        updatedStatuses: {
-          [oldStatusName]: newStatusName,
-        },
-      });
-
-      // BUG: app crashes when we try to update frontend
-
-      // updateDisplaySettings({ boardColumnFilter: newBoardColumnFilter });
-
-      // const updatedEntries = [...entries];
-      // for (const entry of updatedEntries) {
-      //   if (entry.status === oldStatusName) {
-      //     entry.status = newStatusName;
-      //   }
-      // }
-      // setEntries(updatedEntries);
-
-      return true;
-    } catch (e) {
-      console.log(e);
-      return false;
-    }
-  };
-
   const saveNewEntry = async (values) => {
     // Save to db first to get newly generated ids for new entry
     try {
@@ -353,7 +325,6 @@ function App() {
           <StatusListModal
             open={isStatusListModalOpen}
             onClose={() => setIsStatusListModalOpen(false)}
-            onUpdateStatusName={updateStatusName}
           />
         )}
         {/* Used to add new entries */}

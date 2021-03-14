@@ -77,7 +77,7 @@ function PortfolioMenuBar() {
         "Job Title": entry.jobTitle,
         "Application Date": dateFormat(entry.applyDate, "mmm dd, yyyy"),
         "Next Deadline": dateFormat(entry.deadlineDate, "mmm dd, yyyy"),
-        Status: entry.status,
+        Status: entry.statusId,
         URL: entry.url,
         Notes: entry.notes,
       });

@@ -48,12 +48,37 @@ export const BOARD_DENSITY = {
 };
 
 export const DEFAULT_BOARD_COLUMN_FILTER = [
-  { status: "Rejected", isActive: false, isExpanded: false },
-  { status: "Wishlist", isActive: false, isExpanded: false },
-  { status: "Applied", isActive: true, isExpanded: false },
-  { status: "Phone Screen", isActive: false, isExpanded: false },
-  { status: "Interview", isActive: true, isExpanded: false },
-  { status: "Offer", isActive: true, isExpanded: false },
+  {
+    statusId: "default_0",
+    status: "Rejected",
+    isActive: false,
+    isExpanded: false,
+  },
+  {
+    statusId: "default_1",
+    status: "Wishlist",
+    isActive: false,
+    isExpanded: false,
+  },
+  {
+    statusId: "default_2",
+    status: "Applied",
+    isActive: true,
+    isExpanded: false,
+  },
+  {
+    statusId: "default_3",
+    status: "Phone Screen",
+    isActive: false,
+    isExpanded: false,
+  },
+  {
+    statusId: "default_4",
+    status: "Interview",
+    isActive: true,
+    isExpanded: false,
+  },
+  { statusId: "default_5", status: "Offer", isActive: true, isExpanded: false },
 ];
 
 export const BOARD_COLUMN_OPTION_ICONS = {
@@ -112,7 +137,7 @@ export const TABLE_COLUMNS = {
   COLOR: { name: "Color", property: "color", isDate: false },
   COMPANY: { name: "Company", property: "company", isDate: false },
   JOB_TITLE: { name: "Job Title", property: "jobTitle", isDate: false },
-  STATUS: { name: "Status", property: "status", isDate: false },
+  STATUS: { name: "Status", property: "statusId", isDate: false },
   URL: { name: "URL", property: "url", isDate: false },
   NOTES: { name: "Notes", property: "notes", isDate: false },
   DATE_CREATED: { name: "Date Created", property: "dateCreated", isDate: true },

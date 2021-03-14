@@ -30,7 +30,7 @@ function EntryModal(props) {
   const [jobTitle, setJobTitle] = useState("");
   const [applyDate, setApplyDate] = useState("");
   const [deadlineDate, setDeadlineDate] = useState("");
-  const [status, setStatus] = useState("");
+  const [statusId, setStatusId] = useState("");
   const [url, setUrl] = useState("");
   const [notes, setNotes] = useState("");
 
@@ -53,7 +53,7 @@ function EntryModal(props) {
         props.initialValues.applyDate ?? dateFormat(new Date(), "yyyy-mm-dd")
       );
       setDeadlineDate(props.initialValues.deadlineDate ?? "");
-      setStatus(props.initialValues.status ?? "");
+      setStatusId(props.initialValues.statusId ?? "");
       setUrl(props.initialValues.url ?? "");
       setNotes(props.initialValues.notes ?? "");
 
@@ -79,7 +79,7 @@ function EntryModal(props) {
 
   const handleSave = () => {
     setIsSaveClicked(true);
-    if (!company.trim() || !jobTitle.trim() || !status.trim()) {
+    if (!company.trim() || !jobTitle.trim() || !statusId.trim()) {
       setErrorMessage("At least one required field is empty.");
       return;
     }
@@ -96,7 +96,7 @@ function EntryModal(props) {
       jobTitle: jobTitle.trim(),
       applyDate,
       deadlineDate,
-      status,
+      statusId,
       url: url.trim(),
       notes: notes.trim(),
     });
@@ -104,7 +104,7 @@ function EntryModal(props) {
   };
 
   const statusOptions = (displaySettings.boardColumnFilter ?? []).map((x) => {
-    return { text: x.status, value: x.status };
+    return { text: x.status, value: x.statusId };
   });
 
   return (
@@ -252,15 +252,15 @@ function EntryModal(props) {
               />
             </Form.Field>
 
-            <Form.Field error={isSaveClicked && !status.trim()}>
+            <Form.Field error={isSaveClicked && !statusId.trim()}>
               <label>Status *</label>
               <Dropdown
                 fluid
                 selection
                 options={statusOptions}
-                value={status}
-                onChange={(e, { name, value }) => setStatus(value)}
-                defaultOpen={props.autoFocusProperty === "status"}
+                value={statusId}
+                onChange={(e, { name, value }) => setStatusId(value)}
+                defaultOpen={props.autoFocusProperty === "statusId"}
               />
             </Form.Field>
           </Form.Group>

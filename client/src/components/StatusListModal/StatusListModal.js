@@ -9,6 +9,7 @@ import {
 } from "semantic-ui-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGripVertical, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import _ from "lodash";
 import AppContext from "../../AppContext";
 import "./StatusListModal.scss";
 import { ReactSortable } from "react-sortablejs";
@@ -22,10 +23,9 @@ function StatusListModal(props) {
     entries,
   } = useContext(AppContext);
 
-  //   const { boardColumnFilter } = displaySettings;
   const boardColumnFilter = displaySettings.boardColumnFilter ?? [];
 
-  const [editIndex, setEditIndex] = useState(null);
+  const [editId, setEditId] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [isEditingNewStatus, setIsEditingNewStatus] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -36,7 +36,7 @@ function StatusListModal(props) {
   useEffect(() => {
     // Initialize values everytime modal reopens
     if (props.open) {
-      setEditIndex(null);
+      setEditId(null);
       setInputValue("");
       setIsEditingNewStatus(false);
       setIsSaveClicked(false);
@@ -49,22 +49,28 @@ function StatusListModal(props) {
   )?.name;
 
   const statusCounts = {};
-  entries?.forEach(({ status }) => {
-    if (status in statusCounts) {
-      ++statusCounts[status];
+  entries?.forEach(({ statusId }) => {
+    if (statusId in statusCounts) {
+      ++statusCounts[statusId];
     } else {
-      statusCounts[status] = 1;
+      statusCounts[statusId] = 1;
     }
   });
 
-  const changeEditIndex = (index) => {
-    setEditIndex(index);
+  const changeEditId = (statusId) => {
+    setEditId(statusId);
     setIsEditingNewStatus(false);
-    setInputValue(boardColumnFilter[index].status);
+    if (statusId == null) {
+      setInputValue("");
+    } else {
+      setInputValue(
+        boardColumnFilter.find((x) => x.statusId === statusId).status
+      );
+    }
   };
 
   const showNewStatusInput = () => {
-    setEditIndex(null);
+    setEditId(null);
     setIsEditingNewStatus(true);
     setInputValue("");
   };
@@ -80,8 +86,10 @@ function StatusListModal(props) {
 
     // Check if no chaange
     if (
-      boardColumnFilter[editIndex].status.trim().toLowerCase() ===
-      inputValue.trim().toLowerCase()
+      boardColumnFilter
+        .find((x) => x.statusId === editId)
+        .status.trim()
+        .toLowerCase() === inputValue.trim().toLowerCase()
     ) {
       return;
     }
@@ -99,16 +107,16 @@ function StatusListModal(props) {
 
     setIsSaving(true);
 
-    if (
-      await props.onUpdateStatusName(
-        boardColumnFilter[editIndex].status,
-        inputValue.trim()
-      )
-    ) {
-      setErrorMessage("");
-      setEditIndex(null);
-    }
+    // Update status name
+    const newColumnFilter = _.cloneDeep(boardColumnFilter);
+    const statusIndex = newColumnFilter.findIndex((x) => x.statusId === editId);
+    newColumnFilter[statusIndex].status = inputValue;
+    updateDisplaySettings({
+      boardColumnFilter: newColumnFilter,
+    });
 
+    setErrorMessage("");
+    setEditId(null);
     setIsSaving(false);
   };
 
@@ -134,7 +142,7 @@ function StatusListModal(props) {
 
     console.log("TODO");
     setErrorMessage("");
-    setEditIndex(null);
+    setEditId(null);
   };
 
   return (
@@ -165,7 +173,7 @@ function StatusListModal(props) {
                 delete item.chosen;
               });
               updateDisplaySettings({ boardColumnFilter: x });
-              setEditIndex(null);
+              setEditId(null);
             }}
             animation={200}
             handle=".gripIcon"
@@ -176,7 +184,7 @@ function StatusListModal(props) {
                   <div className="gripIcon">
                     <FontAwesomeIcon icon={faGripVertical} />
                   </div>
-                  {editIndex === index ? (
+                  {editId === statusInfo.statusId ? (
                     <Form className="statusInput" onSubmit={handleEditSave}>
                       <Form.Field
                         error={isSaveClicked && errorMessage.length > 0}
@@ -191,21 +199,27 @@ function StatusListModal(props) {
                   ) : (
                     <div
                       className="statusName"
-                      onClick={() => changeEditIndex(index)}
+                      onClick={() => changeEditId(statusInfo.statusId)}
                     >
-                      {statusInfo.status}
+                      {
+                        boardColumnFilter.find(
+                          (x) => x.statusId === statusInfo.statusId
+                        ).status
+                      }
                     </div>
                   )}
                 </div>
-                {editIndex === index ? (
+                {editId === statusInfo.statusId ? (
                   <div className="editRowRight">
                     {inputValue.trim().length === 0 ||
-                    boardColumnFilter[editIndex].status.trim().toLowerCase() ===
-                      inputValue.trim().toLowerCase() ? (
+                    boardColumnFilter
+                      .find((x) => x.statusId === statusInfo.statusId)
+                      .status.trim()
+                      .toLowerCase() === inputValue.trim().toLowerCase() ? (
                       <Button
                         size="tiny"
                         basic
-                        onClick={() => setEditIndex(null)}
+                        onClick={() => changeEditId(null)}
                       >
                         Cancel
                       </Button>
@@ -223,8 +237,8 @@ function StatusListModal(props) {
                 ) : (
                   <div className="rowRight">
                     <div className="numEntries">
-                      ({statusCounts[statusInfo.status] ?? 0}{" "}
-                      {statusCounts[statusInfo.status] === 1
+                      ({statusCounts[statusInfo.statusId] ?? 0}{" "}
+                      {statusCounts[statusInfo.statusId] === 1
                         ? "entry"
                         : "entries"}
                       )
@@ -233,7 +247,7 @@ function StatusListModal(props) {
                     <div className="options">
                       <div
                         className="editButton"
-                        onClick={() => changeEditIndex(index)}
+                        onClick={() => changeEditId(statusInfo.statusId)}
                       >
                         <FontAwesomeIcon icon={faPencilAlt} />
                       </div>

@@ -13,6 +13,7 @@ const portfolioSchema = new Schema({
     boardDensity: String,
     boardColumnFilter: [
       {
+        statusId: String,
         status: String,
         isActive: Boolean,
         isExpanded: Boolean,

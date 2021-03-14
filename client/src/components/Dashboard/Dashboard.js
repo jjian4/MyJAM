@@ -15,20 +15,20 @@ function Dashboard() {
     boardIsSortAscending,
   } = displaySettings;
 
-  const [entriesByStatus, setEntriesByStatus] = useState({});
+  const [entriesByStatusId, setEntriesByStatusId] = useState({});
 
   useEffect(() => {
     if (entries) {
-      const statusToEntries = {};
+      const statusIdToEntries = {};
       Object.values(boardColumnFilter).forEach((x) => {
-        statusToEntries[x.status] = [];
+        statusIdToEntries[x.statusId] = [];
       });
 
       entries.forEach((entry) => {
-        statusToEntries[entry.status].push(entry);
+        statusIdToEntries[entry.statusId].push(entry);
       });
 
-      Object.values(statusToEntries).forEach((entries) => {
+      Object.values(statusIdToEntries).forEach((entries) => {
         if (boardIsSortAscending) {
           entries.sort((a, b) => {
             // Show the cards that have a value first, even though empty string technically comes first
@@ -44,9 +44,9 @@ function Dashboard() {
         }
       });
 
-      setEntriesByStatus(statusToEntries);
+      setEntriesByStatusId(statusIdToEntries);
     } else {
-      setEntriesByStatus({});
+      setEntriesByStatusId({});
     }
   }, [entries, boardColumnFilter, boardSortProperty, boardIsSortAscending]);
 
@@ -68,15 +68,15 @@ function Dashboard() {
         {boardColumnFilter.map((column, index) => {
           if (!column.isActive) {
             // Just returns empty div since Sortable doesn't allow null
-            return <div key={column.status} />;
+            return <div key={column.statusId} />;
           }
           return (
             <DashboardColumn
-              key={column.status}
+              key={column.statusId}
               index={index}
-              status={column.status}
+              statusId={column.statusId}
               isExpanded={column.isExpanded}
-              columnEntries={entriesByStatus[column.status] || []}
+              columnEntries={entriesByStatusId[column.statusId] || []}
             />
           );
         })}
