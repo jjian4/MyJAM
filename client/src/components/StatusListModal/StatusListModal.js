@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGripVertical, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import _ from "lodash";
+import uniqueString from "unique-string";
 import AppContext from "../../AppContext";
 import "./StatusListModal.scss";
 import { ReactSortable } from "react-sortablejs";
@@ -58,6 +59,10 @@ function StatusListModal(props) {
   });
 
   const changeEditId = (statusId) => {
+    if (isSaving) {
+      return;
+    }
+
     setEditId(statusId);
     setIsEditingNewStatus(false);
     if (statusId == null) {
@@ -86,10 +91,8 @@ function StatusListModal(props) {
 
     // Check if no chaange
     if (
-      boardColumnFilter
-        .find((x) => x.statusId === editId)
-        .status.trim()
-        .toLowerCase() === inputValue.trim().toLowerCase()
+      boardColumnFilter.find((x) => x.statusId === editId).status.trim() ===
+      inputValue.trim()
     ) {
       return;
     }
@@ -97,8 +100,9 @@ function StatusListModal(props) {
     // Don't allow duplicate statuses
     for (const statusInfo of boardColumnFilter) {
       if (
+        statusInfo.statusId !== editId &&
         statusInfo.status.trim().toLowerCase() ===
-        inputValue.trim().toLowerCase()
+          inputValue.trim().toLowerCase()
       ) {
         setErrorMessage("Two statuses cannot share the same name.");
         return;
@@ -111,16 +115,14 @@ function StatusListModal(props) {
     const newColumnFilter = _.cloneDeep(boardColumnFilter);
     const statusIndex = newColumnFilter.findIndex((x) => x.statusId === editId);
     newColumnFilter[statusIndex].status = inputValue;
-    updateDisplaySettings({
-      boardColumnFilter: newColumnFilter,
-    });
+    await updateDisplaySettings({ boardColumnFilter: newColumnFilter }, true);
 
     setErrorMessage("");
     setEditId(null);
     setIsSaving(false);
   };
 
-  const handleNewStatusSave = () => {
+  const handleNewStatusSave = async () => {
     setIsSaveClicked(true);
 
     // Check if empty
@@ -132,17 +134,60 @@ function StatusListModal(props) {
     // Don't allow duplicate statuses
     for (const statusInfo of boardColumnFilter) {
       if (
+        statusInfo.statusId !== editId &&
         statusInfo.status.trim().toLowerCase() ===
-        inputValue.trim().toLowerCase()
+          inputValue.trim().toLowerCase()
       ) {
         setErrorMessage("Two statuses cannot share the same name.");
         return;
       }
     }
 
-    console.log("TODO");
+    setIsSaving(true);
+
+    // Add new status
+    const newColumnFilter = _.cloneDeep(boardColumnFilter);
+    newColumnFilter.push({
+      statusId: uniqueString(),
+      status: inputValue.trim(),
+      isActive: false,
+      isExpanded: false,
+    });
+    await updateDisplaySettings({ boardColumnFilter: newColumnFilter }, true);
+
     setErrorMessage("");
     setEditId(null);
+    setIsEditingNewStatus(false);
+    setIsSaving(false);
+  };
+
+  const handleDeleteStatus = async (statusIdToDelete) => {
+    setEditId(null);
+    setIsEditingNewStatus(false);
+
+    // Don't allow delete if the status has entries
+    if (
+      statusIdToDelete in statusCounts &&
+      statusCounts[statusIdToDelete] > 0
+    ) {
+      setErrorMessage("Cannot delete a status that contains entries.");
+      return;
+    }
+
+    // Don't allow delete if there are only three statuses left
+    if (boardColumnFilter.length <= 3) {
+      setErrorMessage("Status list cannot be too small.");
+      return;
+    }
+
+    // Delete the status from the list
+    const newColumnFilter = _.cloneDeep(boardColumnFilter).filter(
+      (x) => x.statusId !== statusIdToDelete
+    );
+
+    await updateDisplaySettings({ boardColumnFilter: newColumnFilter }, true);
+
+    setErrorMessage("");
   };
 
   return (
@@ -211,11 +256,11 @@ function StatusListModal(props) {
                 </div>
                 {editId === statusInfo.statusId ? (
                   <div className="editRowRight">
-                    {inputValue.trim().length === 0 ||
-                    boardColumnFilter
-                      .find((x) => x.statusId === statusInfo.statusId)
-                      .status.trim()
-                      .toLowerCase() === inputValue.trim().toLowerCase() ? (
+                    {!isSaving &&
+                    (inputValue.trim().length === 0 ||
+                      boardColumnFilter
+                        .find((x) => x.statusId === statusInfo.statusId)
+                        .status.trim() === inputValue.trim()) ? (
                       <Button
                         size="tiny"
                         basic
@@ -258,7 +303,11 @@ function StatusListModal(props) {
                           direction="right"
                         >
                           <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => console.log("TODO")}>
+                            <Dropdown.Item
+                              onClick={() =>
+                                handleDeleteStatus(statusInfo.statusId)
+                              }
+                            >
                               Delete
                             </Dropdown.Item>
                           </Dropdown.Menu>
@@ -275,7 +324,10 @@ function StatusListModal(props) {
             <div className="newStatus">
               <div className="statusRow">
                 <div className="rowLeft">
-                  <Form className="statusInput" onSubmit={handleNewStatusSave}>
+                  <Form
+                    className="statusInput newStatusInput"
+                    onSubmit={handleNewStatusSave}
+                  >
                     <Form.Field
                       error={isSaveClicked && errorMessage.length > 0}
                     >
@@ -288,7 +340,7 @@ function StatusListModal(props) {
                   </Form>
                 </div>
                 <div className="editRowRight">
-                  {inputValue.trim().length === 0 ? (
+                  {!isSaving && inputValue.trim().length === 0 ? (
                     <Button
                       size="tiny"
                       basic
@@ -312,7 +364,7 @@ function StatusListModal(props) {
           )}
         </div>
 
-        {!isEditingNewStatus && boardColumnFilter.length < 7 && (
+        {!isEditingNewStatus && boardColumnFilter.length < 8 && (
           <div className="addStatusRow">
             <Button
               size="tiny"

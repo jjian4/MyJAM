@@ -177,12 +177,28 @@ function App() {
     }
   };
 
-  const updateDisplaySettings = async (settingsChange) => {
+  const updateDisplaySettings = async (
+    settingsChange,
+    shouldUpdateDbNow = false
+  ) => {
     for (const property in settingsChange) {
       // Ignore if nothing changed
       if (!_.isEqual(settingsChange[property], displaySettings[property])) {
-        setDisplaySettings({ ...displaySettings, ...settingsChange });
-        return;
+        await setDisplaySettings({ ...displaySettings, ...settingsChange });
+        break;
+      }
+    }
+
+    // By default, updateDisplaySettingsTimeoutRef updates database every few seconds
+    // This runs if we need to update the db immediately
+    if (shouldUpdateDbNow) {
+      try {
+        await axios.put("/api/display_settings", {
+          portfolioId: currentPortfolioId,
+          newDisplaySettings: displaySettings,
+        });
+      } catch (e) {
+        console.log(e);
       }
     }
   };
