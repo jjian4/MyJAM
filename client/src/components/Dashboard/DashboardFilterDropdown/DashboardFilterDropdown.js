@@ -193,7 +193,7 @@ function DashboardFilterDropdown(props) {
               ))}
             </ReactSortable>
             <Dropdown.Divider />
-            <div className="addStatusButton" onClick={openStatusListModal}>
+            <div className="editStatusButton" onClick={openStatusListModal}>
               <FontAwesomeIcon className="addStatusIcon" icon={faPencilAlt} />
               Edit Status List
             </div>

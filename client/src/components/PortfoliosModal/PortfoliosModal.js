@@ -5,6 +5,7 @@ import { faGripVertical } from "@fortawesome/free-solid-svg-icons";
 import AppContext from "../../AppContext";
 import "./PortfoliosModal.scss";
 import { ReactSortable } from "react-sortablejs";
+import PrimaryButton from "../PrimaryButton/PrimaryButton";
 
 function PortfoliosModal(props) {
   const { portfoliosList } = useContext(AppContext);
@@ -155,9 +156,9 @@ function PortfoliosModal(props) {
         <Button size="small" onClick={props.onClose}>
           Cancel
         </Button>
-        <Button className="saveButton" size="small" onClick={handleSave}>
+        <PrimaryButton className="saveButton" size="small" onClick={handleSave}>
           Save
-        </Button>
+        </PrimaryButton>
       </Modal.Actions>
     </Modal>
   );

@@ -5,6 +5,7 @@ import AppContext from "../../AppContext";
 import Dashboard from "../../components/Dashboard/Dashboard";
 import EntriesTable from "../../components/EntriesTable/EntriesTable";
 import PortfolioMenuBar from "../../components/PortfolioMenuBar/PortfolioMenuBar";
+import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import { PORTFOLIO_DISPLAY } from "../../utilities/constants";
 import "./Portfolio.scss";
 
@@ -44,13 +45,13 @@ function Portfolio(props) {
       {portfoliosList.length === 0 && (
         <div className="makePortfolioPrompt">
           <div>You do not have any portfolios.</div>
-          <Button
+          <PrimaryButton
             circular
             className="makePortfolioButton"
             onClick={openPortfoliosModal}
           >
             Make Portfolio
-          </Button>
+          </PrimaryButton>
         </div>
       )}
 

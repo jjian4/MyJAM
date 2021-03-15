@@ -1,10 +1,5 @@
 import { useContext, useState, useRef, useEffect } from "react";
-import { Button, Dropdown, Input } from "semantic-ui-react";
-import AppContext from "../../AppContext";
-import DashboardFilterDropdown from "../Dashboard/DashboardFilterDropdown/DashboardFilterDropdown";
-import EntriesTableFilterDropdown from "../EntriesTable/EntriesTableFilterDropdown/EntriesTableFilterDropdown";
-import { PORTFOLIO_DISPLAY } from "../../utilities/constants";
-import "./PortfolioMenuBar.scss";
+import { Dropdown, Input } from "semantic-ui-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDownload,
@@ -13,6 +8,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Parser } from "json2csv";
 import dateFormat from "dateformat";
+import AppContext from "../../AppContext";
+import DashboardFilterDropdown from "../Dashboard/DashboardFilterDropdown/DashboardFilterDropdown";
+import EntriesTableFilterDropdown from "../EntriesTable/EntriesTableFilterDropdown/EntriesTableFilterDropdown";
+import { PORTFOLIO_DISPLAY } from "../../utilities/constants";
+import PrimaryButton from "../PrimaryButton/PrimaryButton";
+import "./PortfolioMenuBar.scss";
 
 function PortfolioMenuBar() {
   const {
@@ -26,7 +27,7 @@ function PortfolioMenuBar() {
     openNewEntryModal,
   } = useContext(AppContext);
 
-  const { display, isCardColorOn } = displaySettings;
+  const { display, isCardColorOn, boardColumnFilter } = displaySettings;
 
   const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [tempSearchValue, setTempSearchValue] = useState(searchValue);
@@ -77,7 +78,8 @@ function PortfolioMenuBar() {
         "Job Title": entry.jobTitle,
         "Application Date": dateFormat(entry.applyDate, "mmm dd, yyyy"),
         "Next Deadline": dateFormat(entry.deadlineDate, "mmm dd, yyyy"),
-        Status: entry.statusId,
+        Status: boardColumnFilter.find((x) => x.statusId === entry.statusId)
+          .status,
         URL: entry.url,
         Notes: entry.notes,
       });
@@ -137,7 +139,7 @@ function PortfolioMenuBar() {
           />
         </span>
 
-        <Button
+        <PrimaryButton
           className="menuItem newEntryButton"
           size="mini"
           icon="plus"

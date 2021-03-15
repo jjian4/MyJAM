@@ -17,6 +17,7 @@ import AppContext from "../../AppContext";
 import CompanySelector from "../CompanySelector/CompanySelector";
 import { CARD_COLORS } from "../../utilities/constants";
 import StarButton from "../StarButton/StarButton";
+import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import "./EntryModal.scss";
 
 function EntryModal(props) {
@@ -309,9 +310,13 @@ function EntryModal(props) {
           <Button size="small" onClick={props.onClose} basic>
             Cancel
           </Button>
-          <Button className="saveButton" size="small" onClick={handleSave}>
+          <PrimaryButton
+            className="saveButton"
+            size="small"
+            onClick={handleSave}
+          >
             Save
-          </Button>
+          </PrimaryButton>
         </div>
       </Modal.Actions>
     </Modal>

@@ -10,10 +10,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGripVertical, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import _ from "lodash";
+import { ReactSortable } from "react-sortablejs";
 import uniqueString from "unique-string";
 import AppContext from "../../AppContext";
+import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import "./StatusListModal.scss";
-import { ReactSortable } from "react-sortablejs";
 
 function StatusListModal(props) {
   const {
@@ -150,7 +151,7 @@ function StatusListModal(props) {
     newColumnFilter.push({
       statusId: uniqueString(),
       status: inputValue.trim(),
-      isActive: false,
+      isActive: true,
       isExpanded: false,
     });
     await updateDisplaySettings({ boardColumnFilter: newColumnFilter }, true);
@@ -269,14 +270,13 @@ function StatusListModal(props) {
                         Cancel
                       </Button>
                     ) : (
-                      <Button
-                        className="editSaveButton"
+                      <PrimaryButton
                         size="tiny"
                         onClick={handleEditSave}
                         loading={isSaving}
                       >
                         Save
-                      </Button>
+                      </PrimaryButton>
                     )}
                   </div>
                 ) : (
@@ -349,14 +349,13 @@ function StatusListModal(props) {
                       Cancel
                     </Button>
                   ) : (
-                    <Button
-                      className="editSaveButton"
+                    <PrimaryButton
                       size="tiny"
                       onClick={handleNewStatusSave}
                       loading={isSaving}
                     >
                       Save
-                    </Button>
+                    </PrimaryButton>
                   )}
                 </div>
               </div>
