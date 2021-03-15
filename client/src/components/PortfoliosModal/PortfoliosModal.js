@@ -145,6 +145,7 @@ function PortfoliosModal(props) {
           <div className="addPortfolioRow">
             <Button
               size="tiny"
+              basic
               icon="plus"
               content="New Portfolio"
               onClick={addNewPortfolio}
@@ -153,7 +154,7 @@ function PortfoliosModal(props) {
         )}
       </Modal.Content>
       <Modal.Actions>
-        <Button size="small" onClick={props.onClose}>
+        <Button size="small" onClick={props.onClose} basic>
           Cancel
         </Button>
         <PrimaryButton className="saveButton" size="small" onClick={handleSave}>

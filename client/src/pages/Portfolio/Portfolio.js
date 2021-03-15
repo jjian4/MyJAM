@@ -1,6 +1,5 @@
 import { useContext, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { Button } from "semantic-ui-react";
 import AppContext from "../../AppContext";
 import Dashboard from "../../components/Dashboard/Dashboard";
 import EntriesTable from "../../components/EntriesTable/EntriesTable";

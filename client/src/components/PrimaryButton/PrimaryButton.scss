@@ -2,9 +2,10 @@
 
 .PrimaryButton {
   background-color: $primary-color !important;
-  color: white !important;
+  color: whitesmoke !important;
   transition: 0.2s;
   &:hover {
     background-color: $primary-dark !important;
+    color: white !important;
   }
 }

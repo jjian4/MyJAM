@@ -1,7 +1,17 @@
+@import "../../utilities/variables";
+
 .ProfileModal {
-  .close {
+  // Force the close icon to always be inside the modal
+  .close.icon {
+    top: 1.0535rem !important;
+    right: 1rem !important;
     color: gray !important;
+    @media (max-width: 767px) {
+      top: 0.5rem !important;
+      right: 0.5rem !important;
+    }
   }
+
   .header {
     .headerContent {
       display: flex;

@@ -198,6 +198,7 @@ function StatusListModal(props) {
       open={props.open}
       size="tiny"
       closeOnEscape={true}
+      closeIcon
     >
       <Modal.Header className="header">
         {currentPortfolioName} - Status List
@@ -367,6 +368,7 @@ function StatusListModal(props) {
           <div className="addStatusRow">
             <Button
               size="tiny"
+              basic
               icon="plus"
               content="New Status"
               onClick={showNewStatusInput}
@@ -374,11 +376,6 @@ function StatusListModal(props) {
           </div>
         )}
       </Modal.Content>
-      <Modal.Actions>
-        <Button size="small" onClick={props.onClose}>
-          Close
-        </Button>
-      </Modal.Actions>
     </Modal>
   );
 }
