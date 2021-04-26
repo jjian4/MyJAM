@@ -1,10 +1,50 @@
 @import "../../utilities/variables";
 
 .Dashboard {
-  .dashboardColumns {
+  .dashboardContent {
     display: flex;
-    overflow-x: auto;
+    align-items: center;
     height: calc(100vh - #{$menu-height} - #{$portfolio-menu-height});
-    padding: 6px 8px;
+    overflow-x: auto;
+
+    .dashboardColumns {
+      display: flex;
+      height: 100%;
+      padding: 6px 0 6px 8px;
+    }
+
+    .addColumnDropdown {
+      user-select: none;
+      .addColumnButton {
+        display: inline-block;
+        padding: 20px 16px;
+        margin-top: -40px;
+        font-size: 40px;
+        color: darkgray;
+        &:hover {
+          color: gray;
+        }
+      }
+      .addColumnButton-open {
+        color: gray;
+      }
+
+      .dropdownMenu {
+        margin-right: 12px;
+        margin-top: -8px;
+        .dropdownRow {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .statusName {
+            margin-right: 20px;
+          }
+          .numEntries {
+            color: gray;
+          }
+        }
+      }
+    }
   }
 }

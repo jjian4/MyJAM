@@ -1,7 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import { ReactSortable } from "react-sortablejs";
+import _ from "lodash";
 import AppContext from "../../AppContext";
 import DashboardColumn from "./DashboardColumn/DashboardColumn";
+import { Dropdown } from "semantic-ui-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import "./Dashboard.scss";
 
 function Dashboard() {
@@ -16,6 +20,7 @@ function Dashboard() {
   } = displaySettings;
 
   const [entriesByStatusId, setEntriesByStatusId] = useState({});
+  const [isAddColumnDropdownOpen, setIsAddColumnDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (entries) {
@@ -50,37 +55,87 @@ function Dashboard() {
     }
   }, [entries, boardColumnFilter, boardSortProperty, boardIsSortAscending]);
 
+  const isDashboardFull = !boardColumnFilter.some((x) => !x.isActive);
+
   return (
     <div className="Dashboard">
-      <ReactSortable
-        className="dashboardColumns"
-        list={boardColumnFilter}
-        setList={(x) => {
-          x.forEach((item) => {
-            delete item.selected;
-            delete item.chosen;
-          });
-          updateDisplaySettings({ boardColumnFilter: x });
-        }}
-        animation={200}
-        handle=".columnHeading"
-      >
-        {boardColumnFilter.map((column, index) => {
-          if (!column.isActive) {
-            // Just returns empty div since Sortable doesn't allow null
-            return <div key={column.statusId} />;
-          }
-          return (
-            <DashboardColumn
-              key={column.statusId}
-              index={index}
-              statusId={column.statusId}
-              isExpanded={column.isExpanded}
-              columnEntries={entriesByStatusId[column.statusId] || []}
-            />
-          );
-        })}
-      </ReactSortable>
+      <div className="dashboardContent">
+        <ReactSortable
+          className="dashboardColumns"
+          list={boardColumnFilter}
+          setList={(x) => {
+            x.forEach((item) => {
+              delete item.selected;
+              delete item.chosen;
+            });
+            updateDisplaySettings({ boardColumnFilter: x });
+          }}
+          animation={200}
+          handle=".columnHeading"
+        >
+          {boardColumnFilter.map((column, index) => {
+            if (!column.isActive) {
+              // Just returns empty div since Sortable doesn't allow null
+              return <div key={column.statusId} />;
+            }
+            return (
+              <DashboardColumn
+                key={column.statusId}
+                index={index}
+                statusId={column.statusId}
+                isExpanded={column.isExpanded}
+                columnEntries={entriesByStatusId[column.statusId] || []}
+              />
+            );
+          })}
+        </ReactSortable>
+
+        {!isDashboardFull && (
+          <Dropdown
+            className="addColumnDropdown"
+            trigger={
+              <div
+                className={`addColumnButton ${
+                  isAddColumnDropdownOpen ? "addColumnButton-open" : ""
+                }`}
+              >
+                <FontAwesomeIcon icon={faChevronRight} />
+              </div>
+            }
+            icon={false}
+            direction={"left"}
+            onOpen={() => setIsAddColumnDropdownOpen(true)}
+            onClose={() => setIsAddColumnDropdownOpen(false)}
+          >
+            <Dropdown.Menu className="dropdownMenu">
+              {boardColumnFilter.map((column, index) => {
+                if (!column.isActive) {
+                  return (
+                    <Dropdown.Item
+                      key={index}
+                      onClick={() => {
+                        const newColumnFilter = _.cloneDeep(boardColumnFilter);
+                        newColumnFilter[index].isActive = true;
+                        updateDisplaySettings({
+                          boardColumnFilter: newColumnFilter,
+                        });
+                      }}
+                    >
+                      <div className="dropdownRow">
+                        <span className="statusName">{column.status}</span>
+                        <span className="numEntries">
+                          ({entriesByStatusId[column.statusId]?.length})
+                        </span>
+                      </div>
+                    </Dropdown.Item>
+                  );
+                }
+                return null;
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
+        )}
+      </div>
     </div>
   );
 }
