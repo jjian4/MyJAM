@@ -166,7 +166,14 @@ function AppMenuBar() {
           </Dropdown>
         )}
         {/* Explicitly checking for false because null means unknown if logged in */}
-        {user === false && <GoogleOauthButton />}
+        {user === false && (
+          // <GoogleOauthButton />
+          <a className="oauthLink" href="/auth/google">
+            <Button className="oauthButton" size="small" circular>
+              Sign in with Google
+            </Button>
+          </a>
+        )}
       </div>
     </div>
   );

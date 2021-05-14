@@ -26,7 +26,12 @@ function PortfoliosModal(props) {
 
   useEffect(() => {
     if (formPortfolios.length === 0) {
-      addNewPortfolio();
+      setFormPortfolios([
+        {
+          name: `Summer Internships ${new Date().getFullYear()}`,
+          numEntries: 0,
+        },
+      ]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formPortfolios]);

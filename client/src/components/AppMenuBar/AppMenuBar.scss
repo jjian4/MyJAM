@@ -189,5 +189,18 @@
         }
       }
     }
+
+    .oauthLink {
+      .oauthButton {
+        display: inline-block;
+        background-color: $primary-color;
+        color: whitesmoke;
+        border: 1px solid whitesmoke;
+        transition: 0.2s;
+        &:hover {
+          background-color: $primary-dark;
+        }
+      }
+    }
   }
 }

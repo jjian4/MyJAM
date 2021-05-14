@@ -12,7 +12,7 @@ function GoogleOauthButton() {
         src={isGoogleButtonHovered ? googleButtonHovered : googleButton}
         onMouseEnter={() => setIsGoogleButtonHovered(true)}
         onMouseOut={() => setIsGoogleButtonHovered(false)}
-        alt="Log in with google"
+        alt="Sign in with Google"
       />
     </a>
   );
