@@ -1,26 +1,182 @@
 @import "../../utilities/variables";
 
 .Home {
-  font-size: 24px;
-  .content {
-    display: inline-block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+  line-height: 1.5;
+  background-color: whitesmoke;
 
-    .appName {
-      cursor: default;
-      user-select: none;
-      font-family: "Gochi Hand";
-      font-size: 150px;
-      color: $primary-color;
-      margin-bottom: 120px;
+  .landing {
+    // height: 50vh;
+    background-color: $primary-color;
+    display: flex;
+    align-items: center;
+    padding: 96px 32px 96px 96px;
+
+    .landingLeft {
+      width: 40%;
+      padding-right: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: whitesmoke;
+
+      .landingHeading {
+        font-size: 36px;
+      }
+
+      .landingText {
+        padding-top: 10px;
+        font-size: 16px;
+      }
+
+      .landingButtonRow {
+        padding-top: 28px;
+        .oauthLink {
+          .oauthButton {
+            color: $primary-color;
+          }
+        }
+
+        .portfoliosLink {
+          .portfoliosButton {
+            color: $primary-color;
+          }
+        }
+      }
     }
 
-    .loginPrompt {
-      margin-bottom: 20px;
+    .landingRight {
+      width: 60%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .landingLaptop {
+        max-height: 45vh;
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 991px) {
+      padding: 96px 32px 96px 48px;
+    }
+
+    @media (max-width: 767px) {
+      display: block;
+      padding: 0px;
+
+      .landingLeft {
+        width: 100%;
+        padding: 48px;
+      }
+      .landingRight {
+        width: 100%;
+        padding: 0 32px 48px 32px;
+      }
+    }
+
+    @media (max-width: 575px) {
+      .landingLeft {
+        width: 100%;
+        padding: 32px;
+        .landingButtonRow {
+          text-align: center;
+        }
+      }
+      .landingRight {
+        width: 100%;
+        padding: 0 4px 32px 4px;
+      }
+    }
+  }
+
+  .section-2 {
+    padding: 72px 32px 96px 32px;
+    text-align: center;
+
+    .heading {
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .subHeading {
+      padding-top: 10px;
+      font-size: 18px;
+      color: gray;
+    }
+
+    .displayExamples {
+      padding-top: 32px;
+
+      display: flex;
+      justify-content: space-around;
+
+      .displayExample {
+        width: 45%;
+      }
+
+      img {
+        height: 100%;
+        width: 100%;
+        border: 4px solid $primary-color;
+        border-radius: 6px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      padding: 48px 32px;
+
+      .displayExamples {
+        display: block;
+        text-align: center;
+
+        .displayExample {
+          display: inline-block;
+          width: 75%;
+          &:first-child {
+            margin-bottom: 32px;
+          }
+        }
+      }
+    }
+
+    @media (max-width: 575px) {
+      .displayExamples {
+        .displayExample {
+          display: inline-block;
+          width: 100%;
+          &:first-child {
+            margin-bottom: 32px;
+          }
+        }
+      }
+    }
+  }
+
+  .section-3 {
+    background-color: $background-color;
+    padding: 64px 32px;
+    text-align: center;
+
+    .heading {
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .subHeading {
+      padding-top: 10px;
+      font-size: 18px;
+      color: gray;
+    }
+
+    .personalizationExamples {
+      padding-top: 32px;
+    }
+
+    @media (max-width: 767px) {
+      padding: 48px 32px;
+    }
+
+    @media (max-width: 575px) {
     }
   }
 }

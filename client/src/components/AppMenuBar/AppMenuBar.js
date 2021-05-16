@@ -12,7 +12,6 @@ import { Button, Dropdown } from "semantic-ui-react";
 import AppContext from "../../AppContext";
 import { WEBSITE_NAME } from "../../utilities/constants";
 import DropdownButton from "../DropdownButton/DropdownButton";
-import GoogleOauthButton from "../GoogleOauthButton/GoogleOauthButton";
 import "./AppMenuBar.scss";
 
 function AppMenuBar() {
@@ -170,7 +169,7 @@ function AppMenuBar() {
           // <GoogleOauthButton />
           <a className="oauthLink" href="/auth/google">
             <Button className="oauthButton" size="small" circular>
-              Sign in with Google
+              Login
             </Button>
           </a>
         )}
