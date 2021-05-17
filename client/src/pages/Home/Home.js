@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import AppContext from "../../AppContext";
@@ -9,14 +9,32 @@ import filterPng from "./filter-cropped.png";
 import entryPng from "./entry-cropped.png";
 import dragDropPng from "./drag-and-drop-cropped.png";
 import "./Home.scss";
+import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 
 function Home() {
   const { user } = useContext(AppContext);
+
+  const [scrollTop, setScrollTop] = useState(0);
+
+  useEffect(() => {
+    const onScroll = (e) => {
+      setScrollTop(e.target.documentElement.scrollTop);
+    };
+    window.addEventListener("scroll", onScroll);
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [scrollTop]);
 
   const pronounToUse = user ? "my" : "your";
 
   return (
     <div className="Home">
+      <div
+        className={`menuDivider ${
+          scrollTop !== 0 ? "menuDivider-scrolled" : ""
+        }`}
+      />
+
       <div className="landing">
         <div className="landingLeft">
           <div>
@@ -167,6 +185,29 @@ function Home() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="bottomButtonRow">
+        {/* Explicitly checking for false because null means unknown */}
+        {user === false && (
+          <a className="oauthLink" href="/auth/google">
+            <PrimaryButton className="oauthButton" size="big">
+              Sign up – it's free!
+            </PrimaryButton>
+          </a>
+        )}
+
+        {user && (
+          <Link className="portfoliosLink" to="/portfolio">
+            <PrimaryButton className="portfoliosButton" size="big">
+              Go to portfolio
+            </PrimaryButton>
+          </Link>
+        )}
+      </div>
+
+      <div className="footer">
+        &copy; James Jiang 2021 | All Rights Reserved
       </div>
     </div>
   );

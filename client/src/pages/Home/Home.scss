@@ -2,7 +2,18 @@
 
 .Home {
   line-height: 1.5;
-  background-color: whitesmoke;
+
+  .menuDivider {
+    position: sticky;
+    top: $menu-height;
+    left: 0;
+    right: 0;
+    background-color: $primary-color;
+    height: 1px;
+  }
+  .menuDivider-scrolled {
+    background-color: white;
+  }
 
   .landing {
     // height: 50vh;
@@ -90,7 +101,8 @@
   }
 
   .section-2 {
-    padding: 72px 32px 96px 32px;
+    background-color: whitesmoke;
+    padding: 72px 32px 80px 32px;
     text-align: center;
 
     .heading {
@@ -130,6 +142,7 @@
               font-size: 20px;
               ul {
                 margin: 0;
+                padding-inline-start: 30px;
               }
             }
           }
@@ -203,6 +216,7 @@
             padding: 0 32px;
             .displayDesc {
               width: 100%;
+              padding: 0 0 0 4px;
             }
           }
         }
@@ -226,7 +240,7 @@
 
   .section-3 {
     background-color: $background-color;
-    padding: 64px 32px;
+    padding: 64px 32px 32px 32px;
     text-align: center;
 
     .heading {
@@ -291,7 +305,7 @@
     }
 
     @media (max-width: 767px) {
-      padding: 48px 32px;
+      padding: 48px 32px 32px 32px;
 
       .personalizeExamples {
         display: block;
@@ -302,6 +316,12 @@
           width: 80%;
           &:not(:last-child) {
             margin-bottom: 32px;
+          }
+          .personalizeExample {
+            padding: 0;
+            .personalizeDesc {
+              padding: 0 0 0 4px;
+            }
           }
         }
       }
@@ -314,10 +334,38 @@
           .personalizeExample {
             .personalizeDesc {
               text-align: center;
+              padding: 0;
             }
           }
         }
       }
     }
+  }
+
+  .bottomButtonRow {
+    background-color: $background-color;
+    padding-bottom: 40px;
+    text-align: center;
+
+    .oauthLink {
+      .oauthButton {
+      }
+    }
+    .portfoliosLink {
+      .portfoliosButton {
+      }
+    }
+
+    @media (max-width: 991px) {
+      padding-bottom: 32px;
+    }
+  }
+
+  .footer {
+    background-color: lightgray;
+    text-align: center;
+    padding: 16px 0;
+    font-size: 16px;
+    font-weight: bold;
   }
 }
