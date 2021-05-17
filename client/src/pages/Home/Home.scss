@@ -104,48 +104,120 @@
       color: gray;
     }
 
-    .displayExamples {
-      padding-top: 32px;
-
-      display: flex;
-      justify-content: space-around;
-
-      .displayExample {
-        width: 45%;
+    .displayRows {
+      .displayRow {
+        display: flex;
+        .displayImgContainer {
+          width: 50%;
+          img {
+            width: 85%;
+            height: auto;
+            border: 3px solid $primary-color;
+            border-radius: 6px;
+          }
+        }
+        .displayDescContainer {
+          width: 50%;
+          .displayDesc {
+            display: inline-block;
+            text-align: left;
+            width: 80%;
+            .descHeading {
+              font-size: 36px;
+              color: $primary-color;
+            }
+            .descText {
+              font-size: 20px;
+              ul {
+                margin: 0;
+              }
+            }
+          }
+        }
       }
 
-      img {
-        height: 100%;
-        width: 100%;
-        border: 4px solid $primary-color;
-        border-radius: 6px;
+      .dashboardRow {
+        margin-top: 64px;
+        .dashboardImgContainer {
+          padding-right: 24px;
+          text-align: right;
+        }
+        .dashboardDescContainer {
+          padding-left: 24px;
+          text-align: left;
+        }
+      }
+
+      .tableRow {
+        margin-top: 72px;
+        flex-direction: row-reverse;
+        .tableImgContainer {
+          padding-left: 24px;
+          text-align: left;
+        }
+        .tableDescContainer {
+          padding-right: 0px;
+          text-align: right;
+        }
+      }
+    }
+
+    @media (max-width: 991px) {
+      .displayRows {
+        .displayRow {
+          .displayImgContainer {
+            img {
+              width: 95%;
+            }
+          }
+          .displayDescContainer {
+            .displayDesc {
+              width: 95%;
+              .descHeading {
+                font-size: 28px;
+              }
+              .descText {
+                font-size: 18px;
+              }
+            }
+          }
+        }
       }
     }
 
     @media (max-width: 767px) {
       padding: 48px 32px;
-
-      .displayExamples {
-        display: block;
-        text-align: center;
-
-        .displayExample {
-          display: inline-block;
-          width: 75%;
-          &:first-child {
-            margin-bottom: 32px;
+      .displayRows {
+        .displayRow {
+          margin-top: 32px;
+          display: block;
+          .displayImgContainer {
+            width: 100%;
+            padding: 0 32px;
+            img {
+              width: 100%;
+            }
+          }
+          .displayDescContainer {
+            width: 100%;
+            padding: 0 32px;
+            .displayDesc {
+              width: 100%;
+            }
           }
         }
       }
     }
 
     @media (max-width: 575px) {
-      .displayExamples {
-        .displayExample {
-          display: inline-block;
-          width: 100%;
-          &:first-child {
-            margin-bottom: 32px;
+      .displayRows {
+        .displayRow {
+          margin-top: 32px;
+          .displayImgContainer {
+            padding: 0;
+          }
+          .displayDescContainer {
+            padding: 0;
           }
         }
       }
@@ -170,13 +242,49 @@
 
     .personalizationExamples {
       padding-top: 32px;
+
+      display: flex;
+      justify-content: space-around;
+
+      .personalizationExample {
+        width: 45%;
+
+        img {
+          height: 100%;
+          width: 100%;
+          border: 4px solid $primary-color;
+          border-radius: 6px;
+        }
+      }
     }
 
     @media (max-width: 767px) {
       padding: 48px 32px;
+
+      .personalizationExamples {
+        display: block;
+        text-align: center;
+
+        .personalizationExample {
+          display: inline-block;
+          width: 75%;
+          &:first-child {
+            margin-bottom: 32px;
+          }
+        }
+      }
     }
 
     @media (max-width: 575px) {
+      .personalizationExamples {
+        .personalizationExample {
+          display: inline-block;
+          width: 100%;
+          &:first-child {
+            margin-bottom: 32px;
+          }
+        }
+      }
     }
   }
 }

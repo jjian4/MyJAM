@@ -16,7 +16,8 @@ function Home() {
         <div className="landingLeft">
           <div>
             <div className="landingHeading">
-              <div>My applications.</div>
+              {/* Explicitly checking for false because null means unknown */}
+              <div>{user === false ? "Your" : "My"} applications.</div>
               <div>Organized.</div>
               <div>Simplified.</div>
             </div>
@@ -28,7 +29,7 @@ function Home() {
             </div>
 
             <div className="landingButtonRow">
-              {/* Explicitly checking for false because null means unknown if logged in */}
+              {/* Explicitly checking for false because null means unknown */}
               {user === false && (
                 <a className="oauthLink" href="/auth/google">
                   <Button className="oauthButton" size="large" circular>
@@ -60,12 +61,51 @@ function Home() {
           Switch between Dashboard and Table view.
         </div>
 
-        <div className="displayExamples">
-          <div className="displayExample">
-            <img src={dashboardPng} alt="dashboard example" />
+        <div className="displayRows">
+          <div className="displayRow dashboardRow">
+            <div className="displayImgContainer dashboardImgContainer">
+              <img src={dashboardPng} alt="dashboard example" />
+            </div>
+            <div className="displayDescContainer dashboardDescContainer">
+              <div className="displayDesc dashboardDesc">
+                <div className="descHeading">The dashboard</div>
+                <div className="descText">
+                  Oversee in the state of your job search in a kanban board.
+                  <ul>
+                    <li>
+                      Reorder your columns and entries by dragging and dropping
+                    </li>
+                    <li>Sort by company, title, deadline, and more</li>
+                    <li>
+                      Display your entries in three card styles: Icons, Compact,
+                      and Detailed
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="displayExample">
-            <img src={tablePng} alt="table example" />
+
+          <div className="displayRow tableRow">
+            <div className="displayImgContainer tableImgContainer">
+              <img src={tablePng} alt="table example" />
+            </div>
+            <div className="displayDescContainer tableDescContainer">
+              <div className="displayDesc tableDesc">
+                <div className="descHeading">The table</div>
+                <div className="descText">
+                  Manage your application data in a customizable spreadsheet.
+                  <ul>
+                    <li>Edit any cell with a single click</li>
+                    <li>Show and hide any field to remove clutter</li>
+                    <li>
+                      Display your data in two densities: Compact and
+                      Comfortable
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -77,7 +117,14 @@ function Home() {
           Write notes, sort by deadline, expand board columns, and more!
         </div>
 
-        <div className="personalizationExamples">TODO</div>
+        <div className="personalizationExamples">
+          <div className="personalizationExample">
+            <img src={dashboardPng} alt="dashboard example" />
+          </div>
+          <div className="personalizationExample">
+            <img src={tablePng} alt="table example" />
+          </div>
+        </div>
       </div>
     </div>
   );

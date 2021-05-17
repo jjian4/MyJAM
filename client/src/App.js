@@ -269,11 +269,7 @@ function App() {
     }
   };
 
-  const loadingText = isUserLoading
-    ? "Loading..."
-    : isPortfolioLoading
-    ? "Loading Portfolio..."
-    : null;
+  const isPortfolioReady = !isUserLoading && !isPortfolioLoading;
 
   return (
     <AppContext.Provider
@@ -307,11 +303,13 @@ function App() {
       <div className="App">
         <AppMenuBar />
 
-        {loadingText && <LoadingPage loadingText={loadingText} />}
+        {<Route exact path="/" component={Home} />}
 
-        {!loadingText && <Route exact path="/" component={Home} />}
+        {!isPortfolioReady && (
+          <LoadingPage loadingText={"Loading Portfolio..."} />
+        )}
 
-        {!loadingText && user && (
+        {isPortfolioReady && user && (
           <Route
             exact
             path={["/portfolio", "/portfolio/:id"]}
