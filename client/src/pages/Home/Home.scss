@@ -113,7 +113,7 @@
             width: 85%;
             height: auto;
             border: 3px solid $primary-color;
-            border-radius: 6px;
+            border-radius: 12px;
           }
         }
         .displayDescContainer {
@@ -240,20 +240,52 @@
       color: gray;
     }
 
-    .personalizationExamples {
+    .personalizeExamples {
       padding-top: 32px;
 
       display: flex;
       justify-content: space-around;
 
-      .personalizationExample {
-        width: 45%;
+      .personalizeExampleContainer {
+        width: 33.3%;
+        .personalizeExample {
+          padding: 0 40px;
 
-        img {
-          height: 100%;
-          width: 100%;
-          border: 4px solid $primary-color;
-          border-radius: 6px;
+          img {
+            width: 100%;
+            height: auto;
+            border: 3px solid $primary-color;
+            border-radius: 12px;
+          }
+
+          .personalizeDesc {
+            text-align: left;
+            .descHeading {
+              font-size: 24px;
+              color: $primary-color;
+            }
+            .descText {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+
+    @media (max-width: 991px) {
+      .personalizeExamples {
+        .personalizeExampleContainer {
+          .personalizeExample {
+            padding: 0 16px;
+            .personalizeDesc {
+              .descHeading {
+                font-size: 20px;
+              }
+              .descText {
+                font-size: 16px;
+              }
+            }
+          }
         }
       }
     }
@@ -261,14 +293,14 @@
     @media (max-width: 767px) {
       padding: 48px 32px;
 
-      .personalizationExamples {
+      .personalizeExamples {
         display: block;
         text-align: center;
 
-        .personalizationExample {
+        .personalizeExampleContainer {
           display: inline-block;
-          width: 75%;
-          &:first-child {
+          width: 80%;
+          &:not(:last-child) {
             margin-bottom: 32px;
           }
         }
@@ -276,12 +308,13 @@
     }
 
     @media (max-width: 575px) {
-      .personalizationExamples {
-        .personalizationExample {
-          display: inline-block;
+      .personalizeExamples {
+        .personalizeExampleContainer {
           width: 100%;
-          &:first-child {
-            margin-bottom: 32px;
+          .personalizeExample {
+            .personalizeDesc {
+              text-align: center;
+            }
           }
         }
       }

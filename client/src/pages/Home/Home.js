@@ -5,10 +5,15 @@ import AppContext from "../../AppContext";
 import laptopPng from "./laptop.png";
 import dashboardPng from "./dashboard.png";
 import tablePng from "./table.png";
+import filterPng from "./filter-cropped.png";
+import entryPng from "./entry-cropped.png";
+import dragDropPng from "./drag-and-drop-cropped.png";
 import "./Home.scss";
 
 function Home() {
   const { user } = useContext(AppContext);
+
+  const pronounToUse = user ? "my" : "your";
 
   return (
     <div className="Home">
@@ -17,13 +22,14 @@ function Home() {
           <div>
             <div className="landingHeading">
               {/* Explicitly checking for false because null means unknown */}
-              <div>{user === false ? "Your" : "My"} applications.</div>
+              <div>{user ? "My" : "Your"} applications.</div>
+              {/* <div>Job Applications.</div> */}
               <div>Organized.</div>
               <div>Simplified.</div>
             </div>
             <div className="landingText">
-              MyJAM is your personal job application manager that offers
-              customizable and easy-to-use tools to help you organize your
+              MyJAM is a personal job application manager that offers
+              customizable and easy-to-use tools to help organize {pronounToUse}{" "}
               positions. Plan, track, update, and celebrate — all in one
               workspace.
             </div>
@@ -70,15 +76,17 @@ function Home() {
               <div className="displayDesc dashboardDesc">
                 <div className="descHeading">The dashboard</div>
                 <div className="descText">
-                  Oversee in the state of your job search in a kanban board.
+                  Oversee in the state of {pronounToUse} job search in a kanban
+                  board.
                   <ul>
                     <li>
-                      Reorder your columns and entries by dragging and dropping
+                      Reorder columns and entries with drag &amp; drop
+                      functionality
                     </li>
                     <li>Sort by company, title, deadline, and more</li>
                     <li>
-                      Display your entries in three card styles: Icons, Compact,
-                      and Detailed
+                      Display entries in three different card styles: Icons,
+                      Compact, and Detailed
                     </li>
                   </ul>
                 </div>
@@ -94,13 +102,17 @@ function Home() {
               <div className="displayDesc tableDesc">
                 <div className="descHeading">The table</div>
                 <div className="descText">
-                  Manage your application data in a customizable spreadsheet.
+                  Manage {pronounToUse} application data in a customizable
+                  spreadsheet.
                   <ul>
                     <li>Edit any cell with a single click</li>
                     <li>Show and hide any field to remove clutter</li>
                     <li>
-                      Display your data in two densities: Compact and
+                      Display data in two different densities: Compact and
                       Comfortable
+                    </li>
+                    <li>
+                      Download as an Excel spreadsheet to share with others
                     </li>
                   </ul>
                 </div>
@@ -111,18 +123,48 @@ function Home() {
       </div>
 
       <div className="section-3">
-        <div className="heading">Personalize to suit my needs</div>
+        <div className="heading">Personalize to suit {pronounToUse} needs</div>
 
         <div className="subHeading">
           Write notes, sort by deadline, expand board columns, and more!
         </div>
 
-        <div className="personalizationExamples">
-          <div className="personalizationExample">
-            <img src={dashboardPng} alt="dashboard example" />
+        <div className="personalizeExamples">
+          <div className="personalizeExampleContainer">
+            <div className="personalizeExample">
+              <img src={entryPng} alt="entry example" />
+              <div className="personalizeDesc">
+                <div className="descHeading">Edit Entries</div>
+                <div className="descText">
+                  Save application links, record important dates, star{" "}
+                  {pronounToUse} favorite positions, and more!
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="personalizationExample">
-            <img src={tablePng} alt="table example" />
+          <div className="personalizeExampleContainer">
+            <div className="personalizeExample">
+              <img src={dragDropPng} alt="drag and drop example" />
+              <div className="personalizeDesc">
+                <div className="descHeading">Drag &amp; Drop</div>
+                <div className="descText">
+                  Reorder dashboard cards, status columns, table fields, and
+                  more with drag &amp; drop functionality.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="personalizeExampleContainer">
+            <div className="personalizeExample">
+              <img src={filterPng} alt="filter example" />
+              <div className="personalizeDesc">
+                <div className="descHeading">Filters &amp; Displays</div>
+                <div className="descText">
+                  Filter and sort entries on both the Dashboard and Table.
+                  Condense or expand data to fit {pronounToUse} preferences.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
