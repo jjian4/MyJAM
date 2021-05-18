@@ -78,7 +78,9 @@ function Home() {
         </div>
       </div>
 
-      <div className="section-2">
+      <div className="landingDivider" />
+
+      <div className="displaySection">
         <div className="heading">Effortless Transitions</div>
 
         <div className="subHeading">
@@ -140,7 +142,9 @@ function Home() {
         </div>
       </div>
 
-      <div className="section-3">
+      <div className="displaySectionDivider" />
+
+      <div className="personalizeSection">
         <div className="heading">Personalize to suit {pronounToUse} needs</div>
 
         <div className="subHeading">
