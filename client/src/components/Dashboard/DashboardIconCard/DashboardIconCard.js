@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { useDrag } from "react-dnd";
+import classnames from "classnames";
 import AppContext from "../../../AppContext";
 import { DRAG_DROP_ITEMS } from "../../../utilities/constants";
 import LogoCircle from "../../LogoCircle/LogoCircle";
@@ -21,9 +22,9 @@ function DashboardIconCard(props) {
   return (
     <div
       ref={drag}
-      className={`DashboardIconCard ${
-        cardColor ? "DashboardIconCard-colored" : ""
-      }`}
+      className={classnames("DashboardIconCard", {
+        "DashboardIconCard-colored": cardColor,
+      })}
       style={{
         borderColor: cardColor,
         opacity: isDragging ? 0.5 : 1,

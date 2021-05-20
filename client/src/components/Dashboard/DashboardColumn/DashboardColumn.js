@@ -3,6 +3,7 @@ import { Dropdown } from "semantic-ui-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDrop } from "react-dnd";
 import _ from "lodash";
+import classnames from "classnames";
 import AppContext from "../../../AppContext";
 import {
   ENTRY_SEARCH_PROPERTIES,
@@ -80,9 +81,8 @@ function DashboardColumn(props) {
           className="columnHeading"
           onDoubleClick={() => {
             const newColumnFilter = _.cloneDeep(boardColumnFilter);
-            newColumnFilter[props.index].isExpanded = !newColumnFilter[
-              props.index
-            ].isExpanded;
+            newColumnFilter[props.index].isExpanded =
+              !newColumnFilter[props.index].isExpanded;
             updateDisplaySettings({
               boardColumnFilter: newColumnFilter,
             });
@@ -165,9 +165,9 @@ function DashboardColumn(props) {
         </div>
 
         <div
-          className={`entriesGrid ${
-            props.isExpanded ? "entriesGrid-expanded" : ""
-          }`}
+          className={classnames("entriesGrid", {
+            "entriesGrid-expanded": props.isExpanded,
+          })}
         >
           {props.columnEntries.map((entry) => {
             if (!passesEntrySearch(entry)) {

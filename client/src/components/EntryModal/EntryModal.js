@@ -13,6 +13,7 @@ import { DateInput } from "semantic-ui-calendar-react";
 import dateFormat from "dateformat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import classnames from "classnames";
 import AppContext from "../../AppContext";
 import CompanySelector from "../CompanySelector/CompanySelector";
 import { CARD_COLORS } from "../../utilities/constants";
@@ -139,9 +140,9 @@ function EntryModal(props) {
                     {CARD_COLORS.map((colorOption, index) => (
                       <div key={index} className="optionContainer">
                         <div
-                          className={`colorOption ${
-                            colorOption === color ? "colorOption-selected" : ""
-                          }`}
+                          className={classnames("colorOption", {
+                            "colorOption-selected": colorOption === color,
+                          })}
                           title={colorOption}
                           style={{ backgroundColor: colorOption }}
                           onClick={() => setColor(colorOption)}

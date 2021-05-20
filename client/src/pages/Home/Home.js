@@ -1,21 +1,31 @@
 import { useContext, useEffect, useState } from "react";
 import { Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import classnames from "classnames";
+import { fadeInRight } from "react-animations";
+import { StyleSheet, css } from "aphrodite";
 import AppContext from "../../AppContext";
-import laptopPng from "./laptop.png";
-import dashboardPng from "./dashboard.png";
-import tablePng from "./table.png";
-import filterPng from "./filter-cropped.png";
-import entryPng from "./entry-cropped.png";
-import dragDropPng from "./drag-and-drop-cropped.png";
-import "./Home.scss";
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
+import laptopPng from "./img/laptop.png";
+import dashboardPng from "./img/dashboard.png";
+import tablePng from "./img/table.png";
+import filterPng from "./img/filter-cropped.png";
+import entryPng from "./img/entry-cropped.png";
+import dragDropPng from "./img/drag-and-drop-cropped.png";
+import "./Home.scss";
+
+// const animations = StyleSheet.create({
+//   fadeInRight: {
+//       animationName: fadeInRight,
+//       animationDuration: '1.5s',
+//   },
+// });
 
 function Home() {
   const { user } = useContext(AppContext);
 
+  // Keep track of scroll position
   const [scrollTop, setScrollTop] = useState(0);
-
   useEffect(() => {
     const onScroll = (e) => {
       setScrollTop(e.target.documentElement.scrollTop);
@@ -30,9 +40,9 @@ function Home() {
   return (
     <div className="Home">
       <div
-        className={`menuDivider ${
-          scrollTop !== 0 ? "menuDivider-scrolled" : ""
-        }`}
+        className={classnames("menuDivider", {
+          "menuDivider-scrolled": scrollTop !== 0,
+        })}
       />
 
       <div className="landing">

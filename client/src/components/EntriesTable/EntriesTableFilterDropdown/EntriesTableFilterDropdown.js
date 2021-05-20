@@ -3,12 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Checkbox, Dropdown } from "semantic-ui-react";
 import { ReactSortable } from "react-sortablejs";
 import _ from "lodash";
+import classnames from "classnames";
 import AppContext from "../../../AppContext";
 import ControlledDropdown from "../../ControlledDropdown/ControlledDropdown";
 import { faGripVertical } from "@fortawesome/free-solid-svg-icons";
 import DropdownButton from "../../DropdownButton/DropdownButton";
-import "./EntriesTableFilterDropdown.scss";
 import { TABLE_DENSITY } from "../../../utilities/constants";
+import "./EntriesTableFilterDropdown.scss";
 
 function EntriesTableFilterDropdown(props) {
   const { displaySettings, updateDisplaySettings } = useContext(AppContext);
@@ -49,9 +50,9 @@ function EntriesTableFilterDropdown(props) {
           <div className="densitySection">
             {Object.values(TABLE_DENSITY).map((item, index) => (
               <div
-                className={`densityRow ${
-                  tableDensity === item.name ? "densityRow-active" : ""
-                }`}
+                className={classnames("densityRow", {
+                  "densityRow-active": tableDensity === item.name,
+                })}
                 key={index}
                 onClick={() =>
                   updateDisplaySettings({ tableDensity: item.name })

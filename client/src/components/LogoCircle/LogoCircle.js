@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import classnames from "classnames";
 import AppContext from "../../AppContext";
 import "./LogoCircle.scss";
 
@@ -12,9 +13,9 @@ function LogoCircle(props) {
   return (
     <div className="LogoCircle">
       <img
-        className={`logo ${
-          props.entry.logo && isLogoLoaded ? "logo-loaded" : ""
-        }`}
+        className={classnames("logo", {
+          "logo-loaded": props.entry.logo && isLogoLoaded,
+        })}
         src={props.entry.logo}
         alt={props.entry.company}
         onLoad={() => setIsLogoLoaded(true)}

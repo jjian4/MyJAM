@@ -9,6 +9,7 @@ import {
 import { useDrag } from "react-dnd";
 import prependHttp from "prepend-http";
 import TimeAgo from "react-timeago";
+import classnames from "classnames";
 import AppContext from "../../../AppContext";
 import { BOARD_DENSITY, DRAG_DROP_ITEMS } from "../../../utilities/constants";
 import StarButton from "../../StarButton/StarButton";
@@ -19,9 +20,8 @@ const maxNotesLength = 100;
 const maxNotesLines = 3;
 
 function DashboardCard(props) {
-  const { displaySettings, openEntryModal, updateEntry } = useContext(
-    AppContext
-  );
+  const { displaySettings, openEntryModal, updateEntry } =
+    useContext(AppContext);
   const { boardDensity, isCardColorOn } = displaySettings;
 
   // Used to allow card to be dragged into another column
@@ -49,16 +49,18 @@ function DashboardCard(props) {
   return (
     <div
       ref={drag}
-      className={`DashboardCard ${cardColor ? "DashboardCard-colored" : ""}`}
+      className={classnames("DashboardCard", {
+        "DashboardCard-colored": cardColor,
+      })}
       style={{ backgroundColor: cardColor, opacity: isDragging ? 0.5 : 1 }}
       onDoubleClick={() => openEntryModal(props.entry.id)}
     >
       {(boardDensity === BOARD_DENSITY.COMPACT.name ||
         boardDensity === BOARD_DENSITY.DETAILED.name) && (
         <div
-          className={`cardTop ${
-            boardDensity === BOARD_DENSITY.COMPACT.name ? "compactCardTop" : ""
-          }`}
+          className={classnames("cardTop", {
+            compactCardTop: boardDensity === BOARD_DENSITY.COMPACT.name,
+          })}
         >
           <a
             className="logoWrapper"
@@ -92,9 +94,9 @@ function DashboardCard(props) {
             )}
 
             <span
-              className={`starToggle ${
-                props.entry.isStarred ? "starToggle-active" : ""
-              }`}
+              className={classnames("starToggle", {
+                "starToggle-active": props.entry.isStarred,
+              })}
             >
               <StarButton
                 isStarred={props.entry.isStarred}

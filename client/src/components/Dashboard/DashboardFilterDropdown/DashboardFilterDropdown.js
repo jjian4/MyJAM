@@ -1,8 +1,15 @@
 import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGripVertical,
+  faLongArrowAltDown,
+  faLongArrowAltUp,
+  faPencilAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { Checkbox, Dropdown } from "semantic-ui-react";
 import { ReactSortable } from "react-sortablejs";
 import _ from "lodash";
+import classnames from "classnames";
 import AppContext from "../../../AppContext";
 import DropdownButton from "../../DropdownButton/DropdownButton";
 import ControlledDropdown from "../../ControlledDropdown/ControlledDropdown";
@@ -11,12 +18,6 @@ import {
   BOARD_DENSITY,
   BOARD_SORT_BY,
 } from "../../../utilities/constants";
-import {
-  faGripVertical,
-  faLongArrowAltDown,
-  faLongArrowAltUp,
-  faPencilAlt,
-} from "@fortawesome/free-solid-svg-icons";
 import "./DashboardFilterDropdown.scss";
 
 function DashboardFilterDropdown(props) {
@@ -84,9 +85,9 @@ function DashboardFilterDropdown(props) {
             <div className="dropdownSectionHeader">Density</div>
             {Object.values(BOARD_DENSITY).map((item, index) => (
               <div
-                className={`densityRow ${
-                  boardDensity === item.name ? "densityRow-active" : ""
-                }`}
+                className={classnames("densityRow", {
+                  "densityRow-active": boardDensity === item.name,
+                })}
                 key={index}
                 onClick={() =>
                   updateDisplaySettings({ boardDensity: item.name })
@@ -102,9 +103,9 @@ function DashboardFilterDropdown(props) {
             <div className="dropdownSectionHeader">Sort By</div>
             {Object.values(BOARD_SORT_BY).map((option) => (
               <div
-                className={`sortRow ${
-                  boardSortProperty === option.property ? "sortRow-active" : ""
-                }`}
+                className={classnames("sortRow", {
+                  "sortRow-active": boardSortProperty === option.property,
+                })}
                 key={option.name}
                 onClick={() =>
                   updateDisplaySettings({
@@ -120,11 +121,10 @@ function DashboardFilterDropdown(props) {
                   <div>{option.name}</div>
                   <div>
                     <FontAwesomeIcon
-                      className={`sortDirectionIcon ${
-                        boardSortProperty !== option.property
-                          ? "sortDirectionIcon-hidden"
-                          : ""
-                      }`}
+                      className={classnames("sortDirectionIcon", {
+                        "sortDirectionIcon-hidden":
+                          boardSortProperty !== option.property,
+                      })}
                       icon={
                         boardIsSortAscending
                           ? faLongArrowAltDown
@@ -177,13 +177,11 @@ function DashboardFilterDropdown(props) {
                   </div>
 
                   <div
-                    className={`sizeButton ${
-                      column.isActive
-                        ? column.isExpanded
-                          ? "sizeButton-active"
-                          : ""
-                        : "sizeButton-hidden"
-                    }`}
+                    className={classnames("sizeButton", {
+                      "sizeButton-active": column.isActive && column.isExpanded,
+                      "sizeButton-hidden":
+                        !column.isActive && !column.isExpanded,
+                    })}
                     title="Expand"
                     onClick={() => handleSizeToggle(column.statusId)}
                   >

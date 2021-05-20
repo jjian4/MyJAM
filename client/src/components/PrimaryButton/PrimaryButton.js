@@ -1,4 +1,5 @@
 import { Button } from "semantic-ui-react";
+import classnames from "classnames";
 import "./PrimaryButton.scss";
 
 function PrimaryButton(props) {
@@ -6,7 +7,7 @@ function PrimaryButton(props) {
 
   return (
     <Button
-      className={`PrimaryButton ${className ? className : ""}`}
+      className={classnames("PrimaryButton", className)}
       {...buttonProps}
     />
   );

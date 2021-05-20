@@ -1,3 +1,7 @@
+import { useContext, useState } from "react";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import { Button, Dropdown } from "semantic-ui-react";
+import classnames from "classnames";
 import {
   faCommentDots,
   faFolder,
@@ -6,9 +10,6 @@ import {
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
-import { Button, Dropdown } from "semantic-ui-react";
 import AppContext from "../../AppContext";
 import { WEBSITE_NAME } from "../../utilities/constants";
 import DropdownButton from "../DropdownButton/DropdownButton";
@@ -95,9 +96,9 @@ function AppMenuBar() {
             trigger={
               <>
                 <DropdownButton
-                  className={`dropdownButton ${
-                    isUserDropdownOpen ? "dropdownButton-open" : ""
-                  }`}
+                  className={classnames("dropdownButton", {
+                    "dropdownButton-open": isUserDropdownOpen,
+                  })}
                   size="medium"
                   icon="user"
                   circular
@@ -106,17 +107,17 @@ function AppMenuBar() {
 
                 {user.photo ? (
                   <img
-                    className={`dropdownCircleButton ${
-                      isUserDropdownOpen ? "dropdownCircleButton-open" : ""
-                    }`}
+                    className={classnames("dropdownCircleButton", {
+                      "dropdownCircleButton-open": isUserDropdownOpen,
+                    })}
                     src={user.photo}
                     alt="profile"
                   />
                 ) : (
                   <FontAwesomeIcon
-                    className={`dropdownCircleButton ${
-                      isUserDropdownOpen ? "dropdownCircleButton-open" : ""
-                    }`}
+                    className={classnames("dropdownCircleButton", {
+                      "dropdownCircleButton-open": isUserDropdownOpen,
+                    })}
                     icon={faUserCircle}
                   />
                 )}

@@ -60,7 +60,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-
       .landingLaptop {
         max-height: 45vh;
         max-width: 100%;
@@ -232,6 +231,12 @@
             .displayDesc {
               width: 100%;
               padding: 0 0 0 4px;
+              .descHeading {
+                font-size: 22px;
+              }
+              .descText {
+                font-size: 18px;
+              }
             }
           }
         }
@@ -247,6 +252,14 @@
           }
           .displayDescContainer {
             padding: 0;
+            .displayDesc {
+              .descHeading {
+                font-size: 20px;
+              }
+              .descText {
+                font-size: 16px;
+              }
+            }
           }
         }
       }

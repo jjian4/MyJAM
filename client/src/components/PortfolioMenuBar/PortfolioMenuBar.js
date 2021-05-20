@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Parser } from "json2csv";
 import dateFormat from "dateformat";
+import classnames from "classnames";
 import AppContext from "../../AppContext";
 import DashboardFilterDropdown from "../Dashboard/DashboardFilterDropdown/DashboardFilterDropdown";
 import EntriesTableFilterDropdown from "../EntriesTable/EntriesTableFilterDropdown/EntriesTableFilterDropdown";
@@ -100,9 +101,9 @@ function PortfolioMenuBar() {
         <div className="menuItem displaySelector">
           {Object.values(PORTFOLIO_DISPLAY).map((item, index) => (
             <div
-              className={`displayButton ${
-                item.name === display ? "displayButton-active" : ""
-              }`}
+              className={classnames("displayButton", {
+                "displayButton-active": item.name === display,
+              })}
               key={index}
               onClick={() => updateDisplaySettings({ display: item.name })}
             >

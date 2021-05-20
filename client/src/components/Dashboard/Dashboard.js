@@ -1,23 +1,20 @@
 import { useState, useEffect, useContext } from "react";
 import { ReactSortable } from "react-sortablejs";
 import _ from "lodash";
+import { Dropdown } from "semantic-ui-react";
+import classnames from "classnames";
 import AppContext from "../../AppContext";
 import DashboardColumn from "./DashboardColumn/DashboardColumn";
-import { Dropdown } from "semantic-ui-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import "./Dashboard.scss";
 
 function Dashboard() {
-  const { displaySettings, updateDisplaySettings, entries } = useContext(
-    AppContext
-  );
+  const { displaySettings, updateDisplaySettings, entries } =
+    useContext(AppContext);
 
-  const {
-    boardColumnFilter,
-    boardSortProperty,
-    boardIsSortAscending,
-  } = displaySettings;
+  const { boardColumnFilter, boardSortProperty, boardIsSortAscending } =
+    displaySettings;
 
   const [entriesByStatusId, setEntriesByStatusId] = useState({});
   const [isAddColumnDropdownOpen, setIsAddColumnDropdownOpen] = useState(false);
@@ -95,9 +92,9 @@ function Dashboard() {
             className="addColumnDropdown"
             trigger={
               <div
-                className={`addColumnButton ${
-                  isAddColumnDropdownOpen ? "addColumnButton-open" : ""
-                }`}
+                className={classnames("addColumnButton", {
+                  "addColumnButton-open": isAddColumnDropdownOpen,
+                })}
               >
                 <FontAwesomeIcon icon={faChevronRight} />
               </div>
