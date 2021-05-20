@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
-import { fadeInRight } from "react-animations";
+import { fadeIn, fadeInRight } from "react-animations";
 import { StyleSheet, css } from "aphrodite";
 import AppContext from "../../AppContext";
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
@@ -14,12 +14,16 @@ import entryPng from "./img/entry-cropped.png";
 import dragDropPng from "./img/drag-and-drop-cropped.png";
 import "./Home.scss";
 
-// const animations = StyleSheet.create({
-//   fadeInRight: {
-//       animationName: fadeInRight,
-//       animationDuration: '1.5s',
-//   },
-// });
+const ANIMATIONS = StyleSheet.create({
+  FADE_IN: {
+    animationName: fadeIn,
+    animationDuration: "2s",
+  },
+  FADE_IN_RIGHT: {
+    animationName: fadeInRight,
+    animationDuration: "2s",
+  },
+});
 
 function Home() {
   const { user } = useContext(AppContext);
@@ -46,11 +50,19 @@ function Home() {
       />
 
       <div className="landing">
-        <div className="landingLeft">
+        <div
+          className={classnames(
+            "landingLeft",
+            {
+              "landingLeft-hidden": user == null,
+            },
+            css(ANIMATIONS.FADE_IN)
+          )}
+        >
           <div>
             <div className="landingHeading">
-              {/* Explicitly checking for false because null means unknown */}
               <div>{user ? "My" : "Your"} applications.</div>
+
               {/* <div>Job Applications.</div> */}
               <div>Organized.</div>
               <div>Simplified.</div>
@@ -83,7 +95,9 @@ function Home() {
           </div>
         </div>
 
-        <div className="landingRight">
+        <div
+          className={classnames("landingRight", css(ANIMATIONS.FADE_IN_RIGHT))}
+        >
           <img className="landingLaptop" src={laptopPng} alt="landing laptop" />
         </div>
       </div>
