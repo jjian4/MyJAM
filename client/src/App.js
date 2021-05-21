@@ -269,7 +269,8 @@ function App() {
     }
   };
 
-  const isPortfolioReady = !isUserLoading && !isPortfolioLoading;
+  const isPortfolioReady =
+    user && portfoliosList && !isUserLoading && !isPortfolioLoading;
 
   return (
     <AppContext.Provider
@@ -305,22 +306,20 @@ function App() {
 
         {<Route exact path="/" component={Home} />}
 
-        {!isPortfolioReady && (
-          <LoadingPage loadingText={"Loading Portfolio..."} />
-        )}
-
-        {isPortfolioReady && user && (
-          <Route
-            exact
-            path={["/portfolio", "/portfolio/:id"]}
-            render={(props) => (
+        <Route
+          exact
+          path={["/portfolio", "/portfolio/:id"]}
+          render={(props) =>
+            isPortfolioReady ? (
               <Portfolio
                 {...props}
                 onPortfolioChange={changeCurrentPortfolio}
               />
-            )}
-          />
-        )}
+            ) : (
+              <LoadingPage loadingText={"Loading Portfolio..."} />
+            )
+          }
+        />
 
         {/* Used to edit and view user's profile */}
         <ProfileModal

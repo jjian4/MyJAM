@@ -15,6 +15,10 @@ import dragDropPng from "./img/drag-and-drop-cropped.png";
 import "./Home.scss";
 
 const ANIMATIONS = StyleSheet.create({
+  FADE_IN_FAST: {
+    animationName: fadeIn,
+    animationDuration: "1s",
+  },
   FADE_IN: {
     animationName: fadeIn,
     animationDuration: "2s",
@@ -105,60 +109,62 @@ function Home() {
       <div className="landingDivider" />
 
       <div className="displaySection">
-        <div className="heading">Effortless Transitions</div>
+        <div className={classnames(css(ANIMATIONS.FADE_IN_FAST))}>
+          <div className="heading">Effortless Transitions</div>
 
-        <div className="subHeading">
-          Switch between Dashboard and Table view.
-        </div>
+          <div className="subHeading">
+            Switch between Dashboard and Table view.
+          </div>
 
-        <div className="displayRows">
-          <div className="displayRow dashboardRow">
-            <div className="displayImgContainer dashboardImgContainer">
-              <img src={dashboardPng} alt="dashboard example" />
-            </div>
-            <div className="displayDescContainer dashboardDescContainer">
-              <div className="displayDesc dashboardDesc">
-                <div className="descHeading">The dashboard</div>
-                <div className="descText">
-                  Oversee in the state of {pronounToUse} job search in a kanban
-                  board.
-                  <ul>
-                    <li>
-                      Reorder columns and entries with drag &amp; drop
-                      functionality
-                    </li>
-                    <li>Sort by company, title, deadline, and more</li>
-                    <li>
-                      Display entries in three different card styles: Icons,
-                      Compact, and Detailed
-                    </li>
-                  </ul>
+          <div className="displayRows">
+            <div className="displayRow dashboardRow">
+              <div className="displayImgContainer dashboardImgContainer">
+                <img src={dashboardPng} alt="dashboard example" />
+              </div>
+              <div className="displayDescContainer dashboardDescContainer">
+                <div className="displayDesc dashboardDesc">
+                  <div className="descHeading">The dashboard</div>
+                  <div className="descText">
+                    Oversee in the state of {pronounToUse} job search in a
+                    kanban board.
+                    <ul>
+                      <li>
+                        Reorder columns and entries with drag &amp; drop
+                        functionality
+                      </li>
+                      <li>Sort by company, title, deadline, and more</li>
+                      <li>
+                        Display entries in three different card styles: Icons,
+                        Compact, and Detailed
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="displayRow tableRow">
-            <div className="displayImgContainer tableImgContainer">
-              <img src={tablePng} alt="table example" />
-            </div>
-            <div className="displayDescContainer tableDescContainer">
-              <div className="displayDesc tableDesc">
-                <div className="descHeading">The table</div>
-                <div className="descText">
-                  Manage {pronounToUse} application data in a customizable
-                  spreadsheet.
-                  <ul>
-                    <li>Edit any cell with a single click</li>
-                    <li>Show and hide any field to remove clutter</li>
-                    <li>
-                      Display data in two different densities: Compact and
-                      Comfortable
-                    </li>
-                    <li>
-                      Download as an Excel spreadsheet to share with others
-                    </li>
-                  </ul>
+            <div className="displayRow tableRow">
+              <div className="displayImgContainer tableImgContainer">
+                <img src={tablePng} alt="table example" />
+              </div>
+              <div className="displayDescContainer tableDescContainer">
+                <div className="displayDesc tableDesc">
+                  <div className="descHeading">The table</div>
+                  <div className="descText">
+                    Manage {pronounToUse} application data in a customizable
+                    spreadsheet.
+                    <ul>
+                      <li>Edit any cell with a single click</li>
+                      <li>Show and hide any field to remove clutter</li>
+                      <li>
+                        Display data in two different densities: Compact and
+                        Comfortable
+                      </li>
+                      <li>
+                        Download as an Excel spreadsheet to share with others
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -169,45 +175,49 @@ function Home() {
       <div className="displaySectionDivider" />
 
       <div className="personalizeSection">
-        <div className="heading">Personalize to suit {pronounToUse} needs</div>
+        <div className={classnames(css(ANIMATIONS.FADE_IN_FAST))}>
+          <div className="heading">
+            Personalize to suit {pronounToUse} needs
+          </div>
 
-        <div className="subHeading">
-          Write notes, sort by deadline, expand board columns, and more!
-        </div>
+          <div className="subHeading">
+            Write notes, sort by deadline, expand board columns, and more!
+          </div>
 
-        <div className="personalizeExamples">
-          <div className="personalizeExampleContainer">
-            <div className="personalizeExample">
-              <img src={entryPng} alt="entry example" />
-              <div className="personalizeDesc">
-                <div className="descHeading">Edit Entries</div>
-                <div className="descText">
-                  Save application links, record important dates, star{" "}
-                  {pronounToUse} favorite positions, and more!
+          <div className="personalizeExamples">
+            <div className="personalizeExampleContainer">
+              <div className="personalizeExample">
+                <img src={entryPng} alt="entry example" />
+                <div className="personalizeDesc">
+                  <div className="descHeading">Edit Entries</div>
+                  <div className="descText">
+                    Save application links, record important dates, star{" "}
+                    {pronounToUse} favorite positions, and more!
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="personalizeExampleContainer">
-            <div className="personalizeExample">
-              <img src={dragDropPng} alt="drag and drop example" />
-              <div className="personalizeDesc">
-                <div className="descHeading">Drag &amp; Drop</div>
-                <div className="descText">
-                  Reorder dashboard cards, status columns, table fields, and
-                  more with drag &amp; drop functionality.
+            <div className="personalizeExampleContainer">
+              <div className="personalizeExample">
+                <img src={dragDropPng} alt="drag and drop example" />
+                <div className="personalizeDesc">
+                  <div className="descHeading">Drag &amp; Drop</div>
+                  <div className="descText">
+                    Reorder dashboard cards, status columns, table fields, and
+                    more with drag &amp; drop functionality.
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="personalizeExampleContainer">
-            <div className="personalizeExample">
-              <img src={filterPng} alt="filter example" />
-              <div className="personalizeDesc">
-                <div className="descHeading">Filters &amp; Displays</div>
-                <div className="descText">
-                  Filter and sort entries on both the Dashboard and Table.
-                  Condense or expand data to fit {pronounToUse} preferences.
+            <div className="personalizeExampleContainer">
+              <div className="personalizeExample">
+                <img src={filterPng} alt="filter example" />
+                <div className="personalizeDesc">
+                  <div className="descHeading">Filters &amp; Displays</div>
+                  <div className="descText">
+                    Filter and sort entries on both the Dashboard and Table.
+                    Condense or expand data to fit {pronounToUse} preferences.
+                  </div>
                 </div>
               </div>
             </div>
